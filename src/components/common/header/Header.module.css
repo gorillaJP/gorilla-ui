@@ -1,0 +1,60 @@
+.header {
+    color: #000;
+    font-size: 30px;
+    height: 60px;
+    border-bottom: 1px solid #474787;
+}
+
+.header>div {
+    margin: 0 !important;
+}
+
+.submenu {
+    color: #706fd3;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.submenu:hover {
+    color: #474787;
+}
+
+.loginButton,
+.logoutButton,
+.signupButton {
+    display: inline;
+    margin: 0 5px;
+}
+
+.loginButton button,
+.logoutButton button,
+.signupButton button {
+    background-color: #474787;
+}
+
+.loginButton button:hover,
+.logoutButton button:hover,
+.signupButton button:hover {
+    background-color: #706fd3;
+}
+
+.dropdownitem {
+    width: 200px;
+}
+
+.linkDropDown {
+    border-left: 4px solid #fff;
+    font-weight: 550;
+    font-size: 17px;
+    height: 50px;
+    line-height: 50px;
+    width: 200px;
+    margin: 0;
+}
+
+.linkDropDown:hover {
+    border-left: 4px solid #706fd3;
+    color: #706fd3;
+}
