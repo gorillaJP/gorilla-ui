@@ -1,0 +1,8 @@
+.App {
+    height: 100%;
+}
+
+.content-wrapper {
+    min-height: 100%;
+    margin-bottom: -200px;
+}

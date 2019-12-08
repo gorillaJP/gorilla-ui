@@ -1,0 +1,69 @@
+.footer {
+    background-color: #706fd3;
+    min-height: 200px;
+}
+
+.menuHeader {
+    color: #fff;
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: left;
+}
+
+.menuItems,
+.showMenu {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+    transition: height 0.5s;
+    overflow: hidden;
+}
+
+.menuArrowHead {
+    display: none;
+    margin-right: 20px;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .menuHeader {
+        margin-left: 15px;
+        text-align: left;
+    }
+
+    .menuItems {
+        height: 0;
+    }
+
+    .showMenu {
+        margin-left: 15px;
+    }
+
+    .menuArrowHead {
+        display: block;
+        float: right;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .menuHeader {
+        margin-left: 15px;
+        text-align: left;
+    }
+
+    .menuItems {
+        height: 0;
+    }
+
+    .showMenu {
+        margin-left: 15px;
+    }
+
+    .menuArrowHead {
+        display: block;
+        float: right;
+    }
+}

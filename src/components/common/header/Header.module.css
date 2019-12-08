@@ -9,11 +9,20 @@
     margin: 0 !important;
 }
 
+.mobileMenu {
+    display: none !important;
+}
+
+.headerIcon {
+    text-align: center;
+}
+
 .submenu {
     color: #706fd3;
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
+    margin-right: 20px;
     text-transform: uppercase;
 }
 
@@ -57,4 +66,24 @@
 .linkDropDown:hover {
     border-left: 4px solid #706fd3;
     color: #706fd3;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .mobileMenu {
+        display: block !important;
+    }
+
+    .desktopMenu {
+        display: none !important;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .mobileMenu {
+        display: block !important;
+    }
+
+    .desktopMenu {
+        display: none !important;
+    }
 }
