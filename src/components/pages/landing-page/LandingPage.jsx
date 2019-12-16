@@ -14,7 +14,7 @@ class LandingPage extends React.Component {
                     style={{ backgroundImage: `url(${LandingPageCoverImage})` }}
                 >
                     <Row>
-                        <Col xs="24" sm="24 " md="">
+                        <Col xs={24} sm={24} md={24}>
                             <div className={styles.jobSearchWrapper}>
                                 <SimpleJobSearch />
                             </div>

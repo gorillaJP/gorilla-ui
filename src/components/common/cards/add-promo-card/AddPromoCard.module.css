@@ -1,0 +1,39 @@
+.card {
+    background: #fff;
+    border-radius: 3px;
+    display: inline-block;
+    width: 350px;
+    margin-bottom: 30px;
+    padding: 15px;
+    text-align: left;
+}
+
+.title {
+    font-size: 18px;
+    display: block;
+}
+
+.messageOne,
+.messageTwo {
+    font-size: 16px;
+    display: block;
+}
+
+.linkButton {
+    background: #1890ff;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    line-height: 17px;
+    margin: 10px auto;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+}
+
+.linkButton:hover {
+    color: #fff;
+    font-size: 17px;
+}

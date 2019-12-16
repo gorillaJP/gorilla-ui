@@ -1,8 +1,7 @@
 .simpleSeach {
     border-radius: 4px;
     background-color: black;
-    opacity: 0.5;
-    height: 300px;
+    opacity: 0.8;
 }
 
 .qouteSection {
@@ -11,6 +10,10 @@
 
 .searchSection {
     margin: 5px 50px !important;
+}
+
+.buttonSection {
+    margin: 5px 50px 10px 50px;
 }
 
 .qoute {
@@ -24,4 +27,17 @@
 .qouteBy {
     color: #fff;
     display: block;
+}
+
+.textButton {
+    background-color: transparent;
+    border: transparent;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    line-height: 20px;
+}
+
+.textButton:hover {
+    font-size: 18px;
 }
