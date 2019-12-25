@@ -68,8 +68,37 @@
     color: #706fd3;
 }
 
+.dropDownButton {
+    color: cornflowerblue !important;
+    cursor: pointer;
+    padding: 2px;
+    border: 2px solid cornflowerblue;
+    border-radius: 4px;
+}
+
+.loginIcon,
+.registerIcon {
+    color: cornflowerblue !important;
+    cursor: pointer;
+    display: inline-block;
+    margin: 10px 5px 5px 5px;
+    size: 14px;
+}
+
+.leftMenu {
+    background: #fff;
+    display: none;
+    height: 100% !important;
+    margin-top: 10px;
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+}
+
 @media (min-width: 481px) and (max-width: 767px) {
-    .mobileMenu {
+
+    .mobileMenu,
+    .leftMenu {
         display: block !important;
     }
 
@@ -79,7 +108,9 @@
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
-    .mobileMenu {
+
+    .mobileMenu,
+    .leftMenu {
         display: block !important;
     }
 
