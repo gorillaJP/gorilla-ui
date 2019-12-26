@@ -41,3 +41,37 @@
 .textButton:hover {
     font-size: 18px;
 }
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+    .qoute {
+        font-size: 15px;
+    }
+
+    .qouteSection,
+    .searchSection {
+        margin: 10px 15px !important;
+    }
+
+    /* Hide button section in mobile for now*/
+    .buttonSection {
+        display: none;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .qoute {
+        font-size: 15px;
+    }
+
+    .qouteSection,
+    .searchSection {
+        margin: 10px 15px !important;
+    }
+
+    /* Hide button section in mobile for now*/
+    .buttonSection {
+        display: none;
+    }
+}

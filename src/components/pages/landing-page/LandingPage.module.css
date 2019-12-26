@@ -7,3 +7,16 @@
 .jobSearchWrapper {
     margin: 50px;
 }
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .jobSearchWrapper {
+        margin: 20px;
+    }
+
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .jobSearchWrapper {
+        margin: 20px;
+    }
+}

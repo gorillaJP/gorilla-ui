@@ -7,6 +7,11 @@ import styles from "./SimpleJobSearch.module.css";
 const { Search } = Input;
 const { Option } = Select;
 
+const searchBoxStyles = {
+    width: "100%",
+    marginBottom: "10px"
+};
+
 const SimpleJobSearch = props => {
     return (
         <div className={styles.simpleSeach}>
@@ -20,25 +25,21 @@ const SimpleJobSearch = props => {
                 </div>
             </Row>
             <Row className={styles.searchSection} gutter={10}>
-                <Col xs={24} sm={24} md={7} lg={7}>
+                <Col xs={24} sm={24} md={7} lg={7} style={{ padding: 0 }}>
                     <Search
                         placeholder="Job Title, Keyword Or Company"
-                        onSearch={value => {
-                            console.log(value);
-                        }}
-                        style={{ width: "100%" }}
+                        onSearch={value => {}}
+                        style={searchBoxStyles}
                     />
                 </Col>
-                <Col xs={24} sm={24} md={7} lg={7}>
+                <Col xs={24} sm={24} md={7} lg={7} style={{ padding: 0 }}>
                     <Search
                         placeholder="Area, City or Town"
-                        onSearch={value => {
-                            console.log(value);
-                        }}
-                        style={{ width: "100%" }}
+                        onSearch={value => {}}
+                        style={searchBoxStyles}
                     />
                 </Col>
-                <Col xs={24} sm={24} md={7} lg={7}>
+                <Col xs={24} sm={24} md={7} lg={7} style={{ padding: 0 }}>
                     <Select
                         showSearch
                         placeholder="Job Category"
@@ -48,14 +49,14 @@ const SimpleJobSearch = props => {
                                 .toLowerCase()
                                 .indexOf(input.toLowerCase()) >= 0
                         }
-                        style={{ width: "100%" }}
+                        style={searchBoxStyles}
                     >
                         <Option value="jack">Software Engineering</Option>
                         <Option value="lucy">Human Resource</Option>
                         <Option value="tom">Accounting</Option>
                     </Select>
                 </Col>
-                <Col xs={24} sm={24} md={3} lg={3}>
+                <Col xs={24} sm={24} md={3} lg={3} style={{ padding: 0 }}>
                     <Button type="primary" loading={false} style={{ width: "100%" }}>
             Search
                     </Button>
@@ -64,16 +65,16 @@ const SimpleJobSearch = props => {
             <Row>
                 <div className={styles.buttonSection}>
                     <Row justify="end" type="flex" gutter={10}>
-                        <Col xs={12} sm={12} md={3} lg={3} style={{ float: "right" }}>
+                        <Col xs={24} sm={12} md={3} lg={3} style={{ float: "right" }}>
                             <button className={styles.textButton}>Post a Job</button>
                         </Col>
-                        <Col xs={12} sm={12} md={3} lg={3} style={{ float: "right" }}>
+                        <Col xs={24} sm={12} md={3} lg={3} style={{ float: "right" }}>
                             <button className={styles.textButton}>Advance Search</button>
                         </Col>
                     </Row>
                 </div>
             </Row>
-            <Row gutter={30}>
+            <Row>
                 <Col xs={24} sm={24} md={12} lg={12} style={{ textAlign: "right" }}>
                     <AddPromoCard
                         linkPath="/resume"
