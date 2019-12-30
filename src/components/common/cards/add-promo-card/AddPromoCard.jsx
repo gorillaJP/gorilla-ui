@@ -7,9 +7,11 @@ import styles from "./AddPromoCard.module.css";
 const AddPromoCard = props => {
     return (
         <div className={styles.card}>
-            <span className={styles.title}>{props.title}</span>
-            <span className={styles.messageOne}>{props.messageOne}</span>
-            <span className={styles.messageTwo}>{props.messageTwo}</span>
+            <div className={styles.messageSection}>
+                <span className={styles.title}>{props.title}</span>
+                <span className={styles.messageOne}>{props.messageOne}</span>
+                <span className={styles.messageTwo}>{props.messageTwo}</span>
+            </div>
             <Link to={props.linkPath} className={styles.linkButton}>
                 {props.linkText}
             </Link>

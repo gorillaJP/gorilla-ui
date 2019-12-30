@@ -12,6 +12,10 @@
     margin: 5px 50px !important;
 }
 
+.addSection {
+    margin: 5px 40px 30px 40px !important;
+}
+
 .buttonSection {
     margin: 5px 50px 10px 50px;
 }
@@ -53,6 +57,10 @@
         margin: 10px 15px !important;
     }
 
+    .addSection {
+        margin: 10px 5px 20px 5px !important;
+    }
+
     /* Hide button section in mobile for now*/
     .buttonSection {
         display: none;
@@ -68,6 +76,10 @@
     .qouteSection,
     .searchSection {
         margin: 10px 15px !important;
+    }
+
+    .addSection {
+        margin: 10px 5px 20px 5px !important;
     }
 
     /* Hide button section in mobile for now*/

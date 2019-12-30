@@ -24,22 +24,22 @@ const SimpleJobSearch = props => {
                     <span className={styles.qouteBy}>-Audery Hepburn</span>
                 </div>
             </Row>
-            <Row className={styles.searchSection} gutter={10}>
-                <Col xs={24} sm={24} md={7} lg={7} style={{ padding: 0 }}>
+            <Row className={styles.searchSection} gutter={20}>
+                <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
                     <Search
                         placeholder="Job Title, Keyword Or Company"
                         onSearch={value => {}}
                         style={searchBoxStyles}
                     />
                 </Col>
-                <Col xs={24} sm={24} md={7} lg={7} style={{ padding: 0 }}>
+                <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
                     <Search
                         placeholder="Area, City or Town"
                         onSearch={value => {}}
                         style={searchBoxStyles}
                     />
                 </Col>
-                <Col xs={24} sm={24} md={7} lg={7} style={{ padding: 0 }}>
+                <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
                     <Select
                         showSearch
                         placeholder="Job Category"
@@ -56,7 +56,7 @@ const SimpleJobSearch = props => {
                         <Option value="tom">Accounting</Option>
                     </Select>
                 </Col>
-                <Col xs={24} sm={24} md={3} lg={3} style={{ padding: 0 }}>
+                <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
                     <Button type="primary" loading={false} style={{ width: "100%" }}>
             Search
                     </Button>
@@ -65,17 +65,23 @@ const SimpleJobSearch = props => {
             <Row>
                 <div className={styles.buttonSection}>
                     <Row justify="end" type="flex" gutter={10}>
-                        <Col xs={24} sm={12} md={3} lg={3} style={{ float: "right" }}>
+                        <Col xs={24} sm={12} md={6} lg={3} style={{ float: "right" }}>
                             <button className={styles.textButton}>Post a Job</button>
                         </Col>
-                        <Col xs={24} sm={12} md={3} lg={3} style={{ float: "right" }}>
+                        <Col xs={24} sm={12} md={6} lg={3} style={{ float: "right" }}>
                             <button className={styles.textButton}>Advance Search</button>
                         </Col>
                     </Row>
                 </div>
             </Row>
-            <Row>
-                <Col xs={24} sm={24} md={12} lg={12} style={{ textAlign: "right" }}>
+            <Row className={styles.addSection}>
+                <Col
+                    xs={24}
+                    sm={24}
+                    md={12}
+                    lg={12}
+                    style={{ textAlign: "right", height: "100%" }}
+                >
                     <AddPromoCard
                         linkPath="/resume"
                         linkText="Upload/Build Resume"
@@ -84,7 +90,13 @@ const SimpleJobSearch = props => {
                         messageTwo="Don't have a resume? Build one in 3 steps"
                     />
                 </Col>
-                <Col xs={24} sm={24} md={12} lg={12} style={{ textAlign: "left" }}>
+                <Col
+                    xs={24}
+                    sm={24}
+                    md={12}
+                    lg={12}
+                    style={{ textAlign: "left", height: "100%" }}
+                >
                     <AddPromoCard
                         linkText="Create Job Alert"
                         linkPath="/job-alert"
