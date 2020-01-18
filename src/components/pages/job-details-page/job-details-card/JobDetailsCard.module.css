@@ -1,0 +1,40 @@
+.jobDetailsCardWrapper {
+    margin: 20px;
+    padding: 10px;
+}
+
+.title {
+    display: block;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.company,
+.experiance,
+.location {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.description {
+    margin: 30px auto;
+}
+
+.skills {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.skill {
+    color: #fff;
+    background-color: #4096EE;
+    border: 1px solid black;
+    box-shadow: 2px 3px #8888884f;
+    border-radius: 2px;
+    font-weight: 500;
+    display: inline-block;
+    margin: auto 5px;
+    padding: 5px 15px;
+
+}

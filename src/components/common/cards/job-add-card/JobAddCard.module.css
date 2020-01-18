@@ -1,0 +1,37 @@
+.jobCard {
+    cursor: pointer;
+    margin: 15px !important;
+    padding: 5px !important;
+    border-radius: 5px !important;
+    position: relative;
+}
+
+.selectedJobCard {
+    background-color: #00000040 !important;
+    cursor: pointer;
+    margin: 15px !important;
+    padding: 5px !important;
+    border-radius: 5px !important;
+    position: relative;
+}
+
+.jobCard>.ant-card-meta-avatar,
+.selectedJobCard>.ant-card-meta-avatar {
+    float: right !important;
+}
+
+.jobCard:hover {
+    background-color: #00000014;
+    margin: 15px 10px !important;
+    padding: 5px !important;
+}
+
+.btnContainer {
+    margin: 10px auto;
+}
+
+.starIcon {
+    position: absolute;
+    top: 15px;
+    left: 95%;
+}

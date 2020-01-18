@@ -2,22 +2,13 @@
     height: 100%;
 }
 
-.content-wrapper {
-    min-height: 100%;
-    margin-bottom: -200px;
-}
+.content-wrapper {}
 
 @media (min-width: 481px) and (max-width: 767px) {
-    .content-wrapper {
-        min-height: auto;
-        margin-bottom: auto;
-    }
+    .content-wrapper {}
 
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
-    .content-wrapper {
-        min-height: auto;
-        margin-bottom: auto;
-    }
+    .content-wrapper {}
 }

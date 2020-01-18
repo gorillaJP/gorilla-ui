@@ -8,10 +8,6 @@
     margin: 30px 50px;
 }
 
-.searchSection {
-    margin: 5px 50px !important;
-}
-
 .addSection {
     margin: 5px 40px 30px 40px !important;
 }
@@ -93,8 +89,7 @@
         font-size: 15px;
     }
 
-    .qouteSection,
-    .searchSection {
+    .qouteSection {
         margin: 10px 15px !important;
     }
 
@@ -113,8 +108,7 @@
         font-size: 15px;
     }
 
-    .qouteSection,
-    .searchSection {
+    .qouteSection {
         margin: 10px 15px !important;
     }
 

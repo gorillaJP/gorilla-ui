@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col } from "antd";
 
-import SimpleJobSearch from "../../common/job-search/SimpleJobSearch";
+import SimpleJobSearch from "../../common/job-search/simple-search/SimpleJobSearch";
 import LandingPageCoverImage from "../../../images/landingpage-cover.jpg";
 import styles from "./LandingPage.module.css";
 

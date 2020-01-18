@@ -1,0 +1,19 @@
+.searchSection {
+    margin: 5px 50px !important;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+    .searchSection {
+        margin: 10px 15px !important;
+    }
+
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .searchSection {
+        margin: 10px 15px !important;
+    }
+
+}

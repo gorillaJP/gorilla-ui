@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/common/header/Header";
 import LandingPage from "./components/pages/landing-page/LandingPage";
+import JobDetails from "./components/pages/job-details-page/JobDetails";
 import Footer from "./components/common/footer/Footer";
 
 function App() {
@@ -13,25 +14,35 @@ function App() {
     return (
         <div className="App">
             <Router>
-                <Header
-                    mobileMenuOpen={mobileMenuOpen}
-                    toggleMenu={val => {
-                        toggleMobileMenu(val);
-                    }}
-                    userLoggeIn={userLoggeIn}
-                    setUserLoggedIn={setUserLoggedIn}
-                />
+                <div>
+                    <Header
+                        mobileMenuOpen={mobileMenuOpen}
+                        toggleMenu={val => {
+                            toggleMobileMenu(val);
+                        }}
+                        userLoggeIn={userLoggeIn}
+                        setUserLoggedIn={setUserLoggedIn}
+                    />
+                </div>
                 {!mobileMenuOpen && (
                     <>
                         <div className="content-wrapper">
                             <Switch>
                                 <Route exact path="/" render={() => <LandingPage />} />
                             </Switch>
+                            <Switch>
+                                <Route
+                                    exact
+                                    path="/job-details"
+                                    render={() => <JobDetails />}
+                                />
+                            </Switch>
                         </div>
-
-                        <Footer />
                     </>
                 )}
+                <div>
+                    <Footer />
+                </div>
             </Router>
         </div>
     );
