@@ -1,0 +1,48 @@
+.jobPostWrapper {
+    background-color: #12334f;
+    height: 100%;
+}
+
+.jobPostHeader {
+    color: #fff;
+    font-size: 25px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 20px;
+}
+
+.moveLeft {
+    opacity: 0;
+    width: 0 !important;
+    transform: translateX(-2000px);
+    transition: transform 0.5s ease-in-out 0s, width 0s ease-in-out 0.5s, opacity 0s ease-in-out 0.5s;
+}
+
+.moveRight {
+    width: auto;
+    opacity: 1;
+    transition: width 0.5s ease-in-out 0.5s, opacity 0s ease-in-out 0.5s;
+}
+
+.stepperContainer {
+    padding: 40px 40px;
+}
+
+.basicDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+.moreInfo {
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    padding: 20px;
+}
