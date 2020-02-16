@@ -1,16 +1,28 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
-import { Button, Row, Col, Input, Steps, message, Form } from "antd";
+import { Button, Row, Col, Input, Steps, Select, DatePicker, Radio, Switch } from "antd";
 import styles from "./JobPost.module.css";
 
 import FormLabel from "../../common/form-label/FormLabel";
+import Editor from "../../common/editor/Editor.jsx";
+import JobDetailsCard from "../../common/job-details-card/JobDetailsCard";
+import { saveJobInCache } from "../../../actions/JobActions";
 
 const inputStyle = { margin: "15px", width: "90%" };
+const errorInput = { ...inputStyle, border: "1px solid red" };
 const inputFullWidthStyle = { ...inputStyle, width: "100%", margin: "5px" };
-const marginStyle = { margin: "5px" };
+const marginStyle = { margin: "5px", minHeight: "86px" };
 const labelStyles = { margin: "5px", display: "block" };
 const buttonStyle = { ...inputStyle, backgroundColor: "#c0c00c", color: "#383838", fontWeight: "bold" };
+const firstBox = { width: "50%", marginTop: "5px", marginBottom: "5px" };
+const secondBox = { width: "50%", marginTop: "5px", marginBottom: "5px" };
+const bonusInput = { width: "75%", margin: "5px 0 5px 0" };
+const bonusSelect = { width: "25%", margin: "5px 0 5px 0" };
+const editorStyles = { margin: "5px" };
+const switchStyles = { marginLeft: "10px" };
 
+const InputGroup = Input.Group;
+const { Option } = Select;
 const { Step } = Steps;
 const steps = [
     {
@@ -36,9 +48,29 @@ class JobPost extends React.Component {
             jobTitle: "",
             location: "",
             current: 0,
+            jobOverview: "",
+            employmentType: "",
+            employmentLevel: "",
+            companyIndustry: "",
+            expireDate: "",
+            description: "",
+            receiveApplicantPreferrence: "internal",
+            expirenceLevel: { minimum: 0, maximum: 0 },
             errors: {}
         };
     }
+
+    componentWillUnmount() {
+        this.saveJobInCache();
+    }
+
+    saveJobInCache() {
+        // Save the current job as a draft in local storage
+        const state = { ...this.state };
+        delete state.errors;
+        saveJobInCache(state);
+    }
+
     next() {
         const current = this.state.current + 1;
         this.setState({ current });
@@ -51,24 +83,62 @@ class JobPost extends React.Component {
 
     validateBasicDetails() {
         const { state } = this;
-        if (state.company) {
-            state.errors = { ...state.errors, company: true };
+
+        const formFields = ["company", "jobTitle", "location"];
+
+        for (const field of formFields) {
+            if (!state[field]) {
+                state.errors[field] = true;
+            } else {
+                state.errors[field] = false;
+            }
         }
 
-        if (state.jobTitle) {
-            state.errors = { ...state.errors, jobTitle: true };
+        this.setState({ errors: state.errors }, () => {
+            if (!this.hasError()) {
+                this.next();
+            }
+        });
+    }
+
+    validateAllDetails() {
+        const { state } = this;
+
+        // validate single fields using array
+        const formFields = [
+            "company",
+            "jobTitle",
+            "location",
+            "jobOverview",
+            "employmentType",
+            "employmentLevel",
+            "companyIndustry",
+            "expireDate",
+            "description"
+        ];
+
+        for (const field of formFields) {
+            if (!state[field]) {
+                state.errors[field] = true;
+            } else {
+                state.errors[field] = false;
+            }
         }
 
-        if (state.location) {
-            state.errors = { ...state.errors, location: true };
-        }
+        this.setState({ errors: state.errors }, () => {
+            if (!this.hasError()) {
+                this.saveJobInCache();
+                this.next();
+            }
+        });
+    }
 
-        if (state.company && state.jobTitle && state.location) {
-            state.errors = { ...state.errors, company: false, jobTitle: false, location: false };
-            this.next();
-        } else {
-            this.setState({ errors: state.errors });
-        }
+    hasError() {
+        const { errors } = this.state;
+
+        let errorValues = Object.values(errors);
+
+        return errorValues.includes(true);
     }
 
     setError(name, value) {}
@@ -115,7 +185,7 @@ class JobPost extends React.Component {
                                     <Input
                                         size="large"
                                         placeholder="Company"
-                                        style={inputStyle}
+                                        style={this.state.errors.company ? errorInput : inputStyle}
                                         value={this.state.company}
                                         onChange={event => {
                                             this.setState({ company: event.target.value });
@@ -124,7 +194,7 @@ class JobPost extends React.Component {
                                     <Input
                                         size="large"
                                         placeholder="Job Title"
-                                        style={inputStyle}
+                                        style={this.state.errors.jobTitle ? errorInput : inputStyle}
                                         value={this.state.jobTitle}
                                         onChange={event => {
                                             this.setState({ jobTitle: event.target.value });
@@ -133,13 +203,17 @@ class JobPost extends React.Component {
                                     <Input
                                         size="large"
                                         placeholder="Location"
-                                        style={inputStyle}
+                                        style={this.state.errors.location ? errorInput : inputStyle}
                                         value={this.state.location}
                                         onChange={event => {
                                             this.setState({ location: event.target.value });
                                         }}
                                     />
-                                    <Button size="large" style={buttonStyle} onClick={() => this.next()}>
+                                    <Button
+                                        size="large"
+                                        style={buttonStyle}
+                                        onClick={() => this.validateBasicDetails()}
+                                    >
                                         Continue job post
                                     </Button>
                                 </div>
@@ -234,34 +308,63 @@ class JobPost extends React.Component {
                                                     name="Required Skills"
                                                     required
                                                     styles={labelStyles}
-                                                    error={this.state.errors.requiredSkills}
+                                                    error={this.state.errors.skills}
                                                 />
-                                                <Input
+                                                <Select
+                                                    mode="multiple"
                                                     size="large"
                                                     placeholder="Required Skills"
                                                     style={inputFullWidthStyle}
                                                     onChange={value => {
-                                                        this.setState({ requiredSkills: value });
+                                                        this.setState({ skills: value });
                                                     }}
-                                                />
+                                                >
+                                                    <Option value="react">React</Option>
+                                                    <Option value="angular">Angular</Option>
+                                                    <Option value="redux">Redux</Option>
+                                                    <Option value="word">Word</Option>
+                                                    <Option value="photoshop">Photoshop</Option>
+                                                    <Option value="php">Php</Option>
+                                                </Select>
                                             </div>
                                         </Col>
                                         <Col xs={24} sm={24} md={12} lg={12}>
                                             <div style={marginStyle}>
                                                 <FormLabel
                                                     name="Experience Level"
-                                                    required
                                                     styles={labelStyles}
                                                     error={this.state.errors.experienceLevel}
                                                 />
-                                                <Input
-                                                    size="large"
-                                                    placeholder="Experience Level"
-                                                    style={inputFullWidthStyle}
-                                                    onChange={value => {
-                                                        this.setState({ experienceLevel: value });
-                                                    }}
-                                                />
+                                                <InputGroup compact style={inputFullWidthStyle}>
+                                                    <Input
+                                                        style={firstBox}
+                                                        defaultValue={this.state.minimum}
+                                                        addonBefore="Minumum : "
+                                                        size="large"
+                                                        onChange={value => {
+                                                            this.setState({
+                                                                experienceLevel: {
+                                                                    ...this.state.expirenceLevel,
+                                                                    minumum: value
+                                                                }
+                                                            });
+                                                        }}
+                                                    />
+                                                    <Input
+                                                        style={secondBox}
+                                                        defaultValue={this.state.maximum}
+                                                        addonBefore="Maximum : "
+                                                        size="large"
+                                                        onChange={value => {
+                                                            this.setState({
+                                                                experienceLevel: {
+                                                                    ...this.state.expirenceLevel,
+                                                                    maximum: value
+                                                                }
+                                                            });
+                                                        }}
+                                                    />
+                                                </InputGroup>
                                             </div>
                                         </Col>
                                         <Col xs={24} sm={24} md={12} lg={12}>
@@ -272,14 +375,19 @@ class JobPost extends React.Component {
                                                     styles={labelStyles}
                                                     error={this.state.errors.employmentType}
                                                 />
-                                                <Input
-                                                    size="large"
-                                                    placeholder="Employment Type"
+                                                <Select
+                                                    showSearch
                                                     style={inputFullWidthStyle}
+                                                    placeholder="Employment Type"
                                                     onChange={value => {
                                                         this.setState({ employmentType: value });
                                                     }}
-                                                />
+                                                    size="large"
+                                                >
+                                                    <Option value="permanent">Permanent</Option>
+                                                    <Option value="contract">Contract</Option>
+                                                    <Option value="parttime">Part Time</Option>
+                                                </Select>
                                             </div>
                                         </Col>
                                         <Col xs={24} sm={24} md={12} lg={12}>
@@ -290,14 +398,18 @@ class JobPost extends React.Component {
                                                     styles={labelStyles}
                                                     error={this.state.errors.employmentLevel}
                                                 />
-                                                <Input
-                                                    size="large"
-                                                    placeholder="Employment Level"
+                                                <Select
+                                                    showSearch
                                                     style={inputFullWidthStyle}
+                                                    placeholder="Employment Level"
                                                     onChange={value => {
                                                         this.setState({ employmentLevel: value });
                                                     }}
-                                                />
+                                                    size="large"
+                                                >
+                                                    <Option value="associate">Associate</Option>
+                                                    <Option value="senior">Senior</Option>
+                                                </Select>
                                             </div>
                                         </Col>
                                         <Col xs={24} sm={24} md={12} lg={12}>
@@ -308,14 +420,19 @@ class JobPost extends React.Component {
                                                     styles={labelStyles}
                                                     error={this.state.errors.companyIndustry}
                                                 />
-                                                <Input
-                                                    size="large"
-                                                    placeholder="Company Industry"
+                                                <Select
+                                                    showSearch
                                                     style={inputFullWidthStyle}
+                                                    placeholder="Company Industry"
                                                     onChange={value => {
                                                         this.setState({ companyIndustry: value });
                                                     }}
-                                                />
+                                                    size="large"
+                                                >
+                                                    <Option value="it">IT</Option>
+                                                    <Option value="electircal">Electrical</Option>
+                                                    <Option value="mechanical">Mechanical</Option>
+                                                </Select>
                                             </div>
                                         </Col>
                                         <Col xs={24} sm={24} md={12} lg={12}>
@@ -326,9 +443,8 @@ class JobPost extends React.Component {
                                                     styles={labelStyles}
                                                     error={this.state.errors.expireDate}
                                                 />
-                                                <Input
+                                                <DatePicker
                                                     size="large"
-                                                    placeholder="Expire Date"
                                                     style={inputFullWidthStyle}
                                                     onChange={value => {
                                                         this.setState({ expireDate: value });
@@ -340,52 +456,82 @@ class JobPost extends React.Component {
                                             <div style={marginStyle}>
                                                 <FormLabel
                                                     name="Salary"
-                                                    required
                                                     styles={labelStyles}
                                                     error={this.state.errors.salary}
                                                 />
-                                                <Input
-                                                    size="large"
-                                                    placeholder="Salary"
-                                                    style={inputFullWidthStyle}
-                                                    onChange={value => {
-                                                        this.setState({ salary: value });
-                                                    }}
-                                                />
+                                                <InputGroup compact style={inputFullWidthStyle}>
+                                                    <Input
+                                                        style={firstBox}
+                                                        defaultValue={this.state.minimum}
+                                                        addonBefore="Minumum : "
+                                                        size="large"
+                                                        onChange={value => {
+                                                            this.setState({
+                                                                experienceLevel: {
+                                                                    ...this.state.salary,
+                                                                    minumum: value
+                                                                }
+                                                            });
+                                                        }}
+                                                    />
+                                                    <Input
+                                                        style={secondBox}
+                                                        defaultValue={this.state.maximum}
+                                                        addonBefore="Maximum : "
+                                                        size="large"
+                                                        onChange={value => {
+                                                            this.setState({
+                                                                experienceLevel: {
+                                                                    ...this.state.salary,
+                                                                    maximum: value
+                                                                }
+                                                            });
+                                                        }}
+                                                    />
+                                                </InputGroup>
                                             </div>
                                         </Col>
                                         <Col xs={24} sm={24} md={12} lg={12}>
                                             <div style={marginStyle}>
                                                 <FormLabel
                                                     name="Bonus"
-                                                    required
                                                     styles={labelStyles}
                                                     error={this.state.errors.bonus}
                                                 />
-                                                <Input
-                                                    size="large"
-                                                    placeholder="Bonus"
-                                                    style={inputFullWidthStyle}
-                                                    onChange={value => {
-                                                        this.setState({ bonus: value });
-                                                    }}
-                                                />
+                                                <InputGroup compact style={inputFullWidthStyle}>
+                                                    <Input
+                                                        size="large"
+                                                        placeholder="Bonus"
+                                                        style={bonusInput}
+                                                        onChange={value => {
+                                                            this.setState({ bonus: value });
+                                                        }}
+                                                    />
+                                                    <Select defaultValue="yearly" style={bonusSelect} size="large">
+                                                        <Option value="yearly">Yearly</Option>
+                                                        <Option value="quaterly">Quaterly</Option>
+                                                    </Select>
+                                                </InputGroup>
                                             </div>
                                         </Col>
                                         <Col xs={24} sm={24} md={24} lg={24}>
-                                            <div style={marginStyle}>
+                                            <div style={editorStyles}>
                                                 <FormLabel
                                                     name="Job Description"
                                                     required
                                                     styles={labelStyles}
-                                                    error={this.state.errors.jobDescription}
+                                                    error={this.state.errors.description}
                                                 />
-                                                <Input
-                                                    size="large"
+                                                <label style={labelStyles}>
+                                                    We found a matching job description from our database. Save time by
+                                                    editing the description
+                                                    <Switch style={switchStyles} />
+                                                </label>
+                                                <Editor
+                                                    style={inputFullWidthStyle}
                                                     placeholder="Job Description"
-                                                    style={inputFullWidthStyle}
-                                                    onChange={value => {
-                                                        this.setState({ jobDescription: value });
+                                                    onChange={html => {
+                                                        this.setState({ description: html });
                                                     }}
                                                 />
                                             </div>
@@ -393,45 +539,68 @@ class JobPost extends React.Component {
                                         <Col xs={24} sm={24} md={24} lg={24}>
                                             <div style={marginStyle}>
                                                 <FormLabel
-                                                    name="Company Email"
-                                                    required
+                                                    name="How would you like to receive your applicants ?"
                                                     styles={labelStyles}
-                                                    error={this.state.errors.companyEmail}
                                                 />
-                                                <Input
-                                                    size="large"
-                                                    placeholder="example@gmail.com"
-                                                    style={inputFullWidthStyle}
-                                                    onChange={value => {
-                                                        this.setState({ companyEmail: value });
+                                                <Radio.Group
+                                                    onChange={event => {
+                                                        this.setState({
+                                                            receiveApplicantPreferrence: event.target.value
+                                                        });
                                                     }}
-                                                />
-                                            </div>
-                                        </Col>
-                                        <Col xs={24} sm={24} md={24} lg={24}>
-                                            <div style={marginStyle}>
-                                                <FormLabel
-                                                    name="Career site"
-                                                    required
-                                                    styles={labelStyles}
-                                                    error={this.state.errors.companyWebsite}
-                                                />
-                                                <Input
-                                                    size="large"
-                                                    placeholder="https://example.com/careers"
+                                                    value={this.state.receiveApplicantPreferrence}
                                                     style={inputFullWidthStyle}
-                                                    onChange={value => {
-                                                        this.setState({ companyWebsite: value });
-                                                    }}
-                                                />
+                                                >
+                                                    <Radio size="large" value="internal">
+                                                        Recommended: Use our free tool to view and manage candidates in
+                                                        your account
+                                                    </Radio>
+                                                    <Input
+                                                        size="large"
+                                                        placeholder="example@gmail.com"
+                                                        style={inputFullWidthStyle}
+                                                        disabled={this.state.receiveApplicantPreferrence !== "internal"}
+                                                        onChange={value => {
+                                                            this.setState({ companyEmail: value });
+                                                        }}
+                                                    />
+                                                    <br />
+                                                    <Radio size="large" value="external">
+                                                        Direct applicant to external site to apply
+                                                    </Radio>
+                                                    <Input
+                                                        size="large"
+                                                        placeholder="https://example.com/careers"
+                                                        style={inputFullWidthStyle}
+                                                        disabled={this.state.receiveApplicantPreferrence !== "external"}
+                                                        onChange={value => {
+                                                            this.setState({ companyWebsite: value });
+                                                        }}
+                                                    />
+                                                </Radio.Group>
                                             </div>
                                         </Col>
                                     </Row>
                                     <div style={marginStyle}>
-                                        <Button size="large" style={inputFullWidthStyle} onClick={() => this.next()}>
+                                        <Button
+                                            size="large"
+                                            style={inputFullWidthStyle}
+                                            onClick={() => this.validateAllDetails()}
+                                        >
                                             Continue job post
                                         </Button>
                                     </div>
+                                </div>
+                            </Col>
+                            <Col
+                                xs={22}
+                                sm={22}
+                                md={22}
+                                lg={22}
+                                className={current === 2 ? styles.moveRight : styles.moveLeft}
+                            >
+                                <div className={styles.moreInfo}>
+                                    <JobDetailsCard job={this.state} />
                                 </div>
                             </Col>
                         </Row>

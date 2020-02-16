@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import AdvanceJobSearch from "../../common/job-search/advance-search/AdvanceJobSearch";
 import styles from "./JobDetails.module.css";
 import JobAddCard from "../../common/cards/job-add-card/JobAddCard";
-import { searchJobs } from "../../../actions/SearchJobActions";
-import JobDetailsCard from "./job-details-card/JobDetailsCard";
+import { searchJobs } from "../../../actions/JobActions";
+import JobDetailsCard from "../../common/job-details-card/JobDetailsCard";
 
 class JobDetails extends React.Component {
     constructor(props) {
@@ -53,9 +53,7 @@ class JobDetails extends React.Component {
                                     jobDescription={job.company}
                                     key={job._id}
                                     onSelect={key => {
-                                        let selectedJob = this.props.jobAdds.find(
-                                            job => job._id == key
-                                        );
+                                        let selectedJob = this.props.jobAdds.find(job => job._id == key);
                                         this.setState({
                                             selectedJobAddId: key,
                                             selectedJob: selectedJob
