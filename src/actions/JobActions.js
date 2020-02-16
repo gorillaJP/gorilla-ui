@@ -12,7 +12,7 @@ export const jobSearchSuccess = jobList => {
 export const searchJobs = filterOptions => {
     return dispatch => {
         JobApi.searchJobs(filterOptions).then(data => {
-            dispatch(jobSearchSuccess(data.payload));
+            dispatch(jobSearchSuccess(data.payload.data));
         });
     };
 };
