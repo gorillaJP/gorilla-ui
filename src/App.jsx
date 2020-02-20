@@ -37,6 +37,9 @@ function App() {
                             <Switch>
                                 <Route exact path="/job-post" render={() => <JobPost />} />
                             </Switch>
+                            <Switch>
+                                <Route exact path="/job-post/preview" render={() => <JobPost />} />
+                            </Switch>
                         </div>
                     </>
                 )}
