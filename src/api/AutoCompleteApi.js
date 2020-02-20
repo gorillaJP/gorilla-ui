@@ -8,6 +8,6 @@ export const cityAutoComplete = async value => {
 
 export const sectorAutoComplete = async value => {
     return await axios.get(
-        "http://159.89.161.233/api/meta/allsectors?q=" + value
+        "http://159.89.161.233:443/api/meta/allsectors?q=" + value
     );
 };
