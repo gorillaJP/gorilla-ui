@@ -109,8 +109,9 @@ const SearchComp = props => {
                 </Select>
             </Col>
             <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
-                <Button>
-                    onKeyPress={onKeyPress}
+                <Button type="primary" loading={false} style={{ width: "100%" }} onClick={() => {
+                    searchJobs(search.jobTitle)
+                }}>
                     Search
                 </Button>
             </Col >
