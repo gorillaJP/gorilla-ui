@@ -21,7 +21,7 @@ const SearchComp = props => {
 
     const searchJobs = props.actions.searchJobs
 
-   /** enter button  triggers, search actions*/
+    /** enter button  triggers, search actions*/
     const onKeyPress = event => {
         if (event.key === 'Enter') {
             searchJobs(search.jobTitle)
@@ -109,11 +109,12 @@ const SearchComp = props => {
                 </Select>
             </Col>
             <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
-                        onKeyPress={onKeyPress}
+                <Button>
+                    onKeyPress={onKeyPress}
                     Search
                 </Button>
-            </Col>
-        </Row>
+            </Col >
+        </Row >
     );
 };
 
