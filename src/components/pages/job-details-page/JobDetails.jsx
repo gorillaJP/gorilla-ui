@@ -25,7 +25,7 @@ class JobDetails extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (!state.selectedJobAddId && props.jobAdds.length) {
+        if (props.jobAdds.length) {
             return {
                 ...state,
                 ...{
