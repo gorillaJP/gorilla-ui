@@ -387,9 +387,9 @@ class JobPost extends React.Component {
                                                     addonBefore="Minumum : "
                                                     size="large"
                                                     value={this.state.minExperience}
-                                                    onChange={value => {
+                                                    onChange={event => {
                                                         this.setState({
-                                                            minExperience: value
+                                                            minExperience: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -399,9 +399,9 @@ class JobPost extends React.Component {
                                                     addonBefore="Maximum : "
                                                     size="large"
                                                     value={this.state.maxExperience}
-                                                    onChange={value => {
+                                                    onChange={event => {
                                                         this.setState({
-                                                            maxExperience: value
+                                                            maxExperience: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -515,9 +515,9 @@ class JobPost extends React.Component {
                                                     addonBefore="Minumum : "
                                                     size="large"
                                                     value={this.state.minSalary}
-                                                    onChange={value => {
+                                                    onChange={event => {
                                                         this.setState({
-                                                            minSalary: value
+                                                            minSalary: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -527,9 +527,9 @@ class JobPost extends React.Component {
                                                     addonBefore="Maximum : "
                                                     size="large"
                                                     value={this.state.maxSalary}
-                                                    onChange={value => {
+                                                    onChange={event => {
                                                         this.setState({
-                                                            maxSalary: value
+                                                            maxSalary: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -549,8 +549,8 @@ class JobPost extends React.Component {
                                                     placeholder="Bonus"
                                                     style={bonusInput}
                                                     value={this.state.bonus}
-                                                    onChange={value => {
-                                                        this.setState({ bonus: value });
+                                                    onChange={event => {
+                                                        this.setState({ bonus: event.target.value });
                                                     }}
                                                 />
                                                 <Select
@@ -616,8 +616,8 @@ class JobPost extends React.Component {
                                                     style={inputFullWidthStyle}
                                                     disabled={this.state.receiveApplicantPreferrence !== "internal"}
                                                     value={this.state.companyEmail}
-                                                    onChange={value => {
-                                                        this.setState({ companyEmail: value });
+                                                    onChange={event => {
+                                                        this.setState({ companyEmail: event.target.value });
                                                     }}
                                                 />
                                                 <br />
@@ -630,8 +630,8 @@ class JobPost extends React.Component {
                                                     style={inputFullWidthStyle}
                                                     disabled={this.state.receiveApplicantPreferrence !== "external"}
                                                     value={this.state.companyWebsite}
-                                                    onChange={value => {
-                                                        this.setState({ companyWebsite: value });
+                                                    onChange={event => {
+                                                        this.setState({ companyWebsite: event.target.value });
                                                     }}
                                                 />
                                             </Radio.Group>
