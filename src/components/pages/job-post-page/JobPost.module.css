@@ -1,6 +1,5 @@
 .jobPostWrapper {
     background-color: #12334f;
-    height: 100%;
 }
 
 .jobPostHeader {
@@ -10,19 +9,20 @@
     text-align: center;
     padding: 20px;
 }
-
+/* 
 .moveLeft {
+    height: 0;
     opacity: 0;
     width: 0 !important;
-    transform: translateX(-2000px);
-    transition: transform 0.5s ease-in-out 0s, width 0s ease-in-out 0.5s, opacity 0s ease-in-out 0.5s;
+    transform: translateX(-5000px);
+    transition: transform 0.75s ease-in-out 0s, width 0s ease-in-out 0.75s, opacity 0s ease-in-out 0.75s;
 }
 
 .moveRight {
     width: auto;
     opacity: 1;
     transition: width 0.5s ease-in-out 0.5s, opacity 0s ease-in-out 0.5s;
-}
+} */
 
 .stepperContainer {
     padding: 40px 40px;
@@ -33,7 +33,6 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-height: 400px;
     background-color: #fff;
     border-radius: 5px;
     margin-bottom: 40px;
