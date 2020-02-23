@@ -42,15 +42,7 @@ const Header = props => {
         <header>
             <nav className={styles.header}>
                 <Row gutter={[8, 8]}>
-                    <Col
-                        xs={4}
-                        sm={4}
-                        md={1}
-                        lg={1}
-                        xl={1}
-                        push={1}
-                        className={styles.mobileMenu}
-                    >
+                    <Col xs={4} sm={4} md={1} lg={1} xl={1} push={1} className={styles.mobileMenu}>
                         {!props.mobileMenuOpen ? (
                             <Icon
                                 type="menu"
@@ -69,24 +61,10 @@ const Header = props => {
                             />
                         )}
                     </Col>
-                    <Col
-                        xs={14}
-                        sm={14}
-                        md={4}
-                        lg={3}
-                        className={styles.headerIcon}
-                        push={1}
-                    >
+                    <Col xs={14} sm={14} md={4} lg={3} className={styles.headerIcon} push={1}>
                         <a href="/">Gorilla</a>
                     </Col>
-                    <Col
-                        sm={24}
-                        xs={24}
-                        md={11}
-                        lg={13}
-                        className={styles.desktopMenu}
-                        push={1}
-                    >
+                    <Col sm={24} xs={24} md={11} lg={13} className={styles.desktopMenu} push={1}>
                         <Row justify="start" type="flex">
                             <div>
                                 <Dropdown overlay={LinkDropDownContent(jobsByFunctionItems)}>
@@ -94,18 +72,13 @@ const Header = props => {
                                 </Dropdown>
                             </div>
                             <div>
-                                <span className={styles.submenu}>Job Post</span>
+                                <Link to="/job-post">
+                                    <span className={styles.submenu}>Job Post</span>
+                                </Link>
                             </div>
                         </Row>
                     </Col>
-                    <Col
-                        sm={24}
-                        xs={24}
-                        md={8}
-                        lg={6}
-                        className={styles.desktopMenu}
-                        push={1}
-                    >
+                    <Col sm={24} xs={24} md={8} lg={6} className={styles.desktopMenu} push={1}>
                         {!props.userLoggeIn && (
                             <Row justify="end" type="flex">
                                 <div className={styles.loginButton}>

@@ -17,6 +17,15 @@ class Editor extends React.Component {
         this.props.onChange(html);
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (!state.editorHtml && props.value) {
+            let newState = { ...state, editorHtml: props.value };
+            return newState;
+        } else {
+            return null;
+        }
+    }
+
     render() {
         return (
             <div style={this.props.style}>

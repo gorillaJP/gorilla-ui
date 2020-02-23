@@ -20,3 +20,11 @@ export const searchJobs = filterOptions => {
 export const saveJobInCache = job => {
     Cache.setLocalStorage('draftJob', job);
 };
+
+export const getJobInCache = () => {
+    return Cache.getLocalStorage('draftJob');
+};
+
+export const clearJobInCache = () => {
+    Cache.clearLocalStorage('draftJob');
+};
