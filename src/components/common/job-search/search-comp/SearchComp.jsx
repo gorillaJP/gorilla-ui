@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { bindActionCreators } from "redux";
+import { searchJobs } from "../../../../actions/JobActions";
+import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
 
 import {
@@ -15,6 +18,16 @@ const searchBoxStyles = {
 };
 
 const SearchComp = props => {
+
+    const searchJobs = props.actions.searchJobs
+
+    /** enter button  triggers, search actions*/
+    const onKeyPress = event => {
+        if (event.key === 'Enter') {
+            searchJobs(search.jobTitle)
+        }
+    }
+
     // State for the three fields
     const [search, setSearchValues] = useState({
         jobTitle: "",
@@ -62,6 +75,7 @@ const SearchComp = props => {
                 >
                     <Input
                         suffix={<Icon type="search" className="certainCategoryIcon" />}
+                        onKeyPress={onKeyPress}
                     />
                 </AutoComplete>
             </Col>
@@ -85,7 +99,7 @@ const SearchComp = props => {
                     optionFilterProp="children"
                     filterOption={(input, option) =>
                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
-            0
+                        0
                     }
                     style={searchBoxStyles}
                 >
@@ -95,12 +109,27 @@ const SearchComp = props => {
                 </Select>
             </Col>
             <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
-                <Button type="primary" loading={false} style={{ width: "100%" }}>
-          Search
+                <Button type="primary" loading={false} style={{ width: "100%" }} onClick={() => {
+                    searchJobs(search.jobTitle)
+                }}>
+                    Search
                 </Button>
-            </Col>
-        </Row>
+            </Col >
+        </Row >
     );
 };
 
-export default SearchComp;
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: {
+            searchJobs: bindActionCreators(searchJobs, dispatch)
+        }
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        jobAdds: state.jobData.jobList
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SearchComp)
