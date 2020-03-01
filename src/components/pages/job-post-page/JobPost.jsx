@@ -1,14 +1,20 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Button, Row, Col, Input, Steps, Select, DatePicker, Radio, Switch, Modal, AutoComplete } from "antd";
-import styles from "./JobPost.module.css";
 import moment from "moment";
+import { withRouter } from "react-router-dom";
 
 import FormLabel from "../../common/form-label/FormLabel";
 import Editor from "../../common/editor/Editor.jsx";
 import JobDetailsCard from "../../common/job-details-card/JobDetailsCard";
 import { saveJobInCache, getJobInCache, clearJobInCache } from "../../../actions/JobActions";
+import { loadingStarted, loadingFinished } from "../../../actions/CommonActions";
 import { cityAutoComplete } from "../../../api/AutoCompleteApi";
+import { postJob } from "../../../api/JobApi";
+import { JOB_POST_IN_PROGRESS, JOB_POST_SUCCESS, JOB_POST_FAILED } from "../../../constants/AppConstants";
+import styles from "./JobPost.module.css";
 
 const inputStyle = { margin: "15px", width: "90%" };
 const errorInput = { ...inputStyle, border: "1px solid red" };
@@ -41,31 +47,43 @@ const steps = [
     }
 ];
 const dateFormat = "YYYY/MM/DD";
+const newStateObj = {
+    company: "",
+    title: "",
+    location: "",
+    current: 0,
+    overview: "",
+    type: "",
+    level: "",
+    industry: "",
+    expireDate: "",
+    description: "",
+    receiveApplicantPreferrence: "internal",
+    experianceMin: "",
+    experianceMax: "",
+    salaryMin: "",
+    salaryMax: "",
+    showDraftJobModal: false,
+    areaSuggestions: [],
+    errors: {},
+    jobPostStatus: ""
+};
+
+const NavigateHomeButton = withRouter(({ history }) => (
+    <Button
+        onClick={() => {
+            history.push("/");
+        }}
+    >
+        Cancel
+    </Button>
+));
 
 class JobPost extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            company: "",
-            title: "",
-            location: "",
-            current: 0,
-            jobOverview: "",
-            employmentType: "",
-            employmentLevel: "",
-            companyIndustry: "",
-            expireDate: "",
-            description: "",
-            receiveApplicantPreferrence: "internal",
-            minExperience: "",
-            maxExperience: "",
-            minSalary: "",
-            maxSalary: "",
-            showDraftJobModal: false,
-            areaSuggestions: [],
-            errors: {}
-        };
+        this.state = newStateObj;
     }
 
     componentDidMount() {
@@ -75,8 +93,10 @@ class JobPost extends React.Component {
         let currentState = { ...this.state };
         delete currentState.errors;
         delete currentState.areaSuggestions;
+        delete currentState.jobPostStatus;
+        delete currentState.showDraftJobModal;
 
-        if (savedJob !== JSON.stringify(currentState) && savedJob) {
+        if (savedJob && savedJob !== JSON.stringify(currentState)) {
             this.setState({ showDraftJobModal: true });
         }
 
@@ -95,6 +115,8 @@ class JobPost extends React.Component {
         const state = { ...this.state };
         delete state.errors;
         delete state.areaSuggestions;
+        delete state.jobPostStatus;
+        delete state.showDraftJobModal;
 
         saveJobInCache(state);
     }
@@ -106,7 +128,7 @@ class JobPost extends React.Component {
     }
 
     createNewJobPost() {
-        this.setState({ showDraftJobModal: false });
+        this.setState({ ...newStateObj });
         clearJobInCache();
     }
 
@@ -148,10 +170,10 @@ class JobPost extends React.Component {
             "company",
             "title",
             "location",
-            "jobOverview",
-            "employmentType",
-            "employmentLevel",
-            "companyIndustry",
+            "overview",
+            "type",
+            "level",
+            "industry",
             "expireDate",
             "description"
         ];
@@ -182,6 +204,21 @@ class JobPost extends React.Component {
 
     setError(name, value) {}
 
+    postJob() {
+        this.props.actions.loadingStarted();
+        this.setState({ jobPostStatus: JOB_POST_IN_PROGRESS }, () => {
+            const jobPostSuccess = postJob(JSON.parse(getJobInCache()));
+            this.props.actions.loadingFinished();
+            if (jobPostSuccess) {
+                this.setState({ jobPostStatus: JOB_POST_SUCCESS });
+            } else {
+                this.setState({ jobPostStatus: JOB_POST_FAILED });
+            }
+        });
+    }
+
+    navigateToHome() {}
+
     render() {
         const { current } = this.state;
         return (
@@ -199,7 +236,7 @@ class JobPost extends React.Component {
                             ? "Post your job with Gorilla to find the person you want to hire"
                             : current === 1
                             ? "Explain more on what you want"
-                            : "You are almost there"}
+                            : "This is how the job post look"}
                     </span>
                 </div>
                 <div className={styles.basicDetailsWrapper}>
@@ -333,15 +370,15 @@ class JobPost extends React.Component {
                                                 name="Job Overview"
                                                 required
                                                 styles={labelStyles}
-                                                error={this.state.errors.jobOverview}
+                                                error={this.state.errors.overview}
                                             />
                                             <Input
                                                 size="large"
                                                 placeholder="Job Overview"
                                                 style={inputFullWidthStyle}
-                                                value={this.state.jobOverview}
+                                                value={this.state.overview}
                                                 onChange={event => {
-                                                    this.setState({ jobOverview: event.target.value });
+                                                    this.setState({ overview: event.target.value });
                                                 }}
                                             />
                                         </div>
@@ -386,10 +423,10 @@ class JobPost extends React.Component {
                                                     defaultValue={this.state.minimum}
                                                     addonBefore="Minumum : "
                                                     size="large"
-                                                    value={this.state.minExperience}
+                                                    value={this.state.experianceMin}
                                                     onChange={event => {
                                                         this.setState({
-                                                            minExperience: event.target.value
+                                                            experianceMin: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -398,10 +435,10 @@ class JobPost extends React.Component {
                                                     defaultValue={this.state.maximum}
                                                     addonBefore="Maximum : "
                                                     size="large"
-                                                    value={this.state.maxExperience}
+                                                    value={this.state.experianceMax}
                                                     onChange={event => {
                                                         this.setState({
-                                                            maxExperience: event.target.value
+                                                            experianceMax: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -414,16 +451,16 @@ class JobPost extends React.Component {
                                                 name="Employement Type"
                                                 required
                                                 styles={labelStyles}
-                                                error={this.state.errors.employmentType}
+                                                error={this.state.errors.type}
                                             />
                                             <Select
                                                 showSearch
                                                 style={inputFullWidthStyle}
                                                 placeholder="Employment Type"
                                                 onChange={value => {
-                                                    this.setState({ employmentType: value });
+                                                    this.setState({ type: value });
                                                 }}
-                                                value={this.state.employmentType}
+                                                value={this.state.type}
                                                 size="large"
                                             >
                                                 <Option value="permanent">Permanent</Option>
@@ -438,15 +475,15 @@ class JobPost extends React.Component {
                                                 name="Employment Level"
                                                 required
                                                 styles={labelStyles}
-                                                error={this.state.errors.employmentLevel}
+                                                error={this.state.errors.level}
                                             />
                                             <Select
                                                 showSearch
                                                 style={inputFullWidthStyle}
                                                 placeholder="Employment Level"
-                                                value={this.state.employmentLevel}
+                                                value={this.state.level}
                                                 onChange={value => {
-                                                    this.setState({ employmentLevel: value });
+                                                    this.setState({ level: value });
                                                 }}
                                                 size="large"
                                             >
@@ -461,15 +498,15 @@ class JobPost extends React.Component {
                                                 name="Company Industry"
                                                 required
                                                 styles={labelStyles}
-                                                error={this.state.errors.companyIndustry}
+                                                error={this.state.errors.industry}
                                             />
                                             <Select
                                                 showSearch
                                                 style={inputFullWidthStyle}
                                                 placeholder="Company Industry"
-                                                value={this.state.companyIndustry}
+                                                value={this.state.industry}
                                                 onChange={value => {
-                                                    this.setState({ companyIndustry: value });
+                                                    this.setState({ industry: value });
                                                 }}
                                                 size="large"
                                             >
@@ -514,10 +551,10 @@ class JobPost extends React.Component {
                                                     defaultValue={this.state.minimum}
                                                     addonBefore="Minumum : "
                                                     size="large"
-                                                    value={this.state.minSalary}
+                                                    value={this.state.salaryMin}
                                                     onChange={event => {
                                                         this.setState({
-                                                            minSalary: event.target.value
+                                                            salaryMin: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -526,10 +563,10 @@ class JobPost extends React.Component {
                                                     defaultValue={this.state.maximum}
                                                     addonBefore="Maximum : "
                                                     size="large"
-                                                    value={this.state.maxSalary}
+                                                    value={this.state.salaryMax}
                                                     onChange={event => {
                                                         this.setState({
-                                                            maxSalary: event.target.value
+                                                            salaryMax: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -556,9 +593,9 @@ class JobPost extends React.Component {
                                                 <Select
                                                     defaultValue="yearly"
                                                     onChange={value => {
-                                                        this.setState({ bonusPeriod: value });
+                                                        this.setState({ bonusType: value });
                                                     }}
-                                                    value={this.state.bonusPeriod}
+                                                    value={this.state.bonusType}
                                                     style={bonusSelect}
                                                     size="large"
                                                 >
@@ -615,9 +652,9 @@ class JobPost extends React.Component {
                                                     placeholder="example@gmail.com"
                                                     style={inputFullWidthStyle}
                                                     disabled={this.state.receiveApplicantPreferrence !== "internal"}
-                                                    value={this.state.companyEmail}
+                                                    value={this.state.notifyEmail}
                                                     onChange={event => {
-                                                        this.setState({ companyEmail: event.target.value });
+                                                        this.setState({ notifyEmail: event.target.value });
                                                     }}
                                                 />
                                                 <br />
@@ -629,9 +666,9 @@ class JobPost extends React.Component {
                                                     placeholder="https://example.com/careers"
                                                     style={inputFullWidthStyle}
                                                     disabled={this.state.receiveApplicantPreferrence !== "external"}
-                                                    value={this.state.companyWebsite}
+                                                    value={this.state.redirectURL}
                                                     onChange={event => {
-                                                        this.setState({ companyWebsite: event.target.value });
+                                                        this.setState({ redirectURL: event.target.value });
                                                     }}
                                                 />
                                             </Radio.Group>
@@ -652,6 +689,26 @@ class JobPost extends React.Component {
                         <Col xs={22} sm={22} md={22} lg={22} style={{ display: current === 2 ? "block" : "none" }}>
                             <div className={styles.moreInfo}>
                                 <JobDetailsCard job={this.state} />
+                                <div className={styles.buttonContainer}>
+                                    <div className={styles.actionButtons}>
+                                        <Button
+                                            onClick={() => {
+                                                this.prev();
+                                            }}
+                                        >
+                                            Previous
+                                        </Button>
+                                    </div>
+                                    <div className={styles.actionButtons}>
+                                        <Button
+                                            onClick={() => {
+                                                this.postJob();
+                                            }}
+                                        >
+                                            Post Job
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
                         </Col>
                     </Row>
@@ -668,9 +725,36 @@ class JobPost extends React.Component {
                 >
                     You have an unfinished job post. Press Ok to continue or cancel to create new one.
                 </Modal>
+                <Modal
+                    title="Job Post Complete"
+                    visible={this.state.jobPostStatus === JOB_POST_SUCCESS}
+                    footer={[
+                        <NavigateHomeButton key="cancel" />,
+                        <Button
+                            key="Create New"
+                            onClick={e => {
+                                this.createNewJobPost();
+                            }}
+                        >
+                            Create New
+                        </Button>
+                    ]}
+                >
+                    You have successfully created a new job post. Click <b>Create New</b> to create a new Job or{" "}
+                    <b>Cancel</b> to navigate to home page
+                </Modal>
             </div>
         );
     }
 }
 
-export default JobPost;
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: {
+            loadingStarted: bindActionCreators(loadingStarted, dispatch),
+            loadingFinished: bindActionCreators(loadingFinished, dispatch)
+        }
+    };
+};
+
+export default connect(undefined, mapDispatchToProps)(JobPost);

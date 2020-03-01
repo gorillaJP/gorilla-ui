@@ -21,3 +21,14 @@ export const searchJobs = async filter => {
     })
 
 }
+
+export const postJob = async jobPost => {
+    return await axios
+        .post('http://159.89.161.233:443/api/jobadds', jobPost)
+        .then(res => {
+            return true;
+        })
+        .catch(e => {
+            return false;
+        });
+};

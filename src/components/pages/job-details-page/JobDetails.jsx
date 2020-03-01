@@ -25,7 +25,7 @@ class JobDetails extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.jobAdds.length) {
+        if (props.jobAdds.length && !state.selectedJobAddId) {
             return {
                 ...state,
                 ...{
@@ -34,7 +34,7 @@ class JobDetails extends React.Component {
                 }
             };
         } else {
-            return null;
+            return state;
         }
     }
 
@@ -53,7 +53,7 @@ class JobDetails extends React.Component {
                                     jobDescription={job.company}
                                     key={job._id}
                                     onSelect={key => {
-                                        let selectedJob = this.props.jobAdds.find(job => job._id == key);
+                                        let selectedJob = this.props.jobAdds.find(job => job._id === key);
                                         this.setState({
                                             selectedJobAddId: key,
                                             selectedJob: selectedJob

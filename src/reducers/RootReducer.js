@@ -1,10 +1,12 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import jobDataReducer from "./JobReducer";
+import commonReducer from './CommonReducer';
+import jobDataReducer from './JobReducer';
 import metaDataResucer from "./MetaDataResucer";
 
 const rootReducer = combineReducers({
     jobData: jobDataReducer,
+    commonData: commonReducer
     metaData: metaDataResucer
 });
 
