@@ -4,7 +4,6 @@ import { searchJobs } from "../../../../actions/JobActions";
 import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
 
-
 import {
     cityAutoComplete,
     sectorAutoComplete
@@ -34,13 +33,14 @@ const SearchComp = props => {
     const [search, setSearchValues] = useState({
         q: "",
         location: [],
-        category: ""
+        category: "",
+        type: []
     });
 
     //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
     useEffect(() => {
         searchJobs(search)
-    }, [search.location])
+    }, [search.location, search.type])
 
     // Area suggestions contains the city, country etc
     const [areaSuggestion, setAreaSuggestions] = useState([]);
@@ -108,20 +108,22 @@ const SearchComp = props => {
 
             </Col>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
+
                 <Select
-                    showSearch
-                    placeholder="Job Category"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                        0
-                    }
-                    style={searchBoxStyles}
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    placeholder="Please select"
+                    defaultValue={[]}
+                    placeholder={'Type'}
+                    allowClear={true}
+                    onChange={(val) => { onChangeSearchField('type', val) }}
                 >
-                    <Option value="jack">Software Engineering</Option>
-                    <Option value="lucy">Human Resource</Option>
-                    <Option value="tom">Accounting</Option>
+                    <Option value="All Types">All Types</Option>
+                    <Option value="Permanent">Permanent</Option>
+                    <Option value="Contract">Contract</Option>
+                    <Option value="Part time">Part time</Option>
                 </Select>
+
             </Col>
             <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
                 <Button type="primary" loading={false} style={{ width: "100%" }} onClick={() => {
