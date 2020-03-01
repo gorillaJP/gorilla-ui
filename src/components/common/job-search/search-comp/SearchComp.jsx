@@ -4,11 +4,13 @@ import { searchJobs } from "../../../../actions/JobActions";
 import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
 
+
 import {
     cityAutoComplete,
     sectorAutoComplete
 } from "../../../../api/AutoCompleteApi";
 import styles from "./SearchComp.module.css";
+import { useEffect } from "react";
 
 const { Option } = Select;
 
@@ -24,16 +26,21 @@ const SearchComp = props => {
     /** enter button  triggers, search actions*/
     const onKeyPress = event => {
         if (event.key === 'Enter') {
-            searchJobs(search.jobTitle)
+            searchJobs(search)
         }
     }
 
     // State for the three fields
     const [search, setSearchValues] = useState({
-        jobTitle: "",
-        area: "",
+        q: "",
+        location: [],
         category: ""
     });
+
+    //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
+    useEffect(() => {
+        searchJobs(search)
+    }, [search.location])
 
     // Area suggestions contains the city, country etc
     const [areaSuggestion, setAreaSuggestions] = useState([]);
@@ -46,13 +53,16 @@ const SearchComp = props => {
         const nextState = { ...search, [field]: value };
         setSearchValues(nextState);
     };
+
+    const metaCityOptions = ['All Cities', ...props.metaCities].map(city => { return <Option key={city}>{city}</Option> })
+
     return (
         <Row className={styles.searchSection} gutter={20}>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
                 <AutoComplete
                     placeholder="Job Title, Keyword Or Company"
                     onSearch={value => {
-                        onChangeSearchField("jobTitle", value);
+                        onChangeSearchField("q", value);
 
                         const timer = setTimeout(() => {
                             sectorAutoComplete(value).then(res => {
@@ -82,17 +92,20 @@ const SearchComp = props => {
                 </AutoComplete>
             </Col>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
-                <AutoComplete
-                    placeholder="Area, City or Town"
-                    onSearch={value => {
-                        onChangeSearchField("area", value);
-                        cityAutoComplete(value).then(res => {
-                            setAreaSuggestions(res.data.payload);
-                        });
-                    }}
-                    style={searchBoxStyles}
-                    dataSource={areaSuggestion}
-                />
+
+                <Select
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    placeholder="Please select"
+                    defaultValue={[]}
+                    placeholder={'City'}
+                    allowClear={true}
+                    onChange={(val) => { onChangeSearchField('location', val) }}
+                >
+                    {[...metaCityOptions]}
+
+                </Select>
+
             </Col>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
                 <Select
@@ -112,7 +125,7 @@ const SearchComp = props => {
             </Col>
             <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
                 <Button type="primary" loading={false} style={{ width: "100%" }} onClick={() => {
-                    searchJobs(search.jobTitle)
+                    searchJobs(search)
                 }}>
                     Search
                 </Button>
@@ -131,7 +144,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        jobAdds: state.jobData.jobList
+        jobAdds: state.jobData.jobList,
+        metaCities: state.metaData.metaCities
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SearchComp)

@@ -7,8 +7,12 @@ import * as serviceWorker from "./serviceWorker";
 
 import { Provider } from "react-redux";
 import configureStore from "./store/ConfigureStore";
+import metaDataLoader from './util/MetaDataLoader'
 
 const store = configureStore();
+
+//Eager loading meta data
+metaDataLoader(store)
 
 ReactDOM.render(
     <Provider store={store}>
