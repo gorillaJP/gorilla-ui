@@ -60,7 +60,6 @@ const SearchComp = props => {
         <Row className={styles.searchSection} gutter={20}>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
                 <AutoComplete
-                    placeholder="Job Title, Keyword Or Company"
                     onSearch={value => {
                         onChangeSearchField("q", value);
 
@@ -86,8 +85,10 @@ const SearchComp = props => {
                     dropdownClassName="certain-category-search-dropdown"
                 >
                     <Input
-                        suffix={<Icon type="search" className="certainCategoryIcon" />}
+                        placeholder="Job Title, Keyword Or Company"
+                        prefix={<Icon type="search" className="certainCategoryIcon" />}
                         onKeyPress={onKeyPress}
+                        allowClear={true}
                     />
                 </AutoComplete>
             </Col>
