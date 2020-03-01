@@ -6,7 +6,7 @@ import metaDataResucer from "./MetaDataResucer";
 
 const rootReducer = combineReducers({
     jobData: jobDataReducer,
-    commonData: commonReducer
+    commonData: commonReducer,
     metaData: metaDataResucer
 });
 
