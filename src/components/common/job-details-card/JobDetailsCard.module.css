@@ -1,10 +1,13 @@
 .jobDetailsCardWrapper {
-    margin: 20px;
-    padding: 10px;
+    margin: 15px 30px;
+    display: block;
+}
+
+.meta {
+    margin: 15px auto;
 }
 
 .title {
-    display: block;
     font-size: 22px;
     font-weight: 600;
 }
@@ -12,23 +15,29 @@
 .company,
 .experiance,
 .location {
-    display: block;
     font-size: 16px;
     font-weight: 500;
 }
 
+.overview {
+    text-align: left;
+    margin: 15px auto;
+    font-size: 20px;
+}
+
 .description {
-    margin: 30px auto;
+    margin: 15px auto;
 }
 
 .skills {
+    display: inline;
     font-size: 16px;
     font-weight: 500;
 }
 
 .skill {
     color: #fff;
-    background-color: #4096EE;
+    background-color: #4096ee;
     border: 1px solid black;
     box-shadow: 2px 3px #8888884f;
     border-radius: 2px;
@@ -36,5 +45,17 @@
     display: inline-block;
     margin: auto 5px;
     padding: 5px 15px;
+}
 
+.otherDetails {
+    margin: 10px auto;
+}
+
+.buttonContainer {
+    text-align: center;
+}
+
+.actionButtons {
+    display: inline;
+    margin-right: 20px;
 }

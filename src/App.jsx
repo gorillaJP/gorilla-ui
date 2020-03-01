@@ -7,6 +7,7 @@ import LandingPage from "./components/pages/landing-page/LandingPage";
 import JobDetails from "./components/pages/job-details-page/JobDetails";
 import JobPost from "./components/pages/job-post-page/JobPost";
 import Footer from "./components/common/footer/Footer";
+import Loader from "./components/pages/loader/Loader";
 
 function App() {
     const [mobileMenuOpen, toggleMobileMenu] = useState(false);
@@ -47,6 +48,7 @@ function App() {
                     <Footer />
                 </div>
             </Router>
+            <Loader />
         </div>
     );
 }

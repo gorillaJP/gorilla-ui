@@ -45,3 +45,11 @@
     margin-bottom: 40px;
     padding: 20px;
 }
+
+.buttonContainer {
+    margin: 30px;
+}
+.actionButtons {
+    display: inline;
+    margin-right: 20px;
+}
