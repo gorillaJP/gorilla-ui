@@ -1,4 +1,4 @@
-FROM node:10 
+FROM node:latest
 
 #a wrapper to node http server, which aware create react app
 RUN npm install -g serve
