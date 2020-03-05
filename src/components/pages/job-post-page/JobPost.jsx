@@ -11,7 +11,7 @@ import Editor from "../../common/editor/Editor.jsx";
 import JobDetailsCard from "../../common/job-details-card/JobDetailsCard";
 import { saveJobInCache, getJobInCache, clearJobInCache } from "../../../actions/JobActions";
 import { loadingStarted, loadingFinished } from "../../../actions/CommonActions";
-import { cityAutoComplete } from "../../../api/AutoCompleteApi";
+import { metaAPI } from "../../../api/AutoCompleteApi";
 import { postJob } from "../../../api/JobApi";
 import { JOB_POST_IN_PROGRESS, JOB_POST_SUCCESS, JOB_POST_FAILED } from "../../../constants/AppConstants";
 import styles from "./JobPost.module.css";
@@ -283,7 +283,7 @@ class JobPost extends React.Component {
                                     value={this.state.location}
                                     onSearch={value => {
                                         this.setState({ location: value });
-                                        cityAutoComplete(value).then(res => {
+                                        metaAPI("allcities", value).then(res => {
                                             this.setState({ areaSuggestions: res.data.payload });
                                         });
                                     }}
@@ -353,7 +353,7 @@ class JobPost extends React.Component {
                                                 value={this.state.location}
                                                 onSearch={value => {
                                                     this.setState({ location: value });
-                                                    cityAutoComplete(value).then(res => {
+                                                    metaAPI("allcities", value).then(res => {
                                                         this.setState({ areaSuggestions: res.data.payload });
                                                     });
                                                 }}

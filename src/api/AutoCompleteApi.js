@@ -1,9 +1,10 @@
 import axios from 'axios';
+import config from '../util/config';
 
-export const cityAutoComplete = async value => {
-    return await axios.get('http://159.89.161.233:443/api/meta/allcities?q=' + value);
+export const metaAPI = async (type, value) => {
+    return await axios.get(config.remote + 'api/meta/' + type + '?q=' + value);
 };
 
 export const sectorAutoComplete = async value => {
-    return await axios.get('http://159.89.161.233:443/api/meta/allsectors?q=' + value);
+    return await axios.get(config.remote + 'api/meta/allsectors?q=' + value);
 };
