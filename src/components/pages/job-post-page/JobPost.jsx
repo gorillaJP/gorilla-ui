@@ -281,16 +281,13 @@ class JobPost extends React.Component {
                                     placeholder="Location"
                                     style={this.state.errors.location ? errorInput : inputStyle}
                                     value={this.state.location}
-                                    onSearch={value => {
-                                        this.setState({ location: value });
-                                        metaAPI("allcities", value).then(res => {
-                                            this.setState({ areaSuggestions: res.data.payload });
-                                        });
+                                    onChange={val => {
+                                        this.setState({ location: val });
                                     }}
                                     onSelect={value => {
                                         this.setState({ location: value });
                                     }}
-                                    dataSource={this.state.areaSuggestions}
+                                    dataSource={this.props.metaCities.filter(e => e && e.name).map(e => e.name)}
                                 />
                                 <Button size="large" style={buttonStyle} onClick={() => this.validateBasicDetails()}>
                                     Continue job post
@@ -748,6 +745,12 @@ class JobPost extends React.Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        metaCities: state.metaData.metaCities
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         actions: {
@@ -757,4 +760,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(undefined, mapDispatchToProps)(JobPost);
+export default connect(mapStateToProps, mapDispatchToProps)(JobPost);

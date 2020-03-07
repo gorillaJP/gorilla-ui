@@ -4,10 +4,7 @@ import { searchJobs } from "../../../../actions/JobActions";
 import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
 
-import {
-    cityAutoComplete,
-    sectorAutoComplete
-} from "../../../../api/AutoCompleteApi";
+import { sectorAutoComplete } from "../../../../api/AutoCompleteApi";
 import styles from "./SearchComp.module.css";
 import { useEffect } from "react";
 
@@ -19,15 +16,14 @@ const searchBoxStyles = {
 };
 
 const SearchComp = props => {
-
-    const searchJobs = props.actions.searchJobs
+    const searchJobs = props.actions.searchJobs;
 
     /** enter button  triggers, search actions*/
     const onKeyPress = event => {
-        if (event.key === 'Enter') {
-            searchJobs(search)
+        if (event.key === "Enter") {
+            searchJobs(search);
         }
-    }
+    };
 
     // State for the three fields
     const [search, setSearchValues] = useState({
@@ -39,11 +35,8 @@ const SearchComp = props => {
 
     //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
     useEffect(() => {
-        searchJobs(search)
-    }, [search.location, search.type])
-
-    // Area suggestions contains the city, country etc
-    const [areaSuggestion, setAreaSuggestions] = useState([]);
+        searchJobs(search);
+    }, [search.location, search.type]);
 
     // Category contains the job titles, engineer, technician etc
     const [categorySuggestion, setCategorySuggestion] = useState([]);
@@ -54,7 +47,11 @@ const SearchComp = props => {
         setSearchValues(nextState);
     };
 
-    const metaCityOptions = ['All Cities', ...props.metaCities].map(city => { return <Option key={city}>{city}</Option> })
+    const metaCityOptions = ["All Cities", ...props.metaCities]
+        .filter(e => e && e.name)
+        .map(city => {
+            return <Option key={city.name}>{city.name}</Option>;
+        });
 
     return (
         <Row className={styles.searchSection} gutter={20}>
@@ -77,7 +74,6 @@ const SearchComp = props => {
                     onBlur={() => {
                         props.setOpenedState && props.setOpenedState(false);
                     }}
-
                     defaultActiveFirstOption={false}
                     style={searchBoxStyles}
                     dataSource={categorySuggestion}
@@ -93,47 +89,51 @@ const SearchComp = props => {
                 </AutoComplete>
             </Col>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
-
                 <Select
                     mode="multiple"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     placeholder="Please select"
                     defaultValue={[]}
-                    placeholder={'City'}
+                    placeholder={"City"}
                     allowClear={true}
-                    onChange={(val) => { onChangeSearchField('location', val) }}
+                    onChange={val => {
+                        onChangeSearchField("location", val);
+                    }}
                 >
                     {[...metaCityOptions]}
-
                 </Select>
-
             </Col>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
-
                 <Select
                     mode="multiple"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     placeholder="Please select"
                     defaultValue={[]}
-                    placeholder={'Type'}
+                    placeholder={"Type"}
                     allowClear={true}
-                    onChange={(val) => { onChangeSearchField('type', val) }}
+                    onChange={val => {
+                        onChangeSearchField("type", val);
+                    }}
                 >
                     <Option value="All Types">All Types</Option>
                     <Option value="Permanent">Permanent</Option>
                     <Option value="Contract">Contract</Option>
                     <Option value="Part time">Part time</Option>
                 </Select>
-
             </Col>
             <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
-                <Button type="primary" loading={false} style={{ width: "100%" }} onClick={() => {
-                    searchJobs(search)
-                }}>
+                <Button
+                    type="primary"
+                    loading={false}
+                    style={{ width: "100%" }}
+                    onClick={() => {
+                        searchJobs(search);
+                    }}
+                >
                     Search
                 </Button>
-            </Col >
-        </Row >
+            </Col>
+        </Row>
     );
 };
 
@@ -142,13 +142,13 @@ const mapDispatchToProps = dispatch => {
         actions: {
             searchJobs: bindActionCreators(searchJobs, dispatch)
         }
-    }
-}
+    };
+};
 
 const mapStateToProps = state => {
     return {
         jobAdds: state.jobData.jobList,
         metaCities: state.metaData.metaCities
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(SearchComp)
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SearchComp);

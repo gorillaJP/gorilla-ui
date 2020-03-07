@@ -8,88 +8,25 @@ import { useMemo } from "react";
 
 const AdvanceSearch = props => {
     let experinaceOptions = useMemo(() => {
-        return (
-            <Menu>
-                {props.metaExperiances
-                    .sort((a, b) => {
-                        return a.order > b.order ? 1 : -1;
-                    })
-                    .map(entry => {
-                        return (
-                            <Menu.Item>
-                                <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-                                    {entry}
-                                </a>
-                            </Menu.Item>
-                        );
-                    })}
-            </Menu>
-        );
+        return <FilterOptions data={props.metaExperiances} />;
     }, [props.metaExperiances]);
 
     let salaryOptions = useMemo(() => {
-        return (
-            <Menu>
-                {props.metaSalaries.map(entry => {
-                    return (
-                        <Menu.Item>
-                            <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-                                {entry}
-                            </a>
-                        </Menu.Item>
-                    );
-                })}
-            </Menu>
-        );
+        return <FilterOptions data={props.metaSalaries} />;
     }, [props.metaSalaries]);
 
     let jobTypeOptions = useMemo(() => {
-        return (
-            <Menu>
-                {props.metaJobTypes.map(entry => {
-                    return (
-                        <Menu.Item>
-                            <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-                                {entry}
-                            </a>
-                        </Menu.Item>
-                    );
-                })}
-            </Menu>
-        );
+        return <FilterOptions data={props.metaJobTypes} />;
     }, [props.metaJobTypes]);
 
     let rolesOptions = useMemo(() => {
-        return (
-            <Menu>
-                {props.metaRoles.map(entry => {
-                    return (
-                        <Menu.Item>
-                            <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-                                {entry}
-                            </a>
-                        </Menu.Item>
-                    );
-                })}
-            </Menu>
-        );
+        return <FilterOptions data={props.metaRoles} />;
     }, [props.metaRoles]);
 
     let postedDatesOptions = useMemo(() => {
-        return (
-            <Menu>
-                {props.metaPostedDates.map(entry => {
-                    return (
-                        <Menu.Item>
-                            <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-                                {entry}
-                            </a>
-                        </Menu.Item>
-                    );
-                })}
-            </Menu>
-        );
+        return <FilterOptions data={props.metaPostedDates} />;
     }, [props.metaPostedDates]);
+
     return (
         <div>
             <div>
@@ -165,6 +102,30 @@ const AdvanceSearch = props => {
     );
 };
 
+//Popualtes dropdown options
+const FilterOptions = props => {
+    return (
+        <Menu>
+            {props.data
+                .sort((a, b) => {
+                    if (a.order && b.order) {
+                        return a.order > b.order ? 1 : -1;
+                    } else {
+                        return a.name > b.name ? 1 : -1;
+                    }
+                })
+                .map(entry => {
+                    return (
+                        <Menu.Item>
+                            <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+                                {entry.name}
+                            </a>
+                        </Menu.Item>
+                    );
+                })}
+        </Menu>
+    );
+};
 const mapStateToProps = state => {
     return {
         metaExperiances: state.metaData.metaExperiances,

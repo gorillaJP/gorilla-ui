@@ -9,7 +9,7 @@ let prodConfig = (config = {
 });
 
 //conf as per the env
-if (process.env.NODE_ENV === 'developmnet') {
+if (process.env.NODE_ENV === 'development') {
     config = devConfig;
 } else if (process.env.NODE_ENV === 'production') {
     config = prodConfig;
