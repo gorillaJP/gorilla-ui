@@ -9,6 +9,12 @@ export const jobSearchSuccess = jobList => {
     };
 };
 
+export const updateSearchParam = filterOptions => {
+    return dispatch => {
+        dispatch({ type: actions.SEARCH_PARAM_UPDATE, payload: filterOptions });
+    };
+};
+
 export const searchJobs = filterOptions => {
     return dispatch => {
         JobApi.searchJobs(filterOptions).then(data => {

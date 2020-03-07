@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { bindActionCreators } from "redux";
-import { searchJobs } from "../../../../actions/JobActions";
+import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
 
-import { sectorAutoComplete } from "../../../../api/AutoCompleteApi";
+import { metaAPI } from "../../../../api/AutoCompleteApi";
 import styles from "./SearchComp.module.css";
 import { useEffect } from "react";
 
@@ -18,36 +18,35 @@ const searchBoxStyles = {
 const SearchComp = props => {
     const searchJobs = props.actions.searchJobs;
 
-    /** enter button  triggers, search actions*/
+    /** enter button  triggers, search actions. This is for fuzzy search*/
     const onKeyPress = event => {
         if (event.key === "Enter") {
-            searchJobs(search);
+            searchJobs(props.searchParams);
         }
     };
 
-    // State for the three fields
-    const [search, setSearchValues] = useState({
-        q: "",
-        location: [],
-        category: "",
-        type: []
-    });
+    //read jobs when => the fuzzy search box goes to emtpy
+    useEffect(() => {
+        if (props.searchParams.q === "") {
+            searchJobs(props.searchParams);
+        }
+    }, [props.searchParams.q]);
 
     //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
     useEffect(() => {
-        searchJobs(search);
-    }, [search.location, search.type]);
+        searchJobs(props.searchParams);
+    }, [props.searchParams.location, props.searchParams.type]); //search query should not be triggered auto for fuzzy search changers
 
     // Category contains the job titles, engineer, technician etc
     const [categorySuggestion, setCategorySuggestion] = useState([]);
 
     // OnChange handler to update states of the fields
     const onChangeSearchField = (field, value) => {
-        const nextState = { ...search, [field]: value };
-        setSearchValues(nextState);
+        props.searchParams[field] = value;
+        props.actions.updateSearchParam(props.searchParams);
     };
 
-    const metaCityOptions = ["All Cities", ...props.metaCities]
+    const metaCityOptions = [{ name: "All Cities" }, ...props.metaCities]
         .filter(e => e && e.name)
         .map(city => {
             return <Option key={city.name}>{city.name}</Option>;
@@ -60,13 +59,9 @@ const SearchComp = props => {
                     onSearch={value => {
                         onChangeSearchField("q", value);
 
-                        const timer = setTimeout(() => {
-                            sectorAutoComplete(value).then(res => {
-                                setCategorySuggestion(res.data.payload);
-                            });
-                        }, 1000);
-
-                        return () => clearTimeout(timer);
+                        metaAPI("metasectors", value).then(res => {
+                            setCategorySuggestion(res.data.payload);
+                        });
                     }}
                     onFocus={() => {
                         props.setOpenedState && props.setOpenedState(true);
@@ -76,13 +71,13 @@ const SearchComp = props => {
                     }}
                     defaultActiveFirstOption={false}
                     style={searchBoxStyles}
-                    dataSource={categorySuggestion}
+                    dataSource={categorySuggestion.map(e => e.name)}
                     className="certain-category-search"
                     dropdownClassName="certain-category-search-dropdown"
                 >
                     <Input
                         placeholder="Job Title, Keyword Or Company"
-                        prefix={<Icon type="search" className="certainCategoryIcon" />}
+                        prefix={<Icon type="search" className="certainCateOgoryIcon" />}
                         onKeyPress={onKeyPress}
                         allowClear={true}
                     />
@@ -92,7 +87,6 @@ const SearchComp = props => {
                 <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    placeholder="Please select"
                     defaultValue={[]}
                     placeholder={"City"}
                     allowClear={true}
@@ -107,7 +101,6 @@ const SearchComp = props => {
                 <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    placeholder="Please select"
                     defaultValue={[]}
                     placeholder={"Type"}
                     allowClear={true}
@@ -127,7 +120,7 @@ const SearchComp = props => {
                     loading={false}
                     style={{ width: "100%" }}
                     onClick={() => {
-                        searchJobs(search);
+                        searchJobs(props.searchParams);
                     }}
                 >
                     Search
@@ -140,7 +133,8 @@ const SearchComp = props => {
 const mapDispatchToProps = dispatch => {
     return {
         actions: {
-            searchJobs: bindActionCreators(searchJobs, dispatch)
+            searchJobs: bindActionCreators(searchJobs, dispatch),
+            updateSearchParam: bindActionCreators(updateSearchParam, dispatch)
         }
     };
 };
@@ -148,7 +142,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         jobAdds: state.jobData.jobList,
-        metaCities: state.metaData.metaCities
+        metaCities: state.metaData.metaCities,
+        jobData: state.jobData,
+        searchParams: state.searchParamData
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchComp);

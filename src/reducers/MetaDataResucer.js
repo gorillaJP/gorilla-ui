@@ -1,15 +1,7 @@
 import * as actions from '../actions/ActionTypes';
+import initialState from './InitialState';
 
-const initMetaState = {
-    metaCities: [],
-    metaExperiances: [],
-    metaSalaries: [],
-    metaJobTypes: [],
-    metaRoles: [],
-    metaPostedDates: []
-};
-
-export default function jobDataReducer(state = initMetaState, action) {
+export default function jobDataReducer(state = initialState.metaState, action) {
     switch (action.type) {
         case actions.META_CITIES:
             return { ...state, ...{ metaCities: action.payload } };

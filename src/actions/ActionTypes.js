@@ -13,3 +13,6 @@ export const META_ROLES = 'META_GET_ROLES';
 export const META_JOBTYPES = 'META_GET_JOBTYPES';
 export const META_EXPERIANCE = 'META_GET_EXPERIANCE';
 export const META_POSTEDDATES = 'META_GET_POSTEDDATES';
+
+//loading meta data - happens at the applicaiton startup
+export const SEARCH_PARAM_UPDATE = 'SEARCH_PARAM_UPDATE';

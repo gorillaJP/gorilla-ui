@@ -12,8 +12,7 @@ const SimpleJobSearch = props => {
             <Row>
                 <div className={styles.qouteSection}>
                     <span className={styles.qoute}>
-            "Opportunities don't often come along, So when they do, you have to
-            grab them."
+                        "Opportunities don't often come along, So when they do, you have to grab them."
                     </span>
                     <span className={styles.qouteBy}>-Audery Hepburn</span>
                 </div>
@@ -32,13 +31,7 @@ const SimpleJobSearch = props => {
                 </div>
             </Row>
             <Row className={styles.addSection}>
-                <Col
-                    xs={24}
-                    sm={24}
-                    md={12}
-                    lg={12}
-                    style={{ textAlign: "right", height: "100%" }}
-                >
+                <Col xs={24} sm={24} md={12} lg={12} style={{ textAlign: "right", height: "100%" }}>
                     <AddPromoCard
                         linkPath="/resume"
                         linkText="Upload/Build Resume"
@@ -47,13 +40,7 @@ const SimpleJobSearch = props => {
                         messageTwo="Don't have a resume? Build one in 3 steps"
                     />
                 </Col>
-                <Col
-                    xs={24}
-                    sm={24}
-                    md={12}
-                    lg={12}
-                    style={{ textAlign: "left", height: "100%" }}
-                >
+                <Col xs={24} sm={24} md={12} lg={12} style={{ textAlign: "left", height: "100%" }}>
                     <AddPromoCard
                         linkText="Create Job Alert"
                         linkPath="/job-alert"
