@@ -1,4 +1,6 @@
 import React from "react";
+import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Row } from "antd";
 import SearchComp from "../search-comp/SearchComp";
@@ -6,26 +8,68 @@ import { Menu, Dropdown, Checkbox, Radio } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const AdvanceSearch = props => {
+    // OnChange handler to update states of the fields
+    const onChangeSearchField = (field, value) => {
+        props.searchParams[field] = value;
+        props.actions.updateSearchParam(props.searchParams);
+    };
+
     let experinaceOptions = useMemo(() => {
-        return <ButtonGroup data={props.metaExperiances} />;
+        return (
+            <ButtonGroup
+                data={props.metaExperiances}
+                onChange={val => {
+                    onChangeSearchField("experience", val);
+                }}
+            />
+        );
     }, [props.metaExperiances]);
 
     let salaryOptions = useMemo(() => {
-        return <ButtonGroup data={props.metaSalaries} />;
+        return (
+            <ButtonGroup
+                data={props.metaSalaries}
+                onChange={val => {
+                    onChangeSearchField("salary", val);
+                }}
+            />
+        );
     }, [props.metaSalaries]);
 
     let jobTypeOptions = useMemo(() => {
-        return <CheckBoxGroup data={props.metaJobTypes} />;
+        return (
+            <CheckBoxGroup
+                data={props.metaJobTypes}
+                onChange={val => {
+                    onChangeSearchField("jobType", val);
+                }}
+            />
+        );
     }, [props.metaJobTypes]);
 
     let rolesOptions = useMemo(() => {
-        return <CheckBoxGroup data={props.metaRoles} />;
+        return (
+            <CheckBoxGroup
+                data={props.metaRoles}
+                onChange={val => {
+                    onChangeSearchField("roles", val);
+                }}
+            />
+        );
     }, [props.metaRoles]);
 
     let postedDatesOptions = useMemo(() => {
-        return <ButtonGroup data={props.metaPostedDates} />;
+        return (
+            <ButtonGroup
+                data={props.metaPostedDates}
+                onChange={val => {
+                    onChangeSearchField("postedDate", val);
+                }}
+            />
+        );
     }, [props.metaPostedDates]);
 
     return (
@@ -35,65 +79,35 @@ const AdvanceSearch = props => {
                     <div style={{ background: "#2c5486", paddingTop: "20px", paddingBottom: "10px" }}>
                         <SearchComp />
                         <div style={{ display: "flex", justifyContent: "space-around" }}>
-                            <Dropdown overlay={salaryOptions}>
-                                <a
-                                    href={"http://google.com"}
-                                    style={{ color: "white", fontSize: "20px" }}
-                                    onClick={e => e.preventDefault()}
-                                >
+                            <Dropdown overlay={experinaceOptions}>
+                                <div style={{ color: "white", fontSize: "20px" }}>
+                                    Experiance <DownOutlined />
+                                </div>
+                            </Dropdown>
+                            <Dropdown onChange={e => {}} overlay={salaryOptions}>
+                                <div style={{ color: "white", fontSize: "20px" }}>
                                     Salary
                                     <DownOutlined />
-                                </a>
+                                </div>
                             </Dropdown>
                             <Dropdown overlay={rolesOptions}>
-                                <a
-                                    href={"http://google.com"}
-                                    style={{ color: "white", fontSize: "20px" }}
-                                    onClick={e => e.preventDefault()}
-                                >
+                                <div style={{ color: "white", fontSize: "20px" }}>
                                     Role
                                     <DownOutlined />
-                                </a>
+                                </div>
                             </Dropdown>
 
-                            <Dropdown overlay={experinaceOptions}>
-                                <a
-                                    href={"http://google.com"}
-                                    style={{ color: "white", fontSize: "20px" }}
-                                    onClick={e => e.preventDefault()}
-                                >
-                                    Experiance <DownOutlined />
-                                </a>
-                            </Dropdown>
-                            <Dropdown overlay={jobTypeOptions}>
-                                <a
-                                    href={"http://google.com"}
-                                    style={{ color: "white", fontSize: "20px" }}
-                                    onClick={e => e.preventDefault()}
-                                >
-                                    Job Type
-                                    <DownOutlined />
-                                </a>
-                            </Dropdown>
-                            <Dropdown overlay={jobTypeOptions}>
-                                <a
-                                    href={"http://google.com"}
-                                    style={{ color: "white", fontSize: "20px" }}
-                                    onClick={e => e.preventDefault()}
-                                >
-                                    Company
-                                    <DownOutlined />
-                                </a>
-                            </Dropdown>
                             <Dropdown overlay={postedDatesOptions}>
-                                <a
-                                    href={"http://google.com"}
-                                    style={{ color: "white", fontSize: "20px" }}
-                                    onClick={e => e.preventDefault()}
-                                >
+                                <div style={{ color: "white", fontSize: "20px" }}>
                                     Date Posted
                                     <DownOutlined />
-                                </a>
+                                </div>
+                            </Dropdown>
+                            <Dropdown overlay={jobTypeOptions}>
+                                <div style={{ color: "white", fontSize: "20px" }}>
+                                    Company
+                                    <DownOutlined />
+                                </div>
                             </Dropdown>
                         </div>
                     </div>
@@ -106,6 +120,12 @@ const AdvanceSearch = props => {
 //Popualtes dropdown options
 const CheckBoxGroup = props => {
     const [selectedList, setSelected] = useState([]);
+
+    useEffect(() => {
+        if (props.onChange) {
+            props.onChange(selectedList);
+        }
+    }, [selectedList]);
 
     return (
         <Menu>
@@ -152,12 +172,18 @@ const ButtonGroup = props => {
 
     const [selected, setSelected] = useState();
 
+    useEffect(() => {
+        if (props.onChange) {
+            props.onChange(selected);
+        }
+    }, [selected]);
+
     return (
         <Menu>
             {props.data
                 .sort((a, b) => {
                     if (a.order && b.order) {
-                        return a.order > b.order ? 1 : -1;
+                        return parseInt(a.order) > parseInt(b.order) ? 1 : -1;
                     } else {
                         return a.name > b.name ? 1 : -1;
                     }
@@ -171,7 +197,7 @@ const ButtonGroup = props => {
                                     setSelected(e.target.value);
                                 }}
                             >
-                                <Radio style={radioStyle} value={entry.name}>
+                                <Radio style={radioStyle} value={entry.value ? entry.value : entry.name}>
                                     {entry.name}
                                 </Radio>
                             </Radio.Group>
@@ -188,8 +214,18 @@ const mapStateToProps = state => {
         metaSalaries: state.metaData.metaSalaries,
         metaJobTypes: state.metaData.metaJobTypes,
         metaRoles: state.metaData.metaRoles,
-        metaPostedDates: state.metaData.metaPostedDates
+        metaPostedDates: state.metaData.metaPostedDates,
+        searchParams: state.searchParamData
     };
 };
 
-export default connect(mapStateToProps, undefined)(AdvanceSearch);
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: {
+            searchJobs: bindActionCreators(searchJobs, dispatch),
+            updateSearchParam: bindActionCreators(updateSearchParam, dispatch)
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdvanceSearch);
