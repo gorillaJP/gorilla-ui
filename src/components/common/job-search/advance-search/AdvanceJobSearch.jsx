@@ -2,36 +2,37 @@ import React from "react";
 import { connect } from "react-redux";
 import { Row } from "antd";
 import SearchComp from "../search-comp/SearchComp";
-import { Menu, Dropdown } from "antd";
+import { Menu, Dropdown, Checkbox, Radio } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
+import { useState } from "react";
 
 const AdvanceSearch = props => {
     let experinaceOptions = useMemo(() => {
-        return <FilterOptions data={props.metaExperiances} />;
+        return <ButtonGroup data={props.metaExperiances} />;
     }, [props.metaExperiances]);
 
     let salaryOptions = useMemo(() => {
-        return <FilterOptions data={props.metaSalaries} />;
+        return <ButtonGroup data={props.metaSalaries} />;
     }, [props.metaSalaries]);
 
     let jobTypeOptions = useMemo(() => {
-        return <FilterOptions data={props.metaJobTypes} />;
+        return <CheckBoxGroup data={props.metaJobTypes} />;
     }, [props.metaJobTypes]);
 
     let rolesOptions = useMemo(() => {
-        return <FilterOptions data={props.metaRoles} />;
+        return <CheckBoxGroup data={props.metaRoles} />;
     }, [props.metaRoles]);
 
     let postedDatesOptions = useMemo(() => {
-        return <FilterOptions data={props.metaPostedDates} />;
+        return <ButtonGroup data={props.metaPostedDates} />;
     }, [props.metaPostedDates]);
 
     return (
         <div>
             <div>
                 <Row>
-                    <div style={{ background: "#3280b3", paddingTop: "20px", paddingBottom: "10px" }}>
+                    <div style={{ background: "#2c5486", paddingTop: "20px", paddingBottom: "10px" }}>
                         <SearchComp />
                         <div style={{ display: "flex", justifyContent: "space-around" }}>
                             <Dropdown overlay={salaryOptions}>
@@ -103,7 +104,9 @@ const AdvanceSearch = props => {
 };
 
 //Popualtes dropdown options
-const FilterOptions = props => {
+const CheckBoxGroup = props => {
+    const [selectedList, setSelected] = useState([]);
+
     return (
         <Menu>
             {props.data
@@ -117,15 +120,68 @@ const FilterOptions = props => {
                 .map(entry => {
                     return (
                         <Menu.Item>
-                            <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-                                {entry.name}
-                            </a>
+                            <Checkbox.Group value={selectedList}>
+                                <Checkbox
+                                    onChange={e => {
+                                        if (e.target.checked) {
+                                            let newArr = [...selectedList, e.target.value];
+                                            setSelected(newArr);
+                                        } else {
+                                            let newArr = selectedList.filter(en => en && en !== e.target.value);
+                                            setSelected(newArr);
+                                        }
+                                    }}
+                                    value={entry.name}
+                                >
+                                    {entry.name}
+                                </Checkbox>
+                            </Checkbox.Group>
                         </Menu.Item>
                     );
                 })}
         </Menu>
     );
 };
+//Popualtes dropdown options
+const ButtonGroup = props => {
+    const radioStyle = {
+        display: "block",
+        height: "40px",
+        lineHeight: "40px"
+    };
+
+    const [selected, setSelected] = useState();
+
+    return (
+        <Menu>
+            {props.data
+                .sort((a, b) => {
+                    if (a.order && b.order) {
+                        return a.order > b.order ? 1 : -1;
+                    } else {
+                        return a.name > b.name ? 1 : -1;
+                    }
+                })
+                .map(entry => {
+                    return (
+                        <Menu.Item>
+                            <Radio.Group
+                                value={selected}
+                                onChange={e => {
+                                    setSelected(e.target.value);
+                                }}
+                            >
+                                <Radio style={radioStyle} value={entry.name}>
+                                    {entry.name}
+                                </Radio>
+                            </Radio.Group>
+                        </Menu.Item>
+                    );
+                })}
+        </Menu>
+    );
+};
+
 const mapStateToProps = state => {
     return {
         metaExperiances: state.metaData.metaExperiances,
