@@ -30,12 +30,12 @@ const SearchComp = props => {
         if (props.searchParams.q === "") {
             searchJobs(props.searchParams);
         }
-    }, [props.searchParams.q]);
+    }, [props.searchParams, props.searchParams.q, searchJobs]);
 
     //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
     useEffect(() => {
         searchJobs(props.searchParams);
-    }, [props.searchParams.location, props.searchParams.type]); //search query should not be triggered auto for fuzzy search changers
+    }, [props.searchParams, props.searchParams.location, props.searchParams.type, searchJobs]); //search query should not be triggered auto for fuzzy search changers
 
     // Category contains the job titles, engineer, technician etc
     const [categorySuggestion, setCategorySuggestion] = useState([]);
@@ -74,12 +74,14 @@ const SearchComp = props => {
                     dataSource={categorySuggestion.map(e => e.name)}
                     className="certain-category-search"
                     dropdownClassName="certain-category-search-dropdown"
+                    size="large"
                 >
                     <Input
                         placeholder="Job Title, Keyword Or Company"
                         prefix={<Icon type="search" className="certainCateOgoryIcon" />}
                         onKeyPress={onKeyPress}
                         allowClear={true}
+                        size="large"
                     />
                 </AutoComplete>
             </Col>
@@ -93,6 +95,7 @@ const SearchComp = props => {
                     onChange={val => {
                         onChangeSearchField("location", val);
                     }}
+                    size="large"
                 >
                     {[...metaCityOptions]}
                 </Select>
@@ -107,6 +110,7 @@ const SearchComp = props => {
                     onChange={val => {
                         onChangeSearchField("type", val);
                     }}
+                    size="large"
                 >
                     <Option value="All Types">All Types</Option>
                     <Option value="Permanent">Permanent</Option>
@@ -122,6 +126,7 @@ const SearchComp = props => {
                     onClick={() => {
                         searchJobs(props.searchParams);
                     }}
+                    size="large"
                 >
                     Search
                 </Button>
