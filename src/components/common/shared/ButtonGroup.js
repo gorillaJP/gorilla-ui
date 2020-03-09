@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Radio } from 'antd';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import shortId from 'shortid';
 
 export default props => {
     const radioStyle = {
@@ -30,7 +31,7 @@ export default props => {
                 })
                 .map(entry => {
                     return (
-                        <Menu.Item>
+                        <Menu.Item key={shortId.generate()}>
                             <Radio.Group
                                 value={selected}
                                 onChange={e => {

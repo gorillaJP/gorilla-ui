@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Checkbox } from 'antd';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import shortId from 'shortid';
 //Popualtes dropdown options
 export default props => {
     const [selectedList, setSelected] = useState([]);
@@ -24,7 +25,7 @@ export default props => {
                 })
                 .map(entry => {
                     return (
-                        <Menu.Item>
+                        <Menu.Item key={shortId.generate()}>
                             <Checkbox.Group value={selectedList}>
                                 <Checkbox
                                     onChange={e => {
