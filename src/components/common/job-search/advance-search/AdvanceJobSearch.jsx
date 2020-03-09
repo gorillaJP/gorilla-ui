@@ -4,21 +4,22 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Row } from "antd";
 import SearchComp from "../search-comp/SearchComp";
-import { Menu, Dropdown, Checkbox, Radio } from "antd";
+import { Dropdown } from "antd";
 import { DownOutlined, FilterOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
-import { useState } from "react";
 import { useEffect } from "react";
+import ButtonGroup from "../../shared/ButtonGroup";
+import CheckBoxGroup from "../../shared/CheckBoxGroup";
 
 const subFilterStyle = { fontWeight: "bold", color: "white", fontSize: "15px" };
 
 const AdvanceSearch = props => {
     // OnChange handler to update states of the fields
 
-    function onChangeSearchField(field, value) {
+    const onChangeSearchField = (field, value) => {
         const newSearchParam = { [field]: value };
         props.actions.updateSearchParam(newSearchParam);
-    }
+    };
 
     let experinaceOptions = useMemo(() => {
         return (
@@ -102,13 +103,17 @@ const AdvanceSearch = props => {
             : "Experience";
 
     const salaryLable =
-        props.searchParams.salary && props.searchParams.salary !== "" && props.searchParams.salary !== "any"
+        props.searchParams.salary !== undefined &&
+        props.searchParams.salary !== "" &&
+        props.searchParams.salary !== "any"
             ? props.metaSalaries.filter(e => e.value === props.searchParams.salary)[0].name
             : "Salary";
 
     const datePostedLable =
-        props.searchParams.postedDate && props.searchParams.postedDate !== "" && props.searchParams.postedDate !== "any"
-            ? props.metaPostedDates.filter(e => e.value === props.j.postedDate)[0].name
+        props.searchParams.postedDate !== undefined &&
+        props.searchParams.postedDate !== "" &&
+        props.searchParams.postedDate !== "any"
+            ? props.metaPostedDates.filter(e => e.value === props.searchParams.postedDate)[0].name
             : "Date Posted";
 
     return (
@@ -169,97 +174,6 @@ const AdvanceSearch = props => {
                 </Row>
             </div>
         </div>
-    );
-};
-
-//Popualtes dropdown options
-const CheckBoxGroup = props => {
-    const [selectedList, setSelected] = useState([]);
-
-    useEffect(() => {
-        if (props.onChange) {
-            props.onChange(selectedList);
-        }
-    }, [selectedList]);
-
-    return (
-        <Menu>
-            {props.data
-                .sort((a, b) => {
-                    if (a.order && b.order) {
-                        return a.order > b.order ? 1 : -1;
-                    } else {
-                        return a.name > b.name ? 1 : -1;
-                    }
-                })
-                .map(entry => {
-                    return (
-                        <Menu.Item>
-                            <Checkbox.Group value={selectedList}>
-                                <Checkbox
-                                    onChange={e => {
-                                        if (e.target.checked) {
-                                            let newArr = [...selectedList, e.target.value];
-                                            setSelected(newArr);
-                                        } else {
-                                            let newArr = selectedList.filter(en => en && en !== e.target.value);
-                                            setSelected(newArr);
-                                        }
-                                    }}
-                                    value={entry.name}
-                                >
-                                    {entry.name}
-                                </Checkbox>
-                            </Checkbox.Group>
-                        </Menu.Item>
-                    );
-                })}
-        </Menu>
-    );
-};
-//Popualtes dropdown options
-const ButtonGroup = props => {
-    const radioStyle = {
-        display: "block",
-        height: "20px",
-        lineHeight: "20px"
-    };
-
-    const [selected, setSelected] = useState();
-
-    useEffect(() => {
-        if (props.onChange) {
-            props.onChange(selected);
-        }
-    }, [selected]);
-
-    return (
-        <Menu>
-            {props.data
-                .sort((a, b) => {
-                    if (a.order && b.order) {
-                        return parseInt(a.order) > parseInt(b.order) ? 1 : -1;
-                    } else {
-                        return a.name > b.name ? 1 : -1;
-                    }
-                })
-                .map(entry => {
-                    return (
-                        <Menu.Item>
-                            <Radio.Group
-                                value={selected}
-                                onChange={e => {
-                                    setSelected(e.target.value);
-                                }}
-                            >
-                                <Radio style={radioStyle} value={entry.value !== undefined ? entry.value : entry.name}>
-                                    {entry.name}
-                                </Radio>
-                            </Radio.Group>
-                        </Menu.Item>
-                    );
-                })}
-        </Menu>
     );
 };
 

@@ -7,7 +7,8 @@ export default {
         location: [],
         type: '',
         salary: '',
-        experience: ''
+        experience: '',
+        postedDate: ''
     },
     metaState: {
         metaCities: [],
