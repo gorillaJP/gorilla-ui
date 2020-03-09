@@ -5,7 +5,9 @@ export default {
     searchParams: {
         q: '',
         location: [],
-        type: ''
+        type: '',
+        salary: '',
+        experience: ''
     },
     metaState: {
         metaCities: [],

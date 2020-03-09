@@ -10,11 +10,23 @@ export const searchJobs = async filter => {
 
     //location => If 'If All Cities' are selected => Then do not include city in query
     filter.location =
-        filter.location && Array.isArray(filter.location) && filter.location.includes('All Cities')
+        filter.location &&
+        Array.isArray(filter.location) &&
+        (filter.location.includes('All Cities') || filter.location.includes('any'))
             ? []
             : filter.location;
 
-    filter.type = filter.type && Array.isArray(filter.type) && filter.type.includes('All Types') ? [] : filter.type;
+    filter.type =
+        filter.type && Array.isArray(filter.type) && (filter.type.includes('All Types') || filter.type.includes('any'))
+            ? []
+            : filter.type;
+
+    filter.experience =
+        filter.type &&
+        Array.isArray(filter.experience) &&
+        (filter.experience.includes('All Types') || filter.experience.includes('any'))
+            ? []
+            : filter.experience;
 
     let queryText = queryString.stringify(filter);
 

@@ -5,24 +5,31 @@ import { connect } from "react-redux";
 import { Row } from "antd";
 import SearchComp from "../search-comp/SearchComp";
 import { Menu, Dropdown, Checkbox, Radio } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, FilterOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
+const subFilterStyle = { fontWeight: "bold", color: "white", fontSize: "15px" };
+
 const AdvanceSearch = props => {
     // OnChange handler to update states of the fields
-    const onChangeSearchField = (field, value) => {
-        props.searchParams[field] = value;
-        props.actions.updateSearchParam(props.searchParams);
-    };
+
+    function onChangeSearchField(field, value) {
+        const newSearchParam = { [field]: value };
+        props.actions.updateSearchParam(newSearchParam);
+    }
 
     let experinaceOptions = useMemo(() => {
         return (
             <ButtonGroup
-                data={props.metaExperiances}
+                data={(() => {
+                    return [...props.metaExperiances, { name: "Any", value: "any", order: -1 }];
+                })()}
                 onChange={val => {
-                    onChangeSearchField("experience", val);
+                    if (val !== undefined) {
+                        onChangeSearchField("experience", val);
+                    }
                 }}
             />
         );
@@ -31,9 +38,13 @@ const AdvanceSearch = props => {
     let salaryOptions = useMemo(() => {
         return (
             <ButtonGroup
-                data={props.metaSalaries}
+                data={(() => {
+                    return [...props.metaSalaries, { name: "Any", value: "any", order: -1 }];
+                })()}
                 onChange={val => {
-                    onChangeSearchField("salary", val);
+                    if (val !== undefined) {
+                        onChangeSearchField("salary", val);
+                    }
                 }}
             />
         );
@@ -44,7 +55,9 @@ const AdvanceSearch = props => {
             <CheckBoxGroup
                 data={props.metaJobTypes}
                 onChange={val => {
-                    onChangeSearchField("jobType", val);
+                    if (val !== undefined) {
+                        onChangeSearchField("jobType", val);
+                    }
                 }}
             />
         );
@@ -55,7 +68,9 @@ const AdvanceSearch = props => {
             <CheckBoxGroup
                 data={props.metaRoles}
                 onChange={val => {
-                    onChangeSearchField("roles", val);
+                    if (val !== undefined) {
+                        onChangeSearchField("roles", val);
+                    }
                 }}
             />
         );
@@ -64,13 +79,37 @@ const AdvanceSearch = props => {
     let postedDatesOptions = useMemo(() => {
         return (
             <ButtonGroup
-                data={props.metaPostedDates}
+                data={(() => {
+                    return [...props.metaPostedDates, { name: "Any", value: "any", order: -1 }];
+                })()}
                 onChange={val => {
                     onChangeSearchField("postedDate", val);
                 }}
             />
         );
     }, [props.metaPostedDates]);
+
+    useEffect(() => {
+        props.actions.searchJobs(props.searchParams);
+    }, [props.searchParams.experience, props.searchParams.salary]);
+
+    /** for below filters => if any value is selected => that should be the label */
+    const expericeLable =
+        props.searchParams.experience !== undefined && //explicit check with undefined => since when .experince is zero => return false
+        props.searchParams.experience !== "" &&
+        props.searchParams.experience !== "any"
+            ? props.metaExperiances.filter(e => e.value === props.searchParams.experience)[0].name
+            : "Experience";
+
+    const salaryLable =
+        props.searchParams.salary && props.searchParams.salary !== "" && props.searchParams.salary !== "any"
+            ? props.metaSalaries.filter(e => e.value === props.searchParams.salary)[0].name
+            : "Salary";
+
+    const datePostedLable =
+        props.searchParams.postedDate && props.searchParams.postedDate !== "" && props.searchParams.postedDate !== "any"
+            ? props.metaPostedDates.filter(e => e.value === props.j.postedDate)[0].name
+            : "Date Posted";
 
     return (
         <div>
@@ -79,36 +118,52 @@ const AdvanceSearch = props => {
                     <div style={{ background: "#2c5486", paddingTop: "20px", paddingBottom: "10px" }}>
                         <SearchComp />
                         <div style={{ display: "flex", justifyContent: "space-around" }}>
-                            <Dropdown overlay={experinaceOptions}>
-                                <div style={{ color: "white", fontSize: "20px" }}>
-                                    Experiance <DownOutlined />
-                                </div>
-                            </Dropdown>
-                            <Dropdown onChange={e => {}} overlay={salaryOptions}>
-                                <div style={{ color: "white", fontSize: "20px" }}>
-                                    Salary
-                                    <DownOutlined />
-                                </div>
-                            </Dropdown>
-                            <Dropdown overlay={rolesOptions}>
-                                <div style={{ color: "white", fontSize: "20px" }}>
-                                    Role
-                                    <DownOutlined />
-                                </div>
-                            </Dropdown>
+                            <div style={{ display: "flex", flexBasis: "50%", justifyContent: "space-around" }}>
+                                <Dropdown overlay={experinaceOptions}>
+                                    <div style={subFilterStyle}>
+                                        {expericeLable + "  "}
+                                        <sub>
+                                            {expericeLable === "Experience" ? (
+                                                <DownOutlined />
+                                            ) : (
+                                                <FilterOutlined style={{ fontSize: "12px" }} />
+                                            )}
+                                        </sub>
+                                    </div>
+                                </Dropdown>
+                                <Dropdown onChange={e => {}} overlay={salaryOptions}>
+                                    <div style={subFilterStyle}>
+                                        {salaryLable + " "}
+                                        <sub>{salaryLable === "Salary" ? <DownOutlined /> : <FilterOutlined />}</sub>
+                                    </div>
+                                </Dropdown>
+                                <Dropdown overlay={rolesOptions}>
+                                    <div style={subFilterStyle}>
+                                        {"Role "}
+                                        <sub>
+                                            <DownOutlined />
+                                        </sub>
+                                    </div>
+                                </Dropdown>
 
-                            <Dropdown overlay={postedDatesOptions}>
-                                <div style={{ color: "white", fontSize: "20px" }}>
-                                    Date Posted
-                                    <DownOutlined />
-                                </div>
-                            </Dropdown>
-                            <Dropdown overlay={jobTypeOptions}>
-                                <div style={{ color: "white", fontSize: "20px" }}>
-                                    Company
-                                    <DownOutlined />
-                                </div>
-                            </Dropdown>
+                                <Dropdown overlay={postedDatesOptions}>
+                                    <div style={subFilterStyle}>
+                                        {datePostedLable + " "}
+                                        <sub>
+                                            {datePostedLable === "Date Posted" ? <DownOutlined /> : <FilterOutlined />}
+                                        </sub>
+                                    </div>
+                                </Dropdown>
+                                <Dropdown overlay={jobTypeOptions}>
+                                    <div style={subFilterStyle}>
+                                        {"Company "}
+                                        <sub>
+                                            <DownOutlined />
+                                        </sub>
+                                    </div>
+                                </Dropdown>
+                            </div>
+                            <div style={{ flexBasis: "100%" }} />
                         </div>
                     </div>
                 </Row>
@@ -166,8 +221,8 @@ const CheckBoxGroup = props => {
 const ButtonGroup = props => {
     const radioStyle = {
         display: "block",
-        height: "40px",
-        lineHeight: "40px"
+        height: "20px",
+        lineHeight: "20px"
     };
 
     const [selected, setSelected] = useState();
@@ -197,7 +252,7 @@ const ButtonGroup = props => {
                                     setSelected(e.target.value);
                                 }}
                             >
-                                <Radio style={radioStyle} value={entry.value ? entry.value : entry.name}>
+                                <Radio style={radioStyle} value={entry.value !== undefined ? entry.value : entry.name}>
                                     {entry.name}
                                 </Radio>
                             </Radio.Group>

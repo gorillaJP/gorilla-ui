@@ -33,6 +33,7 @@ const SearchComp = props => {
     }, [props.searchParams.q]);
 
     //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
+
     useEffect(() => {
         searchJobs(props.searchParams);
     }, [props.searchParams.location, props.searchParams.type]); //search query should not be triggered auto for fuzzy search changers
@@ -42,8 +43,8 @@ const SearchComp = props => {
 
     // OnChange handler to update states of the fields
     const onChangeSearchField = (field, value) => {
-        props.searchParams[field] = value;
-        props.actions.updateSearchParam(props.searchParams);
+        const newSearchParam = { [field]: value };
+        props.actions.updateSearchParam(newSearchParam);
     };
 
     const metaCityOptions = [{ name: "All Cities" }, ...props.metaCities]
