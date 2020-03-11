@@ -4,11 +4,13 @@ import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
 
+import HighLightedText from "../../highlighted-text/HighLightedText";
 import { metaAPI } from "../../../../api/AutoCompleteApi";
 import styles from "./SearchComp.module.css";
 import { useEffect } from "react";
 
 const { Option } = Select;
+const AutoCompleteOption = AutoComplete.Option;
 
 const searchBoxStyles = {
     width: "100%",
@@ -17,6 +19,13 @@ const searchBoxStyles = {
 
 const SearchComp = props => {
     const searchJobs = props.actions.searchJobs;
+
+    /** Keep temp typed values */
+    const [tempData, setTempData] = useState({
+        location: "",
+        category: "",
+        type: ""
+    });
 
     /** enter button  triggers, search actions. This is for fuzzy search*/
     const onKeyPress = event => {
@@ -50,7 +59,11 @@ const SearchComp = props => {
     const metaCityOptions = [{ name: "All Cities" }, ...props.metaCities]
         .filter(e => e && e.name)
         .map(city => {
-            return <Option key={city.name}>{city.name}</Option>;
+            return (
+                <Option key={city.name}>
+                    <HighLightedText text={city.name} highlightText={tempData.locaction}></HighLightedText>
+                </Option>
+            );
         });
 
     return (
@@ -58,11 +71,16 @@ const SearchComp = props => {
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
                 <AutoComplete
                     onSearch={value => {
+                        setTempData({ ...tempData, category: value });
+
                         onChangeSearchField("q", value);
 
                         metaAPI("metasectors", value).then(res => {
                             setCategorySuggestion(res.data.payload);
                         });
+                    }}
+                    onSelect={value => {
+                        setTempData({ ...tempData, category: value });
                     }}
                     onFocus={() => {
                         props.setOpenedState && props.setOpenedState(true);
@@ -72,10 +90,18 @@ const SearchComp = props => {
                     }}
                     defaultActiveFirstOption={false}
                     style={searchBoxStyles}
-                    dataSource={categorySuggestion.map(e => e.name)}
+                    dataSource={categorySuggestion.map(e => {
+                        return (
+                            <AutoCompleteOption key={e.name} value={e.name}>
+                                {/* <HighLightedText text={e.name} highlightText={tempData.category}></HighLightedText> */}
+                                {e.name}
+                            </AutoCompleteOption>
+                        );
+                    })}
                     className="certain-category-search"
                     dropdownClassName="certain-category-search-dropdown"
                     size="large"
+                    value={tempData.category}
                 >
                     <Input
                         placeholder="Job Title, Keyword Or Company"
@@ -97,6 +123,9 @@ const SearchComp = props => {
                         onChangeSearchField("location", val);
                     }}
                     size="large"
+                    onSearch={value => {
+                        setTempData({ ...tempData, location: value });
+                    }}
                 >
                     {[...metaCityOptions]}
                 </Select>
@@ -111,12 +140,23 @@ const SearchComp = props => {
                     onChange={val => {
                         onChangeSearchField("type", val);
                     }}
+                    onSearch={value => {
+                        setTempData({ ...tempData, type: value });
+                    }}
                     size="large"
                 >
-                    <Option value="All Types">All Types</Option>
-                    <Option value="Permanent">Permanent</Option>
-                    <Option value="Contract">Contract</Option>
-                    <Option value="Part time">Part time</Option>
+                    <Option value="All Types">
+                        <HighLightedText text="All Types" highlightText={tempData.type}></HighLightedText>
+                    </Option>
+                    <Option value="Permanent">
+                        <HighLightedText text="Permanent" highlightText={tempData.type}></HighLightedText>
+                    </Option>
+                    <Option value="Contract">
+                        <HighLightedText text="Contract" highlightText={tempData.type}></HighLightedText>
+                    </Option>
+                    <Option value="Part time">
+                        <HighLightedText text="Part time" highlightText={tempData.type}></HighLightedText>
+                    </Option>
                 </Select>
             </Col>
             <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
