@@ -27,6 +27,9 @@ const SearchComp = props => {
         type: ""
     });
 
+    /** Keep temp typed values */
+    const [openedState, setOpenedState] = useState(props.expand || false);
+
     /** enter button  triggers, search actions. This is for fuzzy search*/
     const onKeyPress = event => {
         if (event.key === "Enter") {
@@ -83,6 +86,10 @@ const SearchComp = props => {
                         setTempData({ ...tempData, category: value });
                     }}
                     onFocus={() => {
+                        // Expanding the remaining fields
+                        if (!openedState) {
+                            setOpenedState(true);
+                        }
                         props.setOpenedState && props.setOpenedState(true);
                     }}
                     onBlur={() => {
@@ -112,7 +119,18 @@ const SearchComp = props => {
                     />
                 </AutoComplete>
             </Col>
-            <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
+            <Col
+                xs={24}
+                sm={24}
+                md={24}
+                lg={7}
+                style={
+                    !openedState
+                        ? { padding: "2px", width: "0px", visibility: "hidden" }
+                        : { padding: "2px", visibility: "visible" }
+                }
+                className={styles.cityTransition}
+            >
                 <Select
                     mode="multiple"
                     style={{ width: "100%" }}
@@ -130,7 +148,18 @@ const SearchComp = props => {
                     {[...metaCityOptions]}
                 </Select>
             </Col>
-            <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
+            <Col
+                xs={24}
+                sm={24}
+                md={24}
+                lg={7}
+                style={
+                    !openedState
+                        ? { padding: "2px", width: "0px", visibility: "hidden" }
+                        : { padding: "2px", visibility: "visible" }
+                }
+                className={styles.typeTransition}
+            >
                 <Select
                     mode="multiple"
                     style={{ width: "100%" }}

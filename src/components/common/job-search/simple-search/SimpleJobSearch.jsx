@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Row, Col } from "antd";
 import PropTypes from "prop-types";
 
@@ -7,6 +8,7 @@ import styles from "./SimpleJobSearch.module.css";
 import SearchComp from "../search-comp/SearchComp";
 
 const SimpleJobSearch = props => {
+    const [jobSearchOpened, setOpenedState] = useState(false);
     return (
         <div className={styles.simpleSeach}>
             <Row>
@@ -17,12 +19,17 @@ const SimpleJobSearch = props => {
                     <span className={styles.qouteBy}>-Audery Hepburn</span>
                 </div>
             </Row>
-            <SearchComp setOpenedState={props.setOpenedState} />
+            <SearchComp setOpenedState={setOpenedState} />
             <Row>
-                <div className={styles.buttonSection}>
+                <div
+                    className={styles.buttonSection}
+                    style={!jobSearchOpened ? { visibility: "hidden" } : { visibility: "visible" }}
+                >
                     <Row justify="end" type="flex" gutter={10}>
                         <Col xs={24} sm={12} md={6} lg={3} style={{ float: "right" }}>
-                            <button className={styles.textButton}>Post a Job</button>
+                            <Link className={styles.textButton} to="/job-post">
+                                Post a Job
+                            </Link>
                         </Col>
                         <Col xs={24} sm={12} md={6} lg={3} style={{ float: "right" }}>
                             <button className={styles.textButton}>Advance Search</button>
