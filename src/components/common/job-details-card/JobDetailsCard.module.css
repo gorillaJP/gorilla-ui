@@ -29,24 +29,6 @@
     margin: 15px auto;
 }
 
-.skills {
-    display: inline;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.skill {
-    color: #fff;
-    background-color: #4096ee;
-    border: 1px solid black;
-    box-shadow: 2px 3px #8888884f;
-    border-radius: 2px;
-    font-weight: 500;
-    display: inline-block;
-    margin: auto 5px;
-    padding: 5px 15px;
-}
-
 .otherDetails {
     margin: 10px auto;
 }

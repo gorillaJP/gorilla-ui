@@ -2,36 +2,9 @@ import React from "react";
 import styles from "./JobDetailsCard.module.css";
 import { Button } from "antd";
 
+import SkillList from "../skill-list/SkillList";
+import MinMax from "../min-max/MinMax";
 import { createMarkUp } from "../../../util";
-
-const MinMax = props => {
-    let { minVal, maxVal, label, unit } = props;
-    if (minVal && maxVal) {
-        return (
-            <div className={styles.otherDetails}>
-                {label}: {minVal}
-                {unit} - {maxVal}
-                {unit}
-            </div>
-        );
-    } else if (minVal && !maxVal) {
-        return (
-            <div className={styles.otherDetails}>
-                {label}: Minimum {minVal}
-                {unit}
-            </div>
-        );
-    } else if (!minVal && maxVal) {
-        return (
-            <div className={styles.otherDetails}>
-                {label}: Maximum {maxVal}
-                {unit}
-            </div>
-        );
-    } else {
-        return <div />;
-    }
-};
 
 const JobDetailsCard = props => {
     const { job } = props;
@@ -54,18 +27,7 @@ const JobDetailsCard = props => {
                     <div dangerouslySetInnerHTML={createMarkUp(job.description)} />
                 </div>
             )}
-            {job.skills && (
-                <>
-                    <div className={styles.skills}>Required Skills - </div>
-                    {job.skills.map((skill, i) => {
-                        return (
-                            <div className={styles.skill} key={i}>
-                                {skill}
-                            </div>
-                        );
-                    })}
-                </>
-            )}
+            <SkillList skills={job.skills} guideText={true}></SkillList>
             <MinMax minVal={job.salaryMin} maxVal={job.salaryMax} label="Salary" unit="LKR" />
             {job.bonus && (
                 <div className={styles.otherDetails}>

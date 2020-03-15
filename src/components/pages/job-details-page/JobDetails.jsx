@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col } from "antd";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { Empty } from "antd";
 
 import AdvanceJobSearch from "../../common/job-search/advance-search/AdvanceJobSearch";
 import styles from "./JobDetails.module.css";
@@ -50,7 +51,8 @@ class JobDetails extends React.Component {
                             return (
                                 <JobAddCard
                                     jobTitle={job.title}
-                                    jobDescription={job.company}
+                                    company={job.company}
+                                    location={job.location}
                                     key={job._id}
                                     onSelect={key => {
                                         let selectedJob = this.props.jobAdds.find(job => job._id === key);
@@ -59,14 +61,29 @@ class JobDetails extends React.Component {
                                             selectedJob: selectedJob
                                         });
                                     }}
+                                    skills={job.skills}
+                                    salaryMin={job.salaryMin}
+                                    salaryMax={job.salaryMax}
                                     selected={this.state.selectedJobAddId === job._id}
                                     jobId={job._id}
                                 />
                             );
                         })}
+                        {!this.props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={16}>
-                        <JobDetailsCard job={this.state.selectedJob} />
+                        {this.props.jobAdds.length ? (
+                            <JobDetailsCard job={this.state.selectedJob} />
+                        ) : (
+                            <Empty
+                                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                                description={
+                                    <span>
+                                        We haven't found exactly you are looking for. Please change the query and try
+                                    </span>
+                                }
+                            />
+                        )}
                     </Col>
                 </Row>
             </div>

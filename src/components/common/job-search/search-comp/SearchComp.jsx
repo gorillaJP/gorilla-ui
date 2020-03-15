@@ -61,7 +61,7 @@ const SearchComp = props => {
         .map(city => {
             return (
                 <Option key={city.name}>
-                    <HighLightedText text={city.name} highlightText={tempData.locaction}></HighLightedText>
+                    <HighLightedText text={city.name} highlightText={tempData.location}></HighLightedText>
                 </Option>
             );
         });

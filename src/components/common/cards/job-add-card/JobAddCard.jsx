@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Card, Button, Icon } from "antd";
 import Meta from "antd/lib/card/Meta";
 
+import SkillList from "../../skill-list/SkillList";
+import MinMax from "../../min-max/MinMax";
 import styles from "./JobAddCard.module.css";
 const JobAddCard = props => {
     return (
@@ -13,11 +15,12 @@ const JobAddCard = props => {
                 props.onSelect && props.onSelect(props.jobId);
             }}
         >
-            <Meta
-                title={props.jobTitle}
-                description={props.jobDescription}
-                className={styles.antCardMetaAvatar}
-            />
+            <Meta title={props.jobTitle} className={styles.antCardMetaAvatar}></Meta>
+            <div className={styles.location}>
+                {props.company} / {props.location}
+                <MinMax minVal={props.salaryMin} maxVal={props.salaryMax} label="Salary" unit="LKR" />
+            </div>
+            <SkillList skills={props.skills} guideText={false}></SkillList>
             <div className={styles.starIcon}>
                 <Icon type="star" style={{ fontSize: "16px" }} />
             </div>

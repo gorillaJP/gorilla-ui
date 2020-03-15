@@ -15,8 +15,8 @@
     position: relative;
 }
 
-.jobCard>.ant-card-meta-avatar,
-.selectedJobCard>.ant-card-meta-avatar {
+.jobCard > .ant-card-meta-avatar,
+.selectedJobCard > .ant-card-meta-avatar {
     float: right !important;
 }
 
@@ -24,6 +24,10 @@
     background-color: #00000014;
     margin: 15px 10px !important;
     padding: 5px !important;
+}
+
+.location {
+    color: #00000073;
 }
 
 .btnContainer {
