@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -6,21 +6,12 @@ import { Row } from "antd";
 import SearchComp from "../search-comp/SearchComp";
 import { Dropdown } from "antd";
 import { DownOutlined, FilterOutlined } from "@ant-design/icons";
-import { useMemo } from "react";
-import { useEffect } from "react";
 import ButtonGroup from "../../shared/ButtonGroup";
 import CheckBoxGroup from "../../shared/CheckBoxGroup";
 
 const subFilterStyle = { fontWeight: "bold", color: "white", fontSize: "15px" };
 
 const AdvanceSearch = props => {
-    // OnChange handler to update states of the fields
-
-    const onChangeSearchField = (field, value) => {
-        const newSearchParam = { [field]: value };
-        props.actions.updateSearchParam(newSearchParam);
-    };
-
     let experinaceOptions = useMemo(() => {
         return (
             <ButtonGroup
@@ -29,12 +20,12 @@ const AdvanceSearch = props => {
                 })()}
                 onChange={val => {
                     if (val !== undefined) {
-                        onChangeSearchField("experience", val);
+                        props.actions.updateSearchParam({ experience: val });
                     }
                 }}
             />
         );
-    }, [props.metaExperiances]);
+    }, [props.actions, props.metaExperiances]);
 
     let salaryOptions = useMemo(() => {
         return (
@@ -44,12 +35,12 @@ const AdvanceSearch = props => {
                 })()}
                 onChange={val => {
                     if (val !== undefined) {
-                        onChangeSearchField("salary", val);
+                        props.actions.updateSearchParam({ salary: val });
                     }
                 }}
             />
         );
-    }, [props.metaSalaries]);
+    }, [props.actions, props.metaSalaries]);
 
     let jobTypeOptions = useMemo(() => {
         return (
@@ -57,12 +48,12 @@ const AdvanceSearch = props => {
                 data={props.metaJobTypes}
                 onChange={val => {
                     if (val !== undefined) {
-                        onChangeSearchField("jobType", val);
+                        props.actions.updateSearchParam({ jobType: val });
                     }
                 }}
             />
         );
-    }, [props.metaJobTypes]);
+    }, [props.actions, props.metaJobTypes]);
 
     let rolesOptions = useMemo(() => {
         return (
@@ -70,12 +61,12 @@ const AdvanceSearch = props => {
                 data={props.metaRoles}
                 onChange={val => {
                     if (val !== undefined) {
-                        onChangeSearchField("roles", val);
+                        props.actions.updateSearchParam({ roles: val });
                     }
                 }}
             />
         );
-    }, [props.metaRoles]);
+    }, [props.actions, props.metaRoles]);
 
     let postedDatesOptions = useMemo(() => {
         return (
@@ -84,15 +75,15 @@ const AdvanceSearch = props => {
                     return [...props.metaPostedDates, { name: "Any", value: "any", order: -1 }];
                 })()}
                 onChange={val => {
-                    onChangeSearchField("postedDate", val);
+                    props.actions.updateSearchParam({ postedDate: val });
                 }}
             />
         );
-    }, [props.metaPostedDates]);
+    }, [props.actions, props.metaPostedDates]);
 
     useEffect(() => {
         props.actions.searchJobs(props.searchParams);
-    }, [props.searchParams.experience, props.searchParams.salary]);
+    }, [props.actions, props.searchParams, props.searchParams.experience, props.searchParams.salary]);
 
     /** for below filters => if any value is selected => that should be the label */
     const expericeLable =
@@ -121,7 +112,7 @@ const AdvanceSearch = props => {
             <div>
                 <Row>
                     <div style={{ background: "#2c5486", paddingTop: "20px", paddingBottom: "10px" }}>
-                        <SearchComp />
+                        <SearchComp expand={true} />
                         <div style={{ display: "flex", justifyContent: "space-around" }}>
                             <div style={{ display: "flex", flexBasis: "50%", justifyContent: "space-around" }}>
                                 <Dropdown overlay={experinaceOptions}>
