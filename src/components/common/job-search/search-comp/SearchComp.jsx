@@ -92,9 +92,6 @@ const SearchComp = props => {
                         }
                         props.setOpenedState && props.setOpenedState(true);
                     }}
-                    onBlur={() => {
-                        props.setOpenedState && props.setOpenedState(false);
-                    }}
                     defaultActiveFirstOption={false}
                     style={searchBoxStyles}
                     dataSource={categorySuggestion.map(e => {
