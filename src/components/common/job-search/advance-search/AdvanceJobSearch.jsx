@@ -87,17 +87,17 @@ const AdvanceSearch = props => {
 
     /** for below filters => if any value is selected => that should be the label */
     const expericeLable =
-        props.searchParams.experience !== undefined && //explicit check with undefined => since when .experince is zero => return false
-        props.searchParams.experience !== "" &&
-        props.searchParams.experience !== "any"
-            ? props.metaExperiences.filter(e => e.value === props.searchParams.experience)[0].name
+        props.searchParams.experiencemin !== undefined && //explicit check with undefined => since when .experince is zero => return false
+        props.searchParams.experiencemin !== "" &&
+        props.searchParams.experiencemin !== "any"
+            ? props.metaExperiences.filter(e => e.value === props.searchParams.experiencemin)[0].name
             : "Experience";
 
     const salaryLable =
-        props.searchParams.salary !== undefined &&
-        props.searchParams.salary !== "" &&
-        props.searchParams.salary !== "any"
-            ? props.metaSalaries.filter(e => e.value === props.searchParams.salary)[0].name
+        props.searchParams.salarymax !== undefined &&
+        props.searchParams.salarymax !== "" &&
+        props.searchParams.salarymax !== "any"
+            ? props.metaSalaries.filter(e => e.value === props.searchParams.salarymax)[0].name
             : "Salary";
 
     const datePostedLable =
