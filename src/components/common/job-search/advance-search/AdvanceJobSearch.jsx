@@ -83,7 +83,7 @@ const AdvanceSearch = props => {
 
     useEffect(() => {
         props.actions.searchJobs(props.searchParams);
-    }, [props.actions, props.searchParams, props.searchParams.experience, props.searchParams.salary]);
+    }, [props.searchParams.experiencemin, props.searchParams.salarymax]);
 
     /** for below filters => if any value is selected => that should be the label */
     const expericeLable =
