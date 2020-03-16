@@ -59,10 +59,10 @@ const newStateObj = {
     expireDate: "",
     description: "",
     receiveApplicantPreferrence: "internal",
-    experianceMin: "",
-    experianceMax: "",
+    experiencemin: "",
+    experiencemax: "",
     salaryMin: "",
-    salaryMax: "",
+    salarymax: "",
     showDraftJobModal: false,
     areaSuggestions: [],
     errors: {},
@@ -420,10 +420,10 @@ class JobPost extends React.Component {
                                                     defaultValue={this.state.minimum}
                                                     addonBefore="Minumum : "
                                                     size="large"
-                                                    value={this.state.experianceMin}
+                                                    value={this.state.experiencemin}
                                                     onChange={event => {
                                                         this.setState({
-                                                            experianceMin: event.target.value
+                                                            experiencemin: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -432,10 +432,10 @@ class JobPost extends React.Component {
                                                     defaultValue={this.state.maximum}
                                                     addonBefore="Maximum : "
                                                     size="large"
-                                                    value={this.state.experianceMax}
+                                                    value={this.state.experiencemax}
                                                     onChange={event => {
                                                         this.setState({
-                                                            experianceMax: event.target.value
+                                                            experienceMax: event.target.value
                                                         });
                                                     }}
                                                 />
@@ -560,10 +560,10 @@ class JobPost extends React.Component {
                                                     defaultValue={this.state.maximum}
                                                     addonBefore="Maximum : "
                                                     size="large"
-                                                    value={this.state.salaryMax}
+                                                    value={this.state.salarymax}
                                                     onChange={event => {
                                                         this.setState({
-                                                            salaryMax: event.target.value
+                                                            salarymax: event.target.value
                                                         });
                                                     }}
                                                 />

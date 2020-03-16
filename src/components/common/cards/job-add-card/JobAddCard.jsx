@@ -18,7 +18,7 @@ const JobAddCard = props => {
             <Meta title={props.jobTitle} className={styles.antCardMetaAvatar}></Meta>
             <div className={styles.location}>
                 {props.company} / {props.location}
-                <MinMax minVal={props.salaryMin} maxVal={props.salaryMax} label="Salary" unit="LKR" />
+                <MinMax minVal={props.salaryMin} maxVal={props.salarymax} label="Salary" unit="LKR" />
             </div>
             <SkillList skills={props.skills} guideText={false}></SkillList>
             <div className={styles.starIcon}>

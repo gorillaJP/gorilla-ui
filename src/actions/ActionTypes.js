@@ -11,7 +11,7 @@ export const META_CITIES = 'META_GET_CITIES';
 export const META_SALARIES = 'META_GET_SALARIES';
 export const META_ROLES = 'META_GET_ROLES';
 export const META_JOBTYPES = 'META_GET_JOBTYPES';
-export const META_EXPERIANCE = 'META_GET_EXPERIANCE';
+export const META_EXPERIENCE = 'META_GET_EXPERIENCE';
 export const META_POSTEDDATES = 'META_GET_POSTEDDATES';
 
 //loading meta data - happens at the applicaiton startup

@@ -16,16 +16,16 @@ const AdvanceSearch = props => {
         return (
             <ButtonGroup
                 data={(() => {
-                    return [...props.metaExperiances, { name: "Any", value: "any", order: -1 }];
+                    return [...props.metaExperiences, { name: "Any", value: "any", order: -1 }];
                 })()}
                 onChange={val => {
                     if (val !== undefined) {
-                        props.actions.updateSearchParam({ experience: val });
+                        props.actions.updateSearchParam({ experiencemin: val });
                     }
                 }}
             />
         );
-    }, [props.actions, props.metaExperiances]);
+    }, [props.actions, props.metaExperiences]);
 
     let salaryOptions = useMemo(() => {
         return (
@@ -35,7 +35,7 @@ const AdvanceSearch = props => {
                 })()}
                 onChange={val => {
                     if (val !== undefined) {
-                        props.actions.updateSearchParam({ salary: val });
+                        props.actions.updateSearchParam({ salarymax: val });
                     }
                 }}
             />
@@ -90,7 +90,7 @@ const AdvanceSearch = props => {
         props.searchParams.experience !== undefined && //explicit check with undefined => since when .experince is zero => return false
         props.searchParams.experience !== "" &&
         props.searchParams.experience !== "any"
-            ? props.metaExperiances.filter(e => e.value === props.searchParams.experience)[0].name
+            ? props.metaExperiences.filter(e => e.value === props.searchParams.experience)[0].name
             : "Experience";
 
     const salaryLable =
@@ -170,7 +170,7 @@ const AdvanceSearch = props => {
 
 const mapStateToProps = state => {
     return {
-        metaExperiances: state.metaData.metaExperiances,
+        metaExperiences: state.metaData.metaExperiences,
         metaSalaries: state.metaData.metaSalaries,
         metaJobTypes: state.metaData.metaJobTypes,
         metaRoles: state.metaData.metaRoles,

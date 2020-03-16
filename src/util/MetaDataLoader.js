@@ -10,7 +10,7 @@ import { metaAPI } from '../api/AutoCompleteApi';
 import {
     META_SALARIES,
     META_CITIES,
-    META_EXPERIANCE,
+    META_EXPERIENCE,
     META_POSTEDDATES,
     META_ROLES,
     META_JOBTYPES
@@ -22,7 +22,7 @@ const loadMeta = store => {
         metacities: META_CITIES,
         metasalaries: META_SALARIES,
         metaroles: META_ROLES,
-        metaexperiences: META_EXPERIANCE,
+        metaexperiences: META_EXPERIENCE,
         metaposteddates: META_POSTEDDATES,
         metajobtypes: META_JOBTYPES
     };

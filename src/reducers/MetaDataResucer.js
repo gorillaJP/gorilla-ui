@@ -5,8 +5,8 @@ export default function jobDataReducer(state = initialState.metaState, action) {
     switch (action.type) {
         case actions.META_CITIES:
             return { ...state, ...{ metaCities: action.payload } };
-        case actions.META_EXPERIANCE:
-            return { ...state, ...{ metaExperiances: action.payload } };
+        case actions.META_EXPERIENCE:
+            return { ...state, ...{ metaExperiences: action.payload } };
         case actions.META_SALARIES:
             return { ...state, ...{ metaSalaries: action.payload } };
         case actions.META_JOBTYPES:

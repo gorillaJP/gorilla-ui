@@ -18,7 +18,7 @@ const JobDetailsCard = props => {
                     </div>
                 )}
                 {job.company && <div className={styles.company}>{job.company}</div>}
-                {job.experiance && <div className={styles.experiance}>Required Experience - {job.experiance}</div>}
+                {job.experience && <div className={styles.experience}>Required Experience - {job.experience}</div>}
                 {job.location && <div className={styles.location}>{job.location}</div>}
             </div>
             {job.overview && <div className={styles.overview}>{job.overview}</div>}
@@ -34,7 +34,7 @@ const JobDetailsCard = props => {
                     {job.bonus} {job.bonusType ? `per ${job.bonusType}` : ""}
                 </div>
             )}
-            <MinMax minVal={job.experianceMin} maxVal={job.experianceMin} label="Experience" unit="years" />
+            <MinMax minVal={job.experiencemin} maxVal={job.experiencemin} label="Experience" unit="years" />
             {job.level && <div className={styles.otherDetails}>Level - {job.level}</div>}
             {job.industry && <div className={styles.otherDetails}>Industry - {job.industry}</div>}
             <div className={styles.buttonContainer}>

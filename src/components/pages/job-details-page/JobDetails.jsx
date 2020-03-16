@@ -63,7 +63,7 @@ class JobDetails extends React.Component {
                                     }}
                                     skills={job.skills}
                                     salaryMin={job.salaryMin}
-                                    salaryMax={job.salaryMax}
+                                    salarymax={job.salarymax}
                                     selected={this.state.selectedJobAddId === job._id}
                                     jobId={job._id}
                                 />

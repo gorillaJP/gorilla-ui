@@ -6,13 +6,13 @@ export default {
         q: '',
         location: [],
         type: '',
-        salary: '',
-        experience: '',
+        salarymax: '',
+        experiencemin: '',
         postedDate: ''
     },
     metaState: {
         metaCities: [],
-        metaExperiances: [],
+        metaExperiences: [],
         metaSalaries: [],
         metaJobTypes: [],
         metaRoles: [],

@@ -48,7 +48,7 @@ const SearchComp = props => {
 
     useEffect(() => {
         searchJobs(props.searchParams);
-    }, [props.searchParams, props.searchParams.location, props.searchParams.type, searchJobs]); //search query should not be triggered auto for fuzzy search changers
+    }, [props.searchParams.location, props.searchParams.experiencemin, props.searchParams.salarymax]); //search query should not be triggered auto for fuzzy search changers
 
     // Category contains the job titles, engineer, technician etc
     const [categorySuggestion, setCategorySuggestion] = useState([]);
