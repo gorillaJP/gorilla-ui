@@ -13,8 +13,8 @@ export default function jobDataReducer(state = initialState.metaState, action) {
             return { ...state, ...{ metaJobTypes: action.payload } };
         case actions.META_ROLES:
             return { ...state, ...{ metaRoles: action.payload } };
-        case actions.META_POSTEDDATES:
-            return { ...state, ...{ metaPostedDates: action.payload } };
+        case actions.META_CREATEDDATES:
+            return { ...state, ...{ metaCreatedAtDates: action.payload } };
         default:
             return state;
     }

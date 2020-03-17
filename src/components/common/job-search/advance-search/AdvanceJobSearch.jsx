@@ -68,22 +68,22 @@ const AdvanceSearch = props => {
         );
     }, [props.actions, props.metaRoles]);
 
-    let postedDatesOptions = useMemo(() => {
+    let createdAtOptions = useMemo(() => {
         return (
             <ButtonGroup
                 data={(() => {
-                    return [...props.metaPostedDates, { name: "Any", value: "any", order: -1 }];
+                    return [...props.metaCreatedAtDates, { name: "Any", value: "any", order: -1 }];
                 })()}
                 onChange={val => {
-                    props.actions.updateSearchParam({ postedDate: val });
+                    props.actions.updateSearchParam({ createdat: val });
                 }}
             />
         );
-    }, [props.actions, props.metaPostedDates]);
+    }, [props.actions, props.metaCreatedAtDates]);
 
     useEffect(() => {
         props.actions.searchJobs(props.searchParams);
-    }, [props.searchParams.experiencemin, props.searchParams.salarymax]);
+    }, [props.searchParams.experiencemin, props.searchParams.salarymax, props.searchParams.createdat]);
 
     /** for below filters => if any value is selected => that should be the label */
     const expericeLable =
@@ -100,11 +100,11 @@ const AdvanceSearch = props => {
             ? props.metaSalaries.filter(e => e.value === props.searchParams.salarymax)[0].name
             : "Salary";
 
-    const datePostedLable =
-        props.searchParams.postedDate !== undefined &&
-        props.searchParams.postedDate !== "" &&
-        props.searchParams.postedDate !== "any"
-            ? props.metaPostedDates.filter(e => e.value === props.searchParams.postedDate)[0].name
+    const createdAtLable =
+        props.searchParams.createdat !== undefined &&
+        props.searchParams.createdat !== "" &&
+        props.searchParams.createdat !== "any"
+            ? props.metaCreatedAtDates.filter(e => e.value === props.searchParams.createdat)[0].name
             : "Date Posted";
 
     return (
@@ -142,11 +142,11 @@ const AdvanceSearch = props => {
                                     </div>
                                 </Dropdown>
 
-                                <Dropdown overlay={postedDatesOptions}>
+                                <Dropdown overlay={createdAtOptions}>
                                     <div style={subFilterStyle}>
-                                        {datePostedLable + " "}
+                                        {createdAtLable + " "}
                                         <sub>
-                                            {datePostedLable === "Date Posted" ? <DownOutlined /> : <FilterOutlined />}
+                                            {createdAtLable === "Date Posted" ? <DownOutlined /> : <FilterOutlined />}
                                         </sub>
                                     </div>
                                 </Dropdown>
@@ -174,7 +174,7 @@ const mapStateToProps = state => {
         metaSalaries: state.metaData.metaSalaries,
         metaJobTypes: state.metaData.metaJobTypes,
         metaRoles: state.metaData.metaRoles,
-        metaPostedDates: state.metaData.metaPostedDates,
+        metaCreatedAtDates: state.metaData.metaCreatedAtDates,
         searchParams: state.searchParamData
     };
 };

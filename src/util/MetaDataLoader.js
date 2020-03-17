@@ -11,7 +11,7 @@ import {
     META_SALARIES,
     META_CITIES,
     META_EXPERIENCE,
-    META_POSTEDDATES,
+    META_CREATEDDATES,
     META_ROLES,
     META_JOBTYPES
 } from '../actions/ActionTypes';
@@ -23,7 +23,7 @@ const loadMeta = store => {
         metasalaries: META_SALARIES,
         metaroles: META_ROLES,
         metaexperiences: META_EXPERIENCE,
-        metaposteddates: META_POSTEDDATES,
+        metacreatedatdates: META_CREATEDDATES,
         metajobtypes: META_JOBTYPES
     };
 

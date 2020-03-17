@@ -8,7 +8,7 @@ export default {
         type: '',
         salarymax: '',
         experiencemin: '',
-        postedDate: ''
+        createdat: ''
     },
     metaState: {
         metaCities: [],
@@ -16,7 +16,7 @@ export default {
         metaSalaries: [],
         metaJobTypes: [],
         metaRoles: [],
-        metaPostedDates: []
+        metaCreatedAtDates: []
     },
     commonData: {
         loading: false
