@@ -16,13 +16,15 @@ export const searchJobs = async filter => {
             ? []
             : filter.location;
 
-    filter.type =
-        filter.type && Array.isArray(filter.type) && (filter.type.includes('All Types') || filter.type.includes('any'))
+    filter.jobtype =
+        filter.jobtype &&
+        Array.isArray(filter.jobtype) &&
+        (filter.jobtype.includes('All Types') || filter.jobtype.includes('any'))
             ? []
-            : filter.type;
+            : filter.jobtype;
 
     filter.experience =
-        filter.type &&
+        filter.experience &&
         Array.isArray(filter.experience) &&
         (filter.experience.includes('All Types') || filter.experience.includes('any'))
             ? []

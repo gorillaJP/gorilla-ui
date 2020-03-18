@@ -37,7 +37,7 @@ export default props => {
                                             setSelected(newArr);
                                         }
                                     }}
-                                    value={entry.name}
+                                    value={entry.value}
                                 >
                                     {entry.name}
                                 </Checkbox>

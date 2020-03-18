@@ -45,16 +45,19 @@ const AdvanceSearch = props => {
     let jobTypeOptions = useMemo(() => {
         return (
             <CheckBoxGroup
-                data={props.metaJobTypes}
+                data={(() => {
+                    return [...props.metaJobTypes, { name: "Any", value: "any", order: -1 }];
+                })()}
                 onChange={val => {
                     if (val !== undefined) {
-                        props.actions.updateSearchParam({ jobType: val });
+                        props.actions.updateSearchParam({ jobtype: val });
                     }
                 }}
             />
         );
     }, [props.actions, props.metaJobTypes]);
 
+    /*
     let rolesOptions = useMemo(() => {
         return (
             <CheckBoxGroup
@@ -67,7 +70,7 @@ const AdvanceSearch = props => {
             />
         );
     }, [props.actions, props.metaRoles]);
-
+*/
     let createdAtOptions = useMemo(() => {
         return (
             <ButtonGroup
@@ -83,7 +86,12 @@ const AdvanceSearch = props => {
 
     useEffect(() => {
         props.actions.searchJobs(props.searchParams);
-    }, [props.searchParams.experiencemin, props.searchParams.salarymax, props.searchParams.createdat]);
+    }, [
+        props.searchParams.experiencemin,
+        props.searchParams.salarymax,
+        props.searchParams.jobtype,
+        props.searchParams.createdat
+    ]);
 
     /** for below filters => if any value is selected => that should be the label */
     const expericeLable =
@@ -133,15 +141,14 @@ const AdvanceSearch = props => {
                                         <sub>{salaryLable === "Salary" ? <DownOutlined /> : <FilterOutlined />}</sub>
                                     </div>
                                 </Dropdown>
-                                <Dropdown overlay={rolesOptions}>
+                                <Dropdown overlay={jobTypeOptions}>
                                     <div style={subFilterStyle}>
-                                        {"Role "}
+                                        {"Type"}
                                         <sub>
                                             <DownOutlined />
                                         </sub>
                                     </div>
                                 </Dropdown>
-
                                 <Dropdown overlay={createdAtOptions}>
                                     <div style={subFilterStyle}>
                                         {createdAtLable + " "}
@@ -150,6 +157,7 @@ const AdvanceSearch = props => {
                                         </sub>
                                     </div>
                                 </Dropdown>
+                                {/*
                                 <Dropdown overlay={jobTypeOptions}>
                                     <div style={subFilterStyle}>
                                         {"Company "}
@@ -158,6 +166,7 @@ const AdvanceSearch = props => {
                                         </sub>
                                     </div>
                                 </Dropdown>
+                                */}
                             </div>
                             <div style={{ flexBasis: "100%" }} />
                         </div>
