@@ -73,6 +73,7 @@ const SearchComp = props => {
     return (
         <Row className={styles.searchSection} gutter={20}>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
+                {/**  Job results should refresh for both manually entered values and selected values from dropdown*/}
                 <AutoComplete
                     id={shortId.generate()}
                     onSearch={value => {
@@ -82,8 +83,12 @@ const SearchComp = props => {
                             setCategorySuggestion(res.data.payload.data);
                         });
                     }}
+                    //this is called when a value is selected from the drop down
+                    // DUPLICATE CALL HERE. WHEN A VLAUE IS SELECED FROM LIST. SAGA CAN BE USED TO AVOID THIS
+                    //CALLED AFTER onDropdownVisibleChange, when a vlaue is selcted from list ( call goes with latest selected value)
                     onSelect={value => {
-                        setTempData({ ...tempData, category: value });
+                        onChangeSearchField("q", value); //here to set the seleted value in redux
+                        searchJobs({ ...props.searchParams, ...{ q: value } }); //here calling DB. do not wait till the props update as a result of above line. ( Since it is async)
                     }}
                     onFocus={() => {
                         // Expanding the remaining fields
@@ -105,7 +110,15 @@ const SearchComp = props => {
                     className="certain-category-search"
                     dropdownClassName="certain-category-search-dropdown"
                     size="large"
-                    value={tempData.category}
+                    value={props.searchParams.q}
+                    //This is closed when a value is typed manually, without selecting from drop down and close the dropdown then
+                    //both this and onSelect is called when a value is selected from drop down. Redux saga is needed to avoid the dupliate call here
+                    //DUPLICATE CALL HERE. WHEN A VLAUE IS SELECED FROM LIST. SAGA CAN BE USED TO AVOID THIS ( but here call goes with the typed value. Not the selected vlaue)
+                    onDropdownVisibleChange={isClosed => {
+                        if (isClosed === false) {
+                            searchJobs(props.searchParams);
+                        }
+                    }}
                 >
                     <Input
                         placeholder="Job Title, Keyword Or Company"
