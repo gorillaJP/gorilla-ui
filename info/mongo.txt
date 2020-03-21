@@ -1,0 +1,14 @@
+
+
+#remove duplicates
+db.autocomplete.distinct("name").forEach((num)=>{
+    print(num)
+    var i = 0;
+    db.autocomplete.find({"name": num}).forEach((doc)=>{
+      if (i)    {
+              print("DELETE")
+          db.autocomplete.remove({key: num}, { justOne: true }) 
+      }
+      i++
+    })
+  });

@@ -6,5 +6,5 @@ export const metaAPI = async (type, value) => {
 };
 
 export const sectorAutoComplete = async value => {
-    return await axios.get(config.remote + 'api/meta/allsectors?q=' + value);
+    return await axios.get(config.remote + 'api/autocomplete?q=' + value);
 };

@@ -3,9 +3,10 @@ import { bindActionCreators } from "redux";
 import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
+import shortId from "shortid";
 
 import HighLightedText from "../../highlighted-text/HighLightedText";
-import { metaAPI } from "../../../../api/AutoCompleteApi";
+import { sectorAutoComplete } from "../../../../api/AutoCompleteApi";
 import styles from "./SearchComp.module.css";
 import { useEffect } from "react";
 
@@ -73,13 +74,12 @@ const SearchComp = props => {
         <Row className={styles.searchSection} gutter={20}>
             <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
                 <AutoComplete
+                    id={shortId.generate()}
                     onSearch={value => {
                         setTempData({ ...tempData, category: value });
-
                         onChangeSearchField("q", value);
-
-                        metaAPI("metasectors", value).then(res => {
-                            setCategorySuggestion(res.data.payload);
+                        sectorAutoComplete(value).then(res => {
+                            setCategorySuggestion(res.data.payload.data);
                         });
                     }}
                     onSelect={value => {
@@ -96,7 +96,7 @@ const SearchComp = props => {
                     style={searchBoxStyles}
                     dataSource={categorySuggestion.map(e => {
                         return (
-                            <AutoCompleteOption key={e.name} value={e.name}>
+                            <AutoCompleteOption style={{ fontWeight: 600 }} value={e.name}>
                                 {/* <HighLightedText text={e.name} highlightText={tempData.category}></HighLightedText> */}
                                 {e.name}
                             </AutoCompleteOption>
