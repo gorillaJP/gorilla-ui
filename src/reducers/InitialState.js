@@ -8,7 +8,9 @@ export default {
         type: '',
         salarymax: '',
         experiencemin: '',
-        createdat: ''
+        createdat: '',
+        limit: 50,
+        offeset: 0
     },
     metaState: {
         metaCities: [],

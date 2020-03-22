@@ -1,15 +1,13 @@
-import React from "react";
-import { Row, Col } from "antd";
+import React , { useState } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Empty } from "antd";
+import { Empty, Row, Col, Pagination } from "antd";
 
 import AdvanceJobSearch from "../../common/job-search/advance-search/AdvanceJobSearch";
 import styles from "./JobDetails.module.css";
 import JobAddCard from "../../common/cards/job-add-card/JobAddCard";
 import { searchJobs } from "../../../actions/JobActions";
 import JobDetailsCard from "../../common/job-details-card/JobDetailsCard";
-import { useState } from "react";
 
 const JobDetails = props => {
     //selected job reference is at state. The selected Id is shared between multiple searches.
@@ -57,6 +55,8 @@ const JobDetails = props => {
                         );
                     })}
                     {!props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+                    {props.jobAdds.length ? <Pagination defaultCurrent={1} total={50} /> : null}
+
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={16}>
                     {jobToShow ? (

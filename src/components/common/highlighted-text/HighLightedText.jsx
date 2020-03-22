@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createMarkUp } from "../../../util";
+import { createMarkUp } from "../../../util/Util";
 
 const HighLightedText = props => {
     const regex = new RegExp(`^${props.highlightText}`, "i");
