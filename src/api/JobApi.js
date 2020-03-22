@@ -3,7 +3,8 @@ import config from '../util/config';
 import queryString from 'query-string';
 
 export const searchJobs = async filter => {
-    filter = filter ? filter : {};
+    //do not mutate the original filter object
+    filter = filter ? { ...filter } : {};
 
     //fuzzy search
     filter.q = filter.q ? filter.q.trim() : '';
@@ -16,12 +17,10 @@ export const searchJobs = async filter => {
             ? []
             : filter.location;
 
-    filter.jobtype =
-        filter.jobtype &&
-        Array.isArray(filter.jobtype) &&
-        (filter.jobtype.includes('All Types') || filter.jobtype.includes('any'))
+    filter.type =
+        filter.type && Array.isArray(filter.type) && (filter.type.includes('All Types') || filter.type.includes('any'))
             ? []
-            : filter.jobtype;
+            : filter.type;
 
     filter.experience =
         filter.experience &&
