@@ -115,6 +115,12 @@ const AdvanceSearch = props => {
             ? props.metaCreatedAtDates.filter(e => e.value === props.searchParams.createdat)[0].name
             : "Date Posted";
 
+    const isATypeSelected =
+        props.searchParams.type !== undefined &&
+        Array.isArray(props.searchParams.type) &&
+        props.searchParams.type.filter(e => e === "any").length === 0 && //If any is selected then it is not considered as filtered
+        props.searchParams.type.filter(e => e !== "any").length > 0; //should have selected at least one non 'any'
+
     return (
         <div>
             <div>
@@ -143,10 +149,8 @@ const AdvanceSearch = props => {
                                 </Dropdown>
                                 <Dropdown overlay={jobTypeOptions}>
                                     <div style={subFilterStyle}>
-                                        {"Type"}
-                                        <sub>
-                                            <DownOutlined />
-                                        </sub>
+                                        {"Type "}
+                                        <sub>{isATypeSelected ? <FilterOutlined /> : <DownOutlined />}</sub>
                                     </div>
                                 </Dropdown>
                                 <Dropdown overlay={createdAtOptions}>
