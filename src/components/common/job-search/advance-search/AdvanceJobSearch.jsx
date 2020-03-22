@@ -50,7 +50,7 @@ const AdvanceSearch = props => {
                 })()}
                 onChange={val => {
                     if (val !== undefined) {
-                        props.actions.updateSearchParam({ jobtype: val });
+                        props.actions.updateSearchParam({ type: val });
                     }
                 }}
             />

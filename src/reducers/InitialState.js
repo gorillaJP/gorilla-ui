@@ -5,7 +5,7 @@ export default {
     searchParams: {
         q: '',
         location: [],
-        jobtype: '',
+        type: '',
         salarymax: '',
         experiencemin: '',
         createdat: ''
