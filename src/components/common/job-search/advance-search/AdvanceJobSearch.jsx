@@ -89,7 +89,7 @@ const AdvanceSearch = props => {
     }, [
         props.searchParams.experiencemin,
         props.searchParams.salarymax,
-        props.searchParams.jobtype,
+        props.searchParams.type,
         props.searchParams.createdat
     ]);
 

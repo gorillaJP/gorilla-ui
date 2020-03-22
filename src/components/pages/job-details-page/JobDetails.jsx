@@ -9,87 +9,73 @@ import styles from "./JobDetails.module.css";
 import JobAddCard from "../../common/cards/job-add-card/JobAddCard";
 import { searchJobs } from "../../../actions/JobActions";
 import JobDetailsCard from "../../common/job-details-card/JobDetailsCard";
+import { useState } from "react";
 
-class JobDetails extends React.Component {
-    constructor(props) {
-        super(props);
+const JobDetails = props => {
+    //selected job reference is at state. The selected Id is shared between multiple searches.
+    //If the selected jobId is available in the new search as well (after searching)
+    //That job will be
+    const [selectedJobAddId, setSelectedJobId] = useState(undefined);
 
-        this.state = {
-            jobSearchOpened: false,
-            selectedJobAddId: undefined,
-            selectedJob: {}
-        };
-    }
-
-    componentDidMount() {
-        this.props.actions.searchJobs();
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.jobAdds.length && !state.selectedJobAddId) {
-            return {
-                ...state,
-                ...{
-                    selectedJobAddId: props.jobAdds[0]._id,
-                    selectedJob: props.jobAdds[0]
-                }
-            };
+    // If the job list contains the selected jobId => show that job
+    //otehrwise show first job
+    let jobToShow = undefined;
+    if (selectedJobAddId !== undefined) {
+        const jobToShowList = props.jobAdds.filter(e => e._id === selectedJobAddId);
+        if (jobToShowList.length > 0) {
+            jobToShow = jobToShowList[0];
         } else {
-            return state;
+            setSelectedJobId(undefined);
         }
+    } else {
+        jobToShow = props.jobAdds.length > 0 ? props.jobAdds[0] : undefined;
     }
 
-    render() {
-        return (
-            <div className={styles.jobDetailsPageWrapper}>
-                <div>
-                    <AdvanceJobSearch />
-                </div>
-                <Row className={styles.jobDetailsWrapper}>
-                    <Col xs={24} sm={24} md={24} lg={8} className={styles.leftPannel}>
-                        {this.props.jobAdds.map(job => {
-                            return (
-                                <JobAddCard
-                                    jobTitle={job.title}
-                                    company={job.company}
-                                    location={job.location}
-                                    key={job._id}
-                                    onSelect={key => {
-                                        let selectedJob = this.props.jobAdds.find(job => job._id === key);
-                                        this.setState({
-                                            selectedJobAddId: key,
-                                            selectedJob: selectedJob
-                                        });
-                                    }}
-                                    skills={job.skills}
-                                    salaryMin={job.salaryMin}
-                                    salarymax={job.salarymax}
-                                    selected={this.state.selectedJobAddId === job._id}
-                                    jobId={job._id}
-                                />
-                            );
-                        })}
-                        {!this.props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={16}>
-                        {this.props.jobAdds.length ? (
-                            <JobDetailsCard job={this.state.selectedJob} />
-                        ) : (
-                            <Empty
-                                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                                description={
-                                    <span>
-                                        We haven't found exactly you are looking for. Please change the query and try
-                                    </span>
-                                }
-                            />
-                        )}
-                    </Col>
-                </Row>
+    return (
+        <div className={styles.jobDetailsPageWrapper}>
+            <div>
+                <AdvanceJobSearch />
             </div>
-        );
-    }
-}
+            <Row className={styles.jobDetailsWrapper}>
+                <Col xs={24} sm={24} md={24} lg={8} className={styles.leftPannel}>
+                    {props.jobAdds.map(job => {
+                        return (
+                            <JobAddCard
+                                jobTitle={job.title}
+                                company={job.company}
+                                location={job.location}
+                                key={job._id}
+                                onSelect={key => {
+                                    setSelectedJobId(key);
+                                }}
+                                skills={job.skills}
+                                salaryMin={job.salaryMin}
+                                salarymax={job.salarymax}
+                                selected={jobToShow && jobToShow._id === job._id} //highlight the tile, for the job which is displayed
+                                jobId={job._id}
+                            />
+                        );
+                    })}
+                    {!props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+                </Col>
+                <Col xs={24} sm={24} md={24} lg={16}>
+                    {jobToShow ? (
+                        <JobDetailsCard job={jobToShow} />
+                    ) : (
+                        <Empty
+                            image={Empty.PRESENTED_IMAGE_SIMPLE}
+                            description={
+                                <span>
+                                    We haven't found exactly you are looking for. Please change the query and try
+                                </span>
+                            }
+                        />
+                    )}
+                </Col>
+            </Row>
+        </div>
+    );
+};
 
 const mapDispatchToProps = dispatch => {
     return {

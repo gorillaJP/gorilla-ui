@@ -47,13 +47,13 @@ const SearchComp = props => {
         if (props.searchParams.q === "") {
             searchJobs(props.searchParams);
         }
-    }, [props.searchParams, props.searchParams.q, searchJobs]);
+    }, [props.searchParams.q]);
 
     //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
 
     useEffect(() => {
         searchJobs(props.searchParams);
-    }, [props.searchParams, props.searchParams.location, searchJobs]); //search query should not be triggered auto for fuzzy search changers
+    }, [props.searchParams.location]); //search query should not be triggered auto for fuzzy search changers
 
     // Category contains the job titles, engineer, technician etc
     const [categorySuggestion, setCategorySuggestion] = useState([]);
