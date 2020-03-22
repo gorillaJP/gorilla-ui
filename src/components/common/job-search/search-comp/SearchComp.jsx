@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
@@ -9,7 +9,7 @@ import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import HighLightedText from "../../highlighted-text/HighLightedText";
 import { sectorAutoComplete } from "../../../../api/AutoCompleteApi";
 import styles from "./SearchComp.module.css";
-import { useEffect } from "react";
+import { debounce } from "../../../../util/Util";
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -27,10 +27,18 @@ const SearchComp = props => {
 
     /** Keep temp typed values */
     const [tempData, setTempData] = useState({
-        location: "",
-        category: "",
-        type: ""
+        location: props.searchParams.location,
+        category: props.searchParams.q,
+        type: props.searchParams.type
     });
+
+    // OnChange handler to update states of the fields
+    const onChangeSearchField = (field, value) => {
+        const newSearchParam = { [field]: value };
+        props.actions.updateSearchParam(newSearchParam);
+    };
+
+    const debounceSearchField = useCallback(debounce(onChangeSearchField, 400), []);
 
     /** Keep temp typed values */
     const [openedState, setOpenedState] = useState(props.expand || false);
@@ -42,27 +50,14 @@ const SearchComp = props => {
         }
     };
 
-    //read jobs when => the fuzzy search box goes to emtpy
-    useEffect(() => {
-        if (props.searchParams.q === "") {
-            searchJobs(props.searchParams);
-        }
-    }, [props.searchParams, props.searchParams.q, searchJobs]);
-
-    //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
+    //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a search button click is needed)
 
     useEffect(() => {
         searchJobs(props.searchParams);
-    }, [props.searchParams, props.searchParams.location, searchJobs]); //search query should not be triggered auto for fuzzy search changers
+    }, [props.searchParams, searchJobs]); //search query should not be triggered auto for fuzzy search changers
 
     // Category contains the job titles, engineer, technician etc
     const [categorySuggestion, setCategorySuggestion] = useState([]);
-
-    // OnChange handler to update states of the fields
-    const onChangeSearchField = (field, value) => {
-        const newSearchParam = { [field]: value };
-        props.actions.updateSearchParam(newSearchParam);
-    };
 
     const metaCityOptions = [{ name: "All Cities" }, ...props.metaCities]
         .filter(e => e && e.name)
@@ -82,7 +77,9 @@ const SearchComp = props => {
                     id={shortId.generate()}
                     onSearch={value => {
                         setTempData({ ...tempData, category: value });
-                        onChangeSearchField("q", value);
+
+                        // Need to add debounce here
+                        debounceSearchField("q", value);
                         sectorAutoComplete(value).then(res => {
                             setCategorySuggestion(res.data.payload.data);
                         });
@@ -91,8 +88,8 @@ const SearchComp = props => {
                     // DUPLICATE CALL HERE. WHEN A VLAUE IS SELECED FROM LIST. SAGA CAN BE USED TO AVOID THIS
                     //CALLED AFTER onDropdownVisibleChange, when a vlaue is selcted from list ( call goes with latest selected value)
                     onSelect={value => {
+                        setTempData({ ...tempData, category: value });
                         onChangeSearchField("q", value); //here to set the seleted value in redux
-                        searchJobs({ ...props.searchParams, ...{ q: value } }); //here calling DB. do not wait till the props update as a result of above line. ( Since it is async)
                     }}
                     onFocus={() => {
                         // Expanding the remaining fields
@@ -114,15 +111,15 @@ const SearchComp = props => {
                     className="certain-category-search"
                     dropdownClassName="certain-category-search-dropdown"
                     size="large"
-                    value={props.searchParams.q}
+                    value={tempData.category}
                     //This is closed when a value is typed manually, without selecting from drop down and close the dropdown then
                     //both this and onSelect is called when a value is selected from drop down. Redux saga is needed to avoid the dupliate call here
                     //DUPLICATE CALL HERE. WHEN A VLAUE IS SELECED FROM LIST. SAGA CAN BE USED TO AVOID THIS ( but here call goes with the typed value. Not the selected vlaue)
-                    onDropdownVisibleChange={isClosed => {
-                        if (isClosed === false) {
-                            searchJobs(props.searchParams);
-                        }
-                    }}
+                    // onDropdownVisibleChange={isClosed => {
+                    //     if (isClosed === false) {
+                    //         searchJobs(props.searchParams);
+                    //     }
+                    // }}
                 >
                     <Input
                         placeholder="Job Title, Keyword Or Company"

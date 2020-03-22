@@ -4,7 +4,7 @@ import { Button } from "antd";
 
 import SkillList from "../skill-list/SkillList";
 import MinMax from "../min-max/MinMax";
-import { createMarkUp } from "../../../util";
+import { createMarkUp } from "../../../util/Util";
 
 const JobDetailsCard = props => {
     const { job } = props;

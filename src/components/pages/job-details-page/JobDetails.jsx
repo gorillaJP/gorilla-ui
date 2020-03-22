@@ -1,8 +1,7 @@
 import React from "react";
-import { Row, Col } from "antd";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Empty } from "antd";
+import { Empty, Row, Col, Pagination } from "antd";
 
 import AdvanceJobSearch from "../../common/job-search/advance-search/AdvanceJobSearch";
 import styles from "./JobDetails.module.css";
@@ -22,7 +21,10 @@ class JobDetails extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.searchJobs();
+        // Send request to search jobs if there are no jobs loaded already
+        if (!this.props.jobAdds.length) {
+            this.props.actions.searchJobs();
+        }
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -70,6 +72,7 @@ class JobDetails extends React.Component {
                             );
                         })}
                         {!this.props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+                        {this.props.jobAdds.length ? <Pagination defaultCurrent={1} total={50} /> : null}
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={16}>
                         {this.props.jobAdds.length ? (

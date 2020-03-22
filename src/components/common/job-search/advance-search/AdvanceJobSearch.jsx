@@ -84,14 +84,17 @@ const AdvanceSearch = props => {
         );
     }, [props.actions, props.metaCreatedAtDates]);
 
-    useEffect(() => {
-        props.actions.searchJobs(props.searchParams);
-    }, [
-        props.searchParams.experiencemin,
-        props.searchParams.salarymax,
-        props.searchParams.jobtype,
-        props.searchParams.createdat
-    ]);
+    // TODO: Shashith this should be handle in better way to stop invoking additional api calls
+    // useEffect(() => {
+    //     props.actions.searchJobs(props.searchParams);
+    // }, [
+    //     props.searchParams.experiencemin,
+    //     props.searchParams.salarymax,
+    //     props.searchParams.jobtype,
+    //     props.searchParams.createdat,
+    //     props.actions,
+    //     props.searchParams
+    // ]);
 
     /** for below filters => if any value is selected => that should be the label */
     const expericeLable =

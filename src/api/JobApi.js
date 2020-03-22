@@ -30,6 +30,8 @@ export const searchJobs = async filter => {
             ? []
             : filter.experience;
 
+    filter.limit = config.searchPageSize || 50;
+
     let queryText = queryString.stringify(filter);
 
     queryText = queryText ? queryText.toLowerCase() : '';
