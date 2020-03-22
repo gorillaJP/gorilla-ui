@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { bindActionCreators } from "redux";
-import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import { connect } from "react-redux";
 import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
 import shortId from "shortid";
+import { useHistory, useLocation } from "react-router-dom";
 
+import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import HighLightedText from "../../highlighted-text/HighLightedText";
 import { sectorAutoComplete } from "../../../../api/AutoCompleteApi";
 import styles from "./SearchComp.module.css";
@@ -19,7 +20,10 @@ const searchBoxStyles = {
 };
 
 const SearchComp = props => {
-    const searchJobs = props.actions.searchJobs;
+    const history = useHistory();
+    const location = useLocation();
+
+    const { searchJobs } = props.actions;
 
     /** Keep temp typed values */
     const [tempData, setTempData] = useState({
@@ -43,13 +47,13 @@ const SearchComp = props => {
         if (props.searchParams.q === "") {
             searchJobs(props.searchParams);
         }
-    }, [props.searchParams.q]);
+    }, [props.searchParams, props.searchParams.q, searchJobs]);
 
     //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a searh button click is needed)
 
     useEffect(() => {
         searchJobs(props.searchParams);
-    }, [props.searchParams.location]); //search query should not be triggered auto for fuzzy search changers
+    }, [props.searchParams, props.searchParams.location, searchJobs]); //search query should not be triggered auto for fuzzy search changers
 
     // Category contains the job titles, engineer, technician etc
     const [categorySuggestion, setCategorySuggestion] = useState([]);
@@ -205,6 +209,11 @@ const SearchComp = props => {
                     style={{ width: "100%" }}
                     onClick={() => {
                         searchJobs(props.searchParams);
+
+                        // If the page is not job-details/search navigate to search page
+                        if (location.pathname !== "/job-details") {
+                            history.push("/job-details");
+                        }
                     }}
                     size="large"
                 >

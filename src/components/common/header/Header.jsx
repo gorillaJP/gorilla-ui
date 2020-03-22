@@ -62,7 +62,7 @@ const Header = props => {
                         )}
                     </Col>
                     <Col xs={14} sm={14} md={4} lg={3} className={styles.headerIcon} push={1}>
-                        <a href="/">Gorilla</a>
+                        <Link to="/">Gorilla</Link>
                     </Col>
                     <Col sm={24} xs={24} md={11} lg={13} className={styles.desktopMenu} push={1}>
                         <Row justify="start" type="flex">
