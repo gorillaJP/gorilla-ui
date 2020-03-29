@@ -2,10 +2,10 @@ import * as actions from './ActionTypes';
 import * as JobApi from '../api/JobApi';
 import * as Cache from '../api/LocalStorage';
 
-export const jobSearchSuccess = jobList => {
+export const jobSearchSuccess = payload => {
     return {
         type: actions.SEARCH_JOB_SUCCESSFUL,
-        jobList
+        payload: { jobList: payload.data, total: payload.meta.total }
     };
 };
 
@@ -18,7 +18,7 @@ export const updateSearchParam = filterOptions => {
 export const searchJobs = filterOptions => {
     return dispatch => {
         JobApi.searchJobs(filterOptions).then(data => {
-            dispatch(jobSearchSuccess(data.payload.data));
+            dispatch(jobSearchSuccess(data.payload));
         });
     };
 };
