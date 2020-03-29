@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import AddPromoCard from "../../cards/add-promo-card/AddPromoCard";
 import styles from "./SimpleJobSearch.module.css";
 import SearchComp from "../search-comp/SearchComp";
+import AdvancedSerachModal from "../advance-search/AdvancedJobSearchModal";
 
 const SimpleJobSearch = props => {
     const [jobSearchOpened, setOpenedState] = useState(false);
@@ -19,13 +20,13 @@ const SimpleJobSearch = props => {
                     <span className={styles.qouteBy}>-Audery Hepburn</span>
                 </div>
             </Row>
-            <SearchComp setOpenedState={setOpenedState} />
+            <SearchComp showSearchButton={true} setOpenedState={setOpenedState} />
             <Row>
                 <div
                     className={styles.buttonSection}
-                    style={!jobSearchOpened ? { visibility: "hidden" } : { visibility: "visible" }}
+                    style={!jobSearchOpened ? { display: "none" } : { visibility: "visible", width: "100%" }}
                 >
-                    <Row justify="end" type="flex" gutter={10}>
+                    <Row justify="end" style={{ width: "100%" }}>
                         <Col xs={24} sm={12} md={6} lg={3} style={{ float: "right" }}>
                             <Link className={styles.textButton} to="/job-post">
                                 Post a Job
@@ -33,6 +34,7 @@ const SimpleJobSearch = props => {
                         </Col>
                         <Col xs={24} sm={12} md={6} lg={3} style={{ float: "right" }}>
                             <button className={styles.textButton}>Advance Search</button>
+                            <AdvancedSerachModal />
                         </Col>
                     </Row>
                 </div>

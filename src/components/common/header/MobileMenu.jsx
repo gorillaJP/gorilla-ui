@@ -1,6 +1,7 @@
 import React from "react";
-import { Menu, Icon } from "antd";
+import { Menu } from "antd";
 import { Link } from "react-router-dom";
+import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 
@@ -21,17 +22,12 @@ const jobsByFunctionItems = [
 
 const MobileMenu = () => {
     return (
-        <Menu
-            style={{ width: "100%" }}
-            defaultSelectedKeys={["0"]}
-            defaultOpenKeys={["sub1"]}
-            mode="inline"
-        >
+        <Menu style={{ width: "100%" }} defaultSelectedKeys={["0"]} defaultOpenKeys={["sub1"]} mode="inline">
             <SubMenu
                 key="sub1"
                 title={
                     <span>
-                        <Icon type="search" />
+                        <SearchOutlined />
                         <span>Job Search</span>
                     </span>
                 }
@@ -48,7 +44,7 @@ const MobileMenu = () => {
                 key="sub1"
                 title={
                     <span>
-                        <Icon type="user" />
+                        <UserOutlined />
                         <Link to={"/job-post"}>Job Post</Link>
                     </span>
                 }

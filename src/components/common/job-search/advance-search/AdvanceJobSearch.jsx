@@ -125,8 +125,8 @@ const AdvanceSearch = props => {
         <div>
             <div>
                 <Row>
-                    <div style={{ background: "#2c5486", paddingTop: "20px", paddingBottom: "10px" }}>
-                        <SearchComp expand={true} />
+                    <div style={{ width: "100%", background: "#2c5486", paddingTop: "20px", paddingBottom: "10px" }}>
+                        <SearchComp expand={true} showSearchButton={true} />
                         <div style={{ display: "flex", justifyContent: "space-around" }}>
                             <div style={{ display: "flex", flexBasis: "50%", justifyContent: "space-around" }}>
                                 <Dropdown overlay={experinaceOptions}>

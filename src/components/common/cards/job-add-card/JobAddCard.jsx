@@ -1,6 +1,7 @@
 import React from "react";
+import { StarOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { Card, Button, Icon } from "antd";
+import { Card, Button } from "antd";
 import Meta from "antd/lib/card/Meta";
 
 import SkillList from "../../skill-list/SkillList";
@@ -22,7 +23,7 @@ const JobAddCard = props => {
             </div>
             <SkillList skills={props.skills} guideText={false}></SkillList>
             <div className={styles.starIcon}>
-                <Icon type="star" style={{ fontSize: "16px" }} />
+                <StarOutlined style={{ fontSize: "16px" }} />
             </div>
             <div className={styles.btnContainer}>
                 <Button type="primary">Easy Apply</Button>

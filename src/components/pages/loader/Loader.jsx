@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Spin, Icon } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 
 const wrapper = {
     position: "relative"
@@ -30,7 +31,7 @@ const spinHolder = {
     marginTop: "-50px"
 };
 
-const antIcon = <Icon type="loading" style={{ fontSize: 80, color: "#fff" }} spin />;
+const antIcon = <LoadingOutlined style={{ fontSize: 80, color: "#fff" }} spin />;
 
 class Loader extends React.Component {
     render() {

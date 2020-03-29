@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Row, Col, Icon } from "antd";
+import { Button, Row, Col } from "antd";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
 
 import MobileMenu from "./MobileMenu";
 import styles from "./Header.module.css";
+import { CloseOutlined, LoginOutlined, UserAddOutlined, MenuOutlined } from "@ant-design/icons";
 
 const LinkDropDownContent = items => {
     return (
@@ -44,16 +45,14 @@ const Header = props => {
                 <Row gutter={[8, 8]}>
                     <Col xs={4} sm={4} md={1} lg={1} xl={1} push={1} className={styles.mobileMenu}>
                         {!props.mobileMenuOpen ? (
-                            <Icon
-                                type="menu"
+                            <MenuOutlined
                                 onClick={() => {
                                     props.toggleMenu(true);
                                 }}
                                 className={styles.dropDownButton}
                             />
                         ) : (
-                            <Icon
-                                type="close"
+                            <CloseOutlined
                                 onClick={() => {
                                     props.toggleMenu(false);
                                 }}
@@ -104,8 +103,8 @@ const Header = props => {
                     </Col>
                     <Col xs={6} sm={6} className={styles.mobileMenu}>
                         <Row justify="end" type="flex">
-                            <Icon type="login" className={styles.loginIcon} />
-                            <Icon type="user-add" className={styles.registerIcon} />
+                            <LoginOutlined className={styles.loginIcon} />
+                            <UserAddOutlined className={styles.registerIcon} />
                         </Row>
                     </Col>
                 </Row>

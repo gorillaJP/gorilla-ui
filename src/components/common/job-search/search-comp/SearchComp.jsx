@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { SearchOutlined } from "@ant-design/icons";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Row, Col, Input, Icon, Button, Select, AutoComplete } from "antd";
+import { Row, Col, Input, Button, Select, AutoComplete } from "antd";
 import shortId from "shortid";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -125,7 +126,7 @@ const SearchComp = props => {
                 >
                     <Input
                         placeholder="Job Title, Keyword Or Company"
-                        prefix={<Icon type="search" className="certainCateOgoryIcon" />}
+                        prefix={<SearchOutlined className="certainCateOgoryIcon" />}
                         onKeyPress={onKeyPress}
                         allowClear={true}
                         size="large"
@@ -137,11 +138,7 @@ const SearchComp = props => {
                 sm={24}
                 md={24}
                 lg={7}
-                style={
-                    !openedState
-                        ? { padding: "2px", width: "0px", visibility: "hidden" }
-                        : { padding: "2px", visibility: "visible" }
-                }
+                style={!openedState ? { padding: "2px", width: "0px", display: "none" } : { padding: "2px" }}
                 className={styles.cityTransition}
             >
                 <Select
@@ -166,11 +163,7 @@ const SearchComp = props => {
                 sm={24}
                 md={24}
                 lg={7}
-                style={
-                    !openedState
-                        ? { padding: "2px", width: "0px", visibility: "hidden" }
-                        : { padding: "2px", visibility: "visible" }
-                }
+                style={!openedState ? { padding: "2px", width: "0px", display: "none" } : { padding: "2px" }}
                 className={styles.typeTransition}
             >
                 <Select
