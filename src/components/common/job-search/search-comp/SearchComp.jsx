@@ -176,7 +176,7 @@ const SearchComp = props => {
                 <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    defaultValue={props.searchParams.type}
+                    defaultValue={props.searchParams.type ? [props.searchParams.type] : []}
                     placeholder={"Type"}
                     allowClear={true}
                     onChange={val => {
@@ -237,7 +237,7 @@ const mapStateToProps = state => {
         jobAdds: state.jobData.jobList,
         metaCities: state.metaData.metaCities,
         jobData: state.jobData,
-        searchParams: state.searchParamData
+        searchParams: state.searchParams
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchComp);

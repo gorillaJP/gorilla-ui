@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col } from "antd";
-import PropTypes from "prop-types";
 
 import AddPromoCard from "../../cards/add-promo-card/AddPromoCard";
 import styles from "./SimpleJobSearch.module.css";
@@ -59,11 +58,6 @@ const SimpleJobSearch = props => {
             </Row>
         </div>
     );
-};
-
-SimpleJobSearch.propTypes = {
-    opened: PropTypes.bool.isRequired,
-    setOpenedState: PropTypes.func.isRequired
 };
 
 export default SimpleJobSearch;

@@ -1,7 +1,7 @@
 import * as actions from '../actions/ActionTypes';
 import initialState from './InitialState';
 
-export default function jobDataReducer(state = initialState.metaState, action) {
+export default function jobDataReducer(state = initialState.metaData, action) {
     switch (action.type) {
         case actions.META_CITIES:
             return { ...state, ...{ metaCities: action.payload } };

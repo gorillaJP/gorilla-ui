@@ -12,7 +12,7 @@ export default {
         limit: 50,
         offeset: 0
     },
-    metaState: {
+    metaData: {
         metaCities: [],
         metaExperiences: [],
         metaSalaries: [],
