@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
     jobData: jobDataReducer,
     commonData: commonReducer,
     metaData: metaDataResucer,
-    searchParamData: searchParamReducer
+    searchParams: searchParamReducer
 });
 
 export default rootReducer;
