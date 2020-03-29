@@ -369,7 +369,7 @@ const mapStateToProps = state => {
         jobAdds: state.jobData.jobList,
         metaCities: state.metaData.metaCities,
         jobData: state.jobData,
-        searchParams: state.searchParamData,
+        searchParams: state.searchParams,
         metaExperiences: state.metaData.metaExperiences,
         metaSalaries: state.metaData.metaSalaries,
         metaJobTypes: state.metaData.metaJobTypes,
