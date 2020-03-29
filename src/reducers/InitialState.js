@@ -1,6 +1,7 @@
 export default {
     jobData: {
-        jobList: []
+        jobList: [],
+        total: 0
     },
     searchParams: {
         q: '',
@@ -9,10 +10,10 @@ export default {
         salarymax: '',
         experiencemin: '',
         createdat: '',
-        limit: 50,
-        offeset: 0
+        limit: 10,
+        offset: 0
     },
-    metaState: {
+    metaData: {
         metaCities: [],
         metaExperiences: [],
         metaSalaries: [],

@@ -5,7 +5,7 @@ import SimpleJobSearch from "../../common/job-search/simple-search/SimpleJobSear
 import LandingPageCoverImage from "../../../images/landingpage-cover.jpg";
 import styles from "./LandingPage.module.css";
 
-const LandingPage = props => {
+const LandingPage = () => {
     return (
         <div>
             <div className={styles.searchBoxWrapper} style={{ backgroundImage: `url(${LandingPageCoverImage})` }}>

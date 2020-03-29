@@ -2,13 +2,16 @@
     height: 100%;
 }
 
-.content-wrapper {}
+.content-wrapper {
+    min-height: calc(100vh - 260px) !important;
+}
 
 @media (min-width: 481px) and (max-width: 767px) {
-    .content-wrapper {}
-
+    .content-wrapper {
+    }
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
-    .content-wrapper {}
+    .content-wrapper {
+    }
 }

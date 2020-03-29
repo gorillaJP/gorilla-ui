@@ -28,7 +28,7 @@ const SearchComp = props => {
 
     /** Keep temp typed values */
     const [tempData, setTempData] = useState({
-        location: props.searchParams.location,
+        location: "",
         category: props.searchParams.q,
         type: props.searchParams.type
     });
@@ -144,7 +144,7 @@ const SearchComp = props => {
                 <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    defaultValue={tempData.location}
+                    defaultValue={props.searchParams.location}
                     placeholder={"City"}
                     allowClear={true}
                     onChange={val => {
@@ -169,7 +169,7 @@ const SearchComp = props => {
                 <Select
                     mode="multiple"
                     style={{ width: "100%" }}
-                    defaultValue={[]}
+                    defaultValue={props.searchParams.type ? [props.searchParams.type] : []}
                     placeholder={"Type"}
                     allowClear={true}
                     onChange={val => {
@@ -230,7 +230,7 @@ const mapStateToProps = state => {
         jobAdds: state.jobData.jobList,
         metaCities: state.metaData.metaCities,
         jobData: state.jobData,
-        searchParams: state.searchParamData
+        searchParams: state.searchParams
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchComp);

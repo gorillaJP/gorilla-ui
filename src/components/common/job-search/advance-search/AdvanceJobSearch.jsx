@@ -90,7 +90,9 @@ const AdvanceSearch = props => {
         props.searchParams.experiencemin,
         props.searchParams.salarymax,
         props.searchParams.type,
-        props.searchParams.createdat
+        props.searchParams.createdat,
+        props.actions,
+        props.searchParams
     ]);
 
     /** for below filters => if any value is selected => that should be the label */
@@ -189,7 +191,7 @@ const mapStateToProps = state => {
         metaJobTypes: state.metaData.metaJobTypes,
         metaRoles: state.metaData.metaRoles,
         metaCreatedAtDates: state.metaData.metaCreatedAtDates,
-        searchParams: state.searchParamData
+        searchParams: state.searchParams
     };
 };
 
