@@ -14,3 +14,8 @@
     border-right: 1px solid #5e5e5e;
     overflow: auto;
 }
+
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+}

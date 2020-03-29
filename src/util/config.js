@@ -1,13 +1,11 @@
 let config = {};
 
 let devConfig = (config = {
-    remote: 'http://localhost:8080/',
-    searchPageSize: 20
+    remote: 'http://localhost:8080/'
 });
 
 let prodConfig = (config = {
-    remote: 'http://159.89.161.233:443/',
-    searchPageSize: 20
+    remote: 'http://159.89.161.233:443/'
 });
 
 //conf as per the env
