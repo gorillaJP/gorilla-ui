@@ -10,6 +10,7 @@ import AdvancedSerachModal from "../advance-search/AdvancedJobSearchModal";
 
 const SimpleJobSearch = props => {
     const [jobSearchOpened, setOpenedState] = useState(false);
+    const [showAdvnaceSearch, setShowAdvanceSearch] = useState(false);
     return (
         <div className={styles.simpleSeach}>
             <Row>
@@ -33,8 +34,15 @@ const SimpleJobSearch = props => {
                             </Link>
                         </Col>
                         <Col xs={24} sm={12} md={6} lg={3} style={{ float: "right" }}>
-                            <button className={styles.textButton}>Advance Search</button>
-                            <AdvancedSerachModal />
+                            <button
+                                className={styles.textButton}
+                                onClick={() => {
+                                    setShowAdvanceSearch(true);
+                                }}
+                            >
+                                Advance Search
+                            </button>
+                            {showAdvnaceSearch ? <AdvancedSerachModal setShow={setShowAdvanceSearch} /> : undefined}
                         </Col>
                     </Row>
                 </div>

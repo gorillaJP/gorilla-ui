@@ -94,25 +94,26 @@ const AdvanceSearch = props => {
     ]);
 
     /** for below filters => if any value is selected => that should be the label */
+
     const expericeLable =
         props.searchParams.experiencemin !== undefined && //explicit check with undefined => since when .experince is zero => return false
         props.searchParams.experiencemin !== "" &&
         props.searchParams.experiencemin !== "any"
-            ? props.metaExperiences.filter(e => e.value === props.searchParams.experiencemin)[0].name
+            ? props.metaExperiences.filter(e => e.value == props.searchParams.experiencemin)[0].name // not ===,  but ==, becuase lalue can come as stirng or number
             : "Experience";
 
     const salaryLable =
         props.searchParams.salarymax !== undefined &&
         props.searchParams.salarymax !== "" &&
         props.searchParams.salarymax !== "any"
-            ? props.metaSalaries.filter(e => e.value === props.searchParams.salarymax)[0].name
+            ? props.metaSalaries.filter(e => e.value == props.searchParams.salarymax)[0].name // not ===,  but ==, becuase lalue can come as stirng or number
             : "Salary";
 
     const createdAtLable =
         props.searchParams.createdat !== undefined &&
         props.searchParams.createdat !== "" &&
         props.searchParams.createdat !== "any"
-            ? props.metaCreatedAtDates.filter(e => e.value === props.searchParams.createdat)[0].name
+            ? props.metaCreatedAtDates.filter(e => e.value == props.searchParams.createdat)[0].name // not ===,  but ==, becuase lalue can come as stirng or number
             : "Date Posted";
 
     const isATypeSelected =

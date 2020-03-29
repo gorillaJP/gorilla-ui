@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from "react";
+import React, { Fragment } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { sectorAutoComplete } from "../../../../api/AutoCompleteApi";
 import { debounce } from "../../../../util/Util";
@@ -6,14 +6,12 @@ import { useState, useEffect, useCallback } from "react";
 import styles from "../search-comp/SearchComp.module.css";
 import shortId from "shortid";
 import { connect } from "react-redux";
-import { DownOutlined, SearchOutlined, FilterOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 
 import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import { bindActionCreators } from "redux";
-import { Modal, AutoComplete, Input, Select, Button, Dropdown, Menu, Form } from "antd";
+import { Modal, AutoComplete, Input, Select, Button, Form } from "antd";
 import HighLightedText from "../../highlighted-text/HighLightedText";
-import ButtonGroup from "../../shared/ButtonGroup";
-import CheckBoxGroup from "../../shared/CheckBoxGroup";
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -22,79 +20,79 @@ const searchBoxStyles = {
     marginBottom: "10px"
 };
 
+const formItemLayout = {
+    labelCol: { span: 3 },
+    wrapperCol: { span: 18 }
+};
+
 const FormItemLable = props => {
-    return <div style={{ fontWeight: "600", display: "inline-block" }}>{props.text}</div>;
+    return <div style={{ fontWeight: "600", display: "inline" }}>{props.text}</div>;
+};
+
+const getMetaOptions = metaInfo => {
+    return [{ name: "Any", order: "-1", value: "any" }, ...metaInfo]
+        .filter(e => e && e.name)
+        .sort((a, b) => {
+            if (a.order && b.order) {
+                return parseInt(a.order) > parseInt(b.order) ? 1 : -1;
+            } else {
+                return a.name > b.name ? 1 : -1;
+            }
+        })
+        .map(val => {
+            return (
+                <Option vlaue={val.value} key={val.value}>
+                    {val.name}
+                </Option>
+            );
+        });
 };
 
 const AdvancedSerchModel = props => {
-    const history = useHistory();
-    const location = useLocation();
-
-    const [show, setShow] = useState(true);
-    const { searchJobs } = props.actions;
-
-    let experinaceOptions = useMemo(() => {
-        return (
-            <ButtonGroup
-                data={(() => {
-                    return [...props.metaExperiences, { name: "Any", value: "any", order: -1 }];
-                })()}
-                onChange={val => {
-                    if (val !== undefined) {
-                        props.actions.updateSearchParam({ experiencemin: val });
-                    }
-                }}
-            />
-        );
-    }, [props.actions, props.metaExperiences]);
-    /** Keep temp typed values */
-    const [tempData, setTempData] = useState({
-        location: props.searchParams.location,
-        category: props.searchParams.q,
-        type: props.searchParams.type
-    });
-
     // OnChange handler to update states of the fields
     const onChangeSearchField = (field, value) => {
         const newSearchParam = { [field]: value };
         props.actions.updateSearchParam(newSearchParam);
     };
 
-    const debounceSearchField = useCallback(debounce(onChangeSearchField, 400), []);
+    const history = useHistory();
+    const location = useLocation();
 
-    /** enter button  triggers, search actions. This is for fuzzy search*/
-    const onKeyPress = event => {
-        if (event.key === "Enter") {
-            searchJobs(props.searchParams);
-        }
-    };
-
-    //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a search button click is needed)
+    /** Keep temp typed values */
+    const [tempData, setTempData] = useState({
+        location: props.searchParams.location,
+        salarymax: props.searchParams.salarymax,
+        category: props.searchParams.q,
+        type: props.searchParams.type,
+        experiencemin: props.searchParams.experiencemin,
+        createat: props.searchParams.createdat
+    });
 
     useEffect(() => {
-        searchJobs(props.searchParams);
+        props.actions.searchJobs(props.searchParams);
     }, [props.searchParams, searchJobs]); //search query should not be triggered auto for fuzzy search changers
 
     // Category contains the job titles, engineer, technician etc
     const [categorySuggestion, setCategorySuggestion] = useState([]);
 
-    const metaCityOptions = [{ name: "All Cities" }, ...props.metaCities]
-        .filter(e => e && e.name)
-        .map(city => {
-            return (
-                <Option key={city.name}>
-                    <HighLightedText text={city.name} highlightText={tempData.location}></HighLightedText>
-                </Option>
-            );
-        });
+    const debounceSearchField = useCallback(debounce(onChangeSearchField, 400), []);
 
-    /** for below filters => if any value is selected => that should be the label */
-    const expericeLable =
-        props.searchParams.experiencemin !== undefined && //explicit check with undefined => since when .experince is zero => return false
-        props.searchParams.experiencemin !== "" &&
-        props.searchParams.experiencemin !== "any"
-            ? props.metaExperiences.filter(e => e.value === props.searchParams.experiencemin)[0].name
-            : "Experience";
+    /** enter button  triggers, search actions. This is for fuzzy search*/
+    const onKeyPress = event => {
+        if (event.key === "Enter") {
+            props.actions.searchJobs(props.searchParams);
+        }
+    };
+
+    //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a search button click is needed)
+
+    const metaCityOptions = props.metaCities.map(e => {
+        return <Option value={e.name}>{e.name}</Option>;
+    });
+    const metaCreatedAtDateOptions = getMetaOptions(props.metaCreatedAtDates);
+    const metaSalaryOption = getMetaOptions(props.metaSalaries);
+    const metaTypeOptions = getMetaOptions(props.metaJobTypes);
+    const metaExperienceOptions = getMetaOptions(props.metaExperiences);
 
     return (
         <Fragment>
@@ -103,25 +101,19 @@ const AdvancedSerchModel = props => {
                 width="800px"
                 height="800px"
                 title={<div style={{ display: "flex", justifyContent: "center" }}> Search Jobs</div>}
-                visible={show}
+                visible={true}
                 footer={null}
                 layout=""
                 onOk={() => {}}
                 okText={"Search"}
                 onCancel={() => {
-                    setShow(false);
+                    props.setShow(false);
                 }}
             >
                 <div className={styles.searchSection} gutter={20}>
                     <Form>
-                        <Form.Item label="est">
-                            <Input></Input>
-                        </Form.Item>
-                        <div xs={30} sm={30} md={30} lg={30} style={{ padding: "2px" }}>
-                            <Form.Item
-                                style={{ paddingBottom: "0px" }}
-                                label={<FormItemLable text="Job tilte, company, keyword" />}
-                            >
+                        <div xs={30} sm={30} md={30} lg={30}>
+                            <Form.Item {...formItemLayout} label={<FormItemLable text="keyword" />}>
                                 <AutoComplete
                                     id={shortId.generate()}
                                     onSearch={value => {
@@ -160,13 +152,12 @@ const AdvancedSerchModel = props => {
                                     //DUPLICATE CALL HERE. WHEN A VLAUE IS SELECED FROM LIST. SAGA CAN BE USED TO AVOID THIS ( but here call goes with the typed value. Not the selected vlaue)
                                     onDropdownVisibleChange={isClosed => {
                                         if (isClosed === false) {
-                                            searchJobs(props.searchParams);
+                                            props.actions.searchJobs(props.searchParams);
                                             //debounceSearchField("q", tempData.category, true);
                                         }
                                     }}
                                 >
                                     <Input
-                                        // placeholder="Job Title, Keyword Or Company"
                                         prefix={<SearchOutlined className="certainCateOgoryIcon" />}
                                         onKeyPress={onKeyPress}
                                         allowClear={true}
@@ -183,12 +174,11 @@ const AdvancedSerchModel = props => {
                             style={{ padding: "2px", visibility: "visible" }}
                             className={styles.cityTransition}
                         >
-                            <Form.Item label={<FormItemLable text="City" />}>
+                            <Form.Item {...formItemLayout} label={<FormItemLable text="City" />}>
                                 <Select
                                     mode="multiple"
                                     style={{ width: "100%" }}
                                     defaultValue={tempData.location}
-                                    placeholder={"City"}
                                     allowClear={true}
                                     onChange={val => {
                                         onChangeSearchField("location", val);
@@ -210,12 +200,11 @@ const AdvancedSerchModel = props => {
                             style={{ padding: "2px", visibility: "visible" }}
                             className={styles.typeTransition}
                         >
-                            <Form.Item label={<FormItemLable text="Industry" />}>
+                            <Form.Item {...formItemLayout} label={<FormItemLable text="Industry" />}>
                                 <Select
                                     mode="multiple"
                                     style={{ width: "100%" }}
                                     defaultValue={[]}
-                                    placeholder={"Type"}
                                     allowClear={true}
                                     onChange={val => {
                                         onChangeSearchField("type", val);
@@ -253,43 +242,92 @@ const AdvancedSerchModel = props => {
                             </Form.Item>
                         </div>
                         <div xs={24} sm={24} md={24} lg={3} style={{ paddingTop: "2px" }}>
-                            <Form.Item label={<FormItemLable text="Experience" />}>
-                                <Dropdown overlay={experinaceOptions}>
-                                    <Button>
-                                        {expericeLable}
-                                        <DownOutlined />
-                                    </Button>
-                                </Dropdown>
+                            <Form.Item {...formItemLayout} label={<FormItemLable text="Experience" />}>
+                                <Select
+                                    style={{ width: "100%" }}
+                                    defaultValue={
+                                        tempData.experiencemin
+                                            ? props.metaExperiences.filter(e => e.value == tempData.experiencemin)[0][
+                                                  "name"
+                                              ]
+                                            : undefined
+                                    }
+                                    allowClear={true}
+                                    onChange={val => {
+                                        onChangeSearchField("experiencemin", val);
+                                    }}
+                                    size="large"
+                                    onSearch={value => {
+                                        setTempData({ ...tempData, experiencemin: value });
+                                    }}
+                                >
+                                    {[...metaExperienceOptions]}
+                                </Select>
                             </Form.Item>
                         </div>
                         <div xs={24} sm={24} md={24} lg={3} style={{ paddingTop: "2px" }}>
-                            <Form.Item label={<FormItemLable text="Salary" />}>
-                                <Dropdown overlay={experinaceOptions}>
-                                    <Button>
-                                        Salary
-                                        <DownOutlined />
-                                    </Button>
-                                </Dropdown>
+                            <Form.Item {...formItemLayout} label={<FormItemLable text="Salary" />}>
+                                <Select
+                                    style={{ width: "100%" }}
+                                    defaultValue={
+                                        tempData.salarymax
+                                            ? props.metaSalaries.filter(e => e.value == tempData.salarymax)[0]["name"]
+                                            : undefined
+                                    }
+                                    allowClear={true}
+                                    onChange={val => {
+                                        onChangeSearchField("salarymax", val);
+                                    }}
+                                    size="large"
+                                    onSearch={value => {
+                                        setTempData({ ...tempData, salarymax: value });
+                                    }}
+                                >
+                                    {[...metaSalaryOption]}
+                                </Select>
                             </Form.Item>
                         </div>
                         <div xs={24} sm={24} md={24} lg={3} style={{ paddingTop: "2px" }}>
-                            <Form.Item label={<FormItemLable text="Salary" />}>
-                                <Dropdown overlay={experinaceOptions}>
-                                    <Button>
-                                        Data Posted
-                                        <DownOutlined />
-                                    </Button>
-                                </Dropdown>
+                            <Form.Item {...formItemLayout} label={<FormItemLable text="Date Posted" />}>
+                                <Select
+                                    style={{ width: "100%" }}
+                                    defaultValue={
+                                        tempData.createat
+                                            ? props.metaCreatedAtDates.filter(e => e.value == tempData.createat)[0][
+                                                  "name"
+                                              ]
+                                            : undefined
+                                    }
+                                    allowClear={true}
+                                    onChange={val => {
+                                        onChangeSearchField("createdat", val);
+                                    }}
+                                    size="large"
+                                    onSearch={value => {
+                                        setTempData({ ...tempData, createat: value });
+                                    }}
+                                >
+                                    {[...metaCreatedAtDateOptions]}
+                                </Select>
                             </Form.Item>
                         </div>
                         <div xs={24} sm={24} md={24} lg={3} style={{ paddingTop: "2px" }}>
-                            <Form.Item label={<FormItemLable text="Type" />}>
-                                <Dropdown overlay={experinaceOptions}>
-                                    <Button>
-                                        Type
-                                        <DownOutlined />
-                                    </Button>
-                                </Dropdown>
+                            <Form.Item {...formItemLayout} label={<FormItemLable text="Type" />}>
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: "100%" }}
+                                    defaultValue={tempData.type ? tempData.type : undefined}
+                                    allowClear={true}
+                                    onChange={val => {
+                                        onChangeSearchField("type", val);
+                                    }}
+                                    size="large"
+                                    onSearch={value => {
+                                        setTempData({ ...tempData, type: value });
+                                    }}
+                                >
+                                    {[...metaTypeOptions]}
+                                </Select>
                             </Form.Item>
                         </div>
                         <div xs={24} sm={24} md={24} lg={3} style={{ paddingTop: "2px" }}>
@@ -298,7 +336,7 @@ const AdvancedSerchModel = props => {
                                 loading={false}
                                 style={{ width: "100%" }}
                                 onClick={() => {
-                                    searchJobs(props.searchParams);
+                                    props.actions.searchJobs(props.searchParams);
 
                                     // If the page is not job-details/search navigate to search page
                                     if (location.pathname !== "/job-details") {
