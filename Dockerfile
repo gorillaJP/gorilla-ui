@@ -15,4 +15,4 @@ RUN npm install
 EXPOSE 3000
 
 #PROD CMD ["npm", "run", "startProd"]
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "uat"]

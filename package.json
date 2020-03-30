@@ -19,6 +19,7 @@
         "shortid": "^2.2.15"
     },
     "scripts": {
+        "uat": "set NODE_ENV=uat && react-scripts start",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
