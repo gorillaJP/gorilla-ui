@@ -1,7 +1,7 @@
 FROM node:latest
 
 #a wrapper to node http server, which aware create react app
-RUN npm install -g serve
+#PROD RUN npm install -g serve
 
 WORKDIR /app
 
@@ -10,8 +10,9 @@ ADD . /app
 RUN npm install 
 
 #create react app prod build
-RUN npm run build
+# PROD RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npm", "run", "startProd"]
+#PROD CMD ["npm", "run", "startProd"]
+CMD ["npm", "run", "start"]
