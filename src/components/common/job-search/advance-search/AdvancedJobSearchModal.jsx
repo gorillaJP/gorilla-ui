@@ -112,7 +112,7 @@ const AdvancedSerchModel = props => {
             >
                 <div className={styles.searchSection} gutter={20}>
                     <Form>
-                        <div xs={30} sm={30} md={30} lg={30}>
+                        <div>
                             <Form.Item {...formItemLayout} label={<FormItemLable text="keyword" />}>
                                 <AutoComplete
                                     id={shortId.generate()}
@@ -330,11 +330,11 @@ const AdvancedSerchModel = props => {
                                 </Select>
                             </Form.Item>
                         </div>
-                        <div xs={24} sm={24} md={24} lg={3} style={{ paddingTop: "2px" }}>
+                        <div xs={24} sm={24} md={24} lg={3} style={{ textAlign: "center", paddingTop: "2px" }}>
                             <Button
+                                style={{ width: "75%" }}
                                 type="primary"
                                 loading={false}
-                                style={{ width: "100%" }}
                                 onClick={() => {
                                     props.actions.searchJobs(props.searchParams);
 
