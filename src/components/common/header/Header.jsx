@@ -85,11 +85,13 @@ const Header = props => {
                                         <span>Login</span>
                                     </Button>
                                 </div>
-                                <div className={styles.signupButton}>
-                                    <Button type="primary" icon="user-add" size="large">
-                                        <span>Signup</span>
-                                    </Button>
-                                </div>
+                                <Link to="/signup">
+                                    <div className={styles.signupButton}>
+                                        <Button type="primary" icon="user-add" size="large">
+                                            <span>Signup</span>
+                                        </Button>
+                                    </div>
+                                </Link>
                             </Row>
                         )}
 

@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import "./App.css";
+import styles from "./App.module.css";
 import Header from "./components/common/header/Header";
 import LandingPage from "./components/pages/landing-page/LandingPage";
 import JobDetails from "./components/pages/job-details-page/JobDetails";
 import JobPost from "./components/pages/job-post-page/JobPost";
 import Footer from "./components/common/footer/Footer";
 import Loader from "./components/pages/loader/Loader";
+import EmployerSignup from "./components/pages/signup/employer/EmployerSignup";
 
 function App() {
     const [mobileMenuOpen, toggleMobileMenu] = useState(false);
     const [userLoggeIn, setUserLoggedIn] = useState(false);
 
     return (
-        <div className="App">
+        <div className={styles.app}>
             <Router>
                 <div>
                     <Header
@@ -28,7 +29,7 @@ function App() {
                 </div>
                 {!mobileMenuOpen && (
                     <>
-                        <div className="content-wrapper">
+                        <div className={styles.contentWrapper}>
                             <Switch>
                                 <Route exact path="/" render={() => <LandingPage />} />
                             </Switch>
@@ -40,6 +41,11 @@ function App() {
                             </Switch>
                             <Switch>
                                 <Route exact path="/job-post/preview" render={() => <JobPost />} />
+                            </Switch>
+                            <Switch>
+                                <div className={styles.content}>
+                                    <Route exact path="/signup" render={() => <EmployerSignup />} />
+                                </div>
                             </Switch>
                         </div>
                     </>
