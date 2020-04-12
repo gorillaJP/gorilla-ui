@@ -1,17 +1,23 @@
-.App {
+.app {
     height: 100%;
 }
 
-.content-wrapper {
+.contentWrapper {
     min-height: calc(100vh - 260px) !important;
 }
 
+.content {
+    margin: 20px 50px;
+}
+
 @media (min-width: 481px) and (max-width: 767px) {
-    .content-wrapper {
+    .content {
+        margin: 20px;
     }
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
-    .content-wrapper {
+    .content {
+        margin: 20px;
     }
 }
