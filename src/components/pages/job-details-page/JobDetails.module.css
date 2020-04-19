@@ -1,15 +1,7 @@
-.jobDetailsPageWrapper {
-}
-
 .jobDetailsWrapper {
-    display: flex;
-}
-
-.advanceJobSearchWrapper {
 }
 
 .leftPannel {
-    height: calc(100vh - 150px) !important;
     margin-bottom: 10px;
     border-right: 1px solid #5e5e5e;
     overflow: auto;

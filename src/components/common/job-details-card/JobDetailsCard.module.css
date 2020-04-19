@@ -1,4 +1,5 @@
 .jobDetailsCardWrapper {
+    min-height: calc(100vh - 150px) !important;
     margin: 15px 30px;
     display: block;
 }

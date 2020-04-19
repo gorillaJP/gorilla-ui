@@ -22,7 +22,7 @@ const labelStyles = { margin: "5px", display: "inline-block", fontSize: "16px" }
 const AutoCompleteOption = AutoComplete.Option;
 
 const EmployerSignup = props => {
-    const [userDetails, setUserDetails] = useState({
+    const userObj = {
         firstName: "",
         lastName: "",
         email: "",
@@ -30,17 +30,19 @@ const EmployerSignup = props => {
         password: "",
         confirmPassword: "",
         companyName: undefined
-    });
+    };
 
-    const [userErrorMsg, setUserErrMsg] = useState({
-        firstName: "",
-        lastName: "",
+    const companyObj = {
+        name: undefined,
+        logo: "",
         email: "",
         phonenumber: "",
-        password: "",
-        confirmPassword: "",
-        companyName: ""
-    });
+        description: ""
+    };
+
+    const [userDetails, setUserDetails] = useState(userObj);
+
+    const [userErrorMsg, setUserErrMsg] = useState(userObj);
 
     const [userDetailsErrors, setUserDetailsErrors] = useState({
         firstName: false,
@@ -52,21 +54,9 @@ const EmployerSignup = props => {
         companyName: false
     });
 
-    const [companyDetails, setCompanyDetails] = useState({
-        name: undefined,
-        logo: "",
-        email: "",
-        phonenumber: "",
-        description: ""
-    });
+    const [companyDetails, setCompanyDetails] = useState(companyObj);
 
-    const [companyErrMsg, setCompanyErrMsg] = useState({
-        name: "",
-        logo: "",
-        email: "",
-        phonenumber: "",
-        description: ""
-    });
+    const [companyErrMsg, setCompanyErrMsg] = useState(companyObj);
 
     const [companyDetailsErrors, setCompanyDetailsErrors] = useState({
         name: false,
@@ -150,6 +140,9 @@ const EmployerSignup = props => {
         }
 
         if (!haveErrorInCompanyDetails && !haveErrorInUserDetails) {
+            setUserErrMsg(userObj);
+            setCompanyErrMsg(companyObj);
+
             const errors = await registerEmployer(reqData);
             if (errors.length > 0) {
                 for (const err of errors) {
@@ -360,7 +353,7 @@ const EmployerSignup = props => {
                     <FormErrorMsg msg={userErrorMsg.companyName}></FormErrorMsg>
                 </div>
             </div>
-            <div className={Styles.companyDetails} style={addCompanyForm ? { alignSelf: "flex-end" } : {}}>
+            <div className={Styles.companyDetails}>
                 <div
                     className={Styles.addCompanyForm}
                     style={addCompanyForm ? { display: "block" } : { display: "none" }}

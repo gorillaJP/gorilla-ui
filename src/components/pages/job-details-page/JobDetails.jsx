@@ -35,7 +35,7 @@ const JobDetails = props => {
 
     useEffect(() => {
         const params = { ...props.searchParams };
-        params.offset = currentPage * params.limit;
+        params.offset = (currentPage - 1) * params.limit;
         searchJobs(params);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
@@ -73,6 +73,8 @@ const JobDetails = props => {
                                 hideOnSinglePage
                                 defaultPageSize={props.jobLimitPerPage}
                                 total={props.totalAdds}
+                                current={currentPage}
+                                responsive
                                 onChange={pageNumber => {
                                     setCurrentPage(pageNumber);
                                 }}

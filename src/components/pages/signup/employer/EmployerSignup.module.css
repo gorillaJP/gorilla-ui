@@ -24,7 +24,6 @@
 }
 
 .addCompanyBtn {
-    display: inline-block;
     float: right;
 }
 
@@ -70,23 +69,7 @@
     margin-top: 38px;
 }
 
-@media (min-width: 481px) and (max-width: 767px) {
-    .signUpContainer {
-        flex-direction: column !important;
-        justify-content: center !important;
-    }
-
-    .userDetails,
-    .companyDetails {
-        width: 100%;
-    }
-
-    .addCompanyForm {
-        margin-top: auto;
-    }
-}
-
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 481px) and (max-width: 767px), (min-width: 320px) and (max-width: 480px) {
     .signUpContainer {
         flex-direction: column !important;
         justify-content: center !important;
