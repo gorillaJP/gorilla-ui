@@ -24,7 +24,7 @@ const MobileMenu = () => {
     return (
         <Menu style={{ width: "100%" }} defaultSelectedKeys={["0"]} defaultOpenKeys={["sub1"]} mode="inline">
             <SubMenu
-                key="sub1"
+                key="job-search"
                 title={
                     <span>
                         <SearchOutlined />
@@ -40,15 +40,12 @@ const MobileMenu = () => {
                     );
                 })}
             </SubMenu>
-            <SubMenu
-                key="sub1"
-                title={
-                    <span>
-                        <UserOutlined />
-                        <Link to={"/job-post"}>Job Post</Link>
-                    </span>
-                }
-            ></SubMenu>
+            <Menu.Item key="job-post">
+                <span>
+                    <UserOutlined />
+                    <Link to={"/job-post"}>Job Post</Link>
+                </span>
+            </Menu.Item>
         </Menu>
     );
 };

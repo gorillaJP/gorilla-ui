@@ -41,7 +41,6 @@ const SimpleJobSearch = props => {
                             >
                                 Advance Search
                             </button>
-                            {showAdvnaceSearch ? <AdvancedSerachModal setShow={setShowAdvanceSearch} /> : undefined}
                         </Col>
                     </Row>
                 </div>
@@ -66,6 +65,7 @@ const SimpleJobSearch = props => {
                     />
                 </Col>
             </Row>
+            {showAdvnaceSearch ? <AdvancedSerachModal setShow={setShowAdvanceSearch} /> : null}
         </div>
     );
 };

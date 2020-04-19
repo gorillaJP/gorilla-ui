@@ -8,7 +8,6 @@ export const registerEmployer = async jobPost => {
             return [];
         })
         .catch(e => {
-            console.log(e.response);
-            return [e.data.payload];
+            return [e.response.data.payload];
         });
 };

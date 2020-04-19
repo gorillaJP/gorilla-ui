@@ -13,6 +13,7 @@ import { companyNamesAutoComplete } from "../../../../api/AutoCompleteApi";
 import { isValidEmail, isValidContactNumber, validatePassword } from "../../../../util/Util";
 import { loadingStarted, loadingFinished } from "../../../../actions/CommonActions";
 import { registerEmployer } from "../../../../api/UserApi";
+import FormErrorMsg from "../../../common/form-error-msg/FormErrorMsg";
 
 const inputStyle = { margin: "15px", width: "90%" };
 const inputFullWidthStyle = { ...inputStyle, width: "100%", margin: "5px", display: "inline-block" };
@@ -22,13 +23,23 @@ const AutoCompleteOption = AutoComplete.Option;
 
 const EmployerSignup = props => {
     const [userDetails, setUserDetails] = useState({
+        firstName: "SHash",
+        lastName: "Dar",
+        email: "shashith1d@gmail.com",
+        phonenumber: "1234567890",
+        password: "Shash@123",
+        confirmPassword: "Shash@123",
+        companyName: undefined
+    });
+
+    const [userErrorMsg, setUserErrMsg] = useState({
         firstName: "",
         lastName: "",
         email: "",
         phonenumber: "",
         password: "",
         confirmPassword: "",
-        companyName: undefined
+        companyName: ""
     });
 
     const [userDetailsErrors, setUserDetailsErrors] = useState({
@@ -49,7 +60,13 @@ const EmployerSignup = props => {
         description: ""
     });
 
-    const [passwordValidationMessages, setPasswordValidationMessage] = useState([]);
+    const [companyErrMsg, setCompanyErrMsg] = useState({
+        name: "",
+        logo: "",
+        email: "",
+        phonenumber: "",
+        description: ""
+    });
 
     const [companyDetailsErrors, setCompanyDetailsErrors] = useState({
         name: false,
@@ -58,6 +75,8 @@ const EmployerSignup = props => {
         phonenumber: false,
         description: false
     });
+
+    const [passwordValidationMessages, setPasswordValidationMessage] = useState([]);
 
     const [addCompanyForm, toggleAddCompany] = useState(false);
     const [companyNames, setCompanyNames] = useState([]);
@@ -87,7 +106,7 @@ const EmployerSignup = props => {
         setUserDetails({ ...userDetails, companyName: undefined });
     };
 
-    const createEmployer = () => {
+    const createEmployer = async () => {
         props.actions.loadingStarted();
 
         let haveErrorInUserDetails = false;
@@ -131,13 +150,17 @@ const EmployerSignup = props => {
         }
 
         if (!haveErrorInCompanyDetails && !haveErrorInUserDetails) {
-            registerEmployer(reqData)
-                .then(data => {
-                    props.actions.loadingFinished();
-                })
-                .catch(err => {
-                    props.actions.loadingFinished();
-                });
+            const errors = await registerEmployer(reqData);
+            if (errors.length > 0) {
+                for (const err of errors) {
+                    if (err.field.includes("company.")) {
+                        setCompanyErrMsg({ ...companyErrMsg, ...{ [err.field.replace("company.", "")]: err.message } });
+                    } else {
+                        setUserErrMsg({ ...userErrorMsg, ...{ [err.field]: err.message } });
+                    }
+                }
+            }
+            props.actions.loadingFinished();
         } else {
             props.actions.loadingFinished();
         }
@@ -180,6 +203,7 @@ const EmployerSignup = props => {
                             setUserDetailsObject("firstName", event.target.value);
                         }}
                     />
+                    <FormErrorMsg msg={userErrorMsg.firstName}></FormErrorMsg>
                 </div>
                 <div>
                     <FormLabel name="Last Name" styles={labelStyles} error={userDetailsErrors.lastName} />
@@ -191,6 +215,7 @@ const EmployerSignup = props => {
                             setUserDetailsObject("lastName", event.target.value);
                         }}
                     />
+                    <FormErrorMsg msg={userErrorMsg.lastName}></FormErrorMsg>
                 </div>
                 <div>
                     <FormLabel name="Email Address" required styles={labelStyles} error={userDetailsErrors.email} />
@@ -209,6 +234,7 @@ const EmployerSignup = props => {
                             setUserDetails({ ...userDetails, email: value });
                         }}
                     />
+                    <FormErrorMsg msg={userErrorMsg.email}></FormErrorMsg>
                 </div>
                 <div>
                     <FormLabel
@@ -232,6 +258,7 @@ const EmployerSignup = props => {
                             setUserDetails({ ...userDetails, phonenumber: value });
                         }}
                     />
+                    <FormErrorMsg msg={userErrorMsg.phonenumber}></FormErrorMsg>
                 </div>
                 <div>
                     <FormLabel name="Password" required styles={labelStyles} error={userDetailsErrors.password}>
@@ -251,6 +278,7 @@ const EmployerSignup = props => {
                             setPasswordValidationMessage(validatePassword(userDetails.password));
                         }}
                     />
+                    <FormErrorMsg msg={userErrorMsg.password}></FormErrorMsg>
                     {passwordValidationMessages.map((message, index) => {
                         return (
                             <span key={index} className={Styles.validationErrors}>
@@ -329,6 +357,7 @@ const EmployerSignup = props => {
                     >
                         <Input placeholder="--select here--" size="large" />
                     </AutoComplete>
+                    <FormErrorMsg msg={userErrorMsg.companyName}></FormErrorMsg>
                 </div>
             </div>
             <div className={Styles.companyDetails} style={addCompanyForm ? { alignSelf: "flex-end" } : {}}>
@@ -347,6 +376,7 @@ const EmployerSignup = props => {
                                 setCompanyDetailsObject("name", event.target.value);
                             }}
                         />
+                        <FormErrorMsg msg={companyErrMsg.name}></FormErrorMsg>
                     </div>
                     <div className={Styles.uploadBtn}>
                         <FormLabel name="Company Logo" styles={labelStyles} error={companyDetailsErrors.logo} />
@@ -384,6 +414,7 @@ const EmployerSignup = props => {
                                 setCompanyDetails({ ...companyDetails, email: value });
                             }}
                         />
+                        <FormErrorMsg msg={companyErrMsg.email}></FormErrorMsg>
                     </div>
                     <div>
                         <FormLabel
@@ -408,6 +439,7 @@ const EmployerSignup = props => {
                                 setCompanyDetails({ ...companyDetails, phonenumber: value });
                             }}
                         />
+                        <FormErrorMsg msg={companyErrMsg.phonenumber}></FormErrorMsg>
                     </div>
                     <div>
                         <FormLabel

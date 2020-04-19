@@ -10,6 +10,11 @@
     margin: 20px 50px;
 }
 
+.hidden {
+    visibility: hidden;
+    transition: visibility 0s ease 0.4s;
+}
+
 @media (min-width: 481px) and (max-width: 767px) {
     .content {
         margin: 20px;

@@ -20,37 +20,34 @@ function App() {
                 <div>
                     <Header
                         mobileMenuOpen={mobileMenuOpen}
-                        toggleMenu={val => {
-                            toggleMobileMenu(val);
+                        toggleMenu={() => {
+                            toggleMobileMenu(!mobileMenuOpen);
                         }}
                         userLoggeIn={userLoggeIn}
                         setUserLoggedIn={setUserLoggedIn}
                     />
                 </div>
-                {!mobileMenuOpen && (
-                    <>
-                        <div className={styles.contentWrapper}>
-                            <Switch>
-                                <Route exact path="/" render={() => <LandingPage />} />
-                            </Switch>
-                            <Switch>
-                                <Route exact path="/job-details" render={() => <JobDetails />} />
-                            </Switch>
-                            <Switch>
-                                <Route exact path="/job-post" render={() => <JobPost />} />
-                            </Switch>
-                            <Switch>
-                                <Route exact path="/job-post/preview" render={() => <JobPost />} />
-                            </Switch>
-                            <Switch>
-                                <div className={styles.content}>
-                                    <Route exact path="/signup" render={() => <EmployerSignup />} />
-                                </div>
-                            </Switch>
+
+                <div className={`${styles.contentWrapper} ${mobileMenuOpen ? styles.hidden : ""}`}>
+                    <Switch>
+                        <Route exact path="/" render={() => <LandingPage />} />
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/job-details" render={() => <JobDetails />} />
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/job-post" render={() => <JobPost />} />
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/job-post/preview" render={() => <JobPost />} />
+                    </Switch>
+                    <Switch>
+                        <div className={styles.content}>
+                            <Route exact path="/signup" render={() => <EmployerSignup />} />
                         </div>
-                    </>
-                )}
-                <div>
+                    </Switch>
+                </div>
+                <div className={`${mobileMenuOpen ? styles.hidden : ""}`}>
                     <Footer />
                 </div>
             </Router>
