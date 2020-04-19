@@ -23,12 +23,12 @@ const AutoCompleteOption = AutoComplete.Option;
 
 const EmployerSignup = props => {
     const [userDetails, setUserDetails] = useState({
-        firstName: "SHash",
-        lastName: "Dar",
-        email: "shashith1d@gmail.com",
-        phonenumber: "1234567890",
-        password: "Shash@123",
-        confirmPassword: "Shash@123",
+        firstName: "",
+        lastName: "",
+        email: "",
+        phonenumber: "",
+        password: "",
+        confirmPassword: "",
         companyName: undefined
     });
 
