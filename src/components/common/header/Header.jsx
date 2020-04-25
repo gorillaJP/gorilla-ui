@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
 import MobileMenu from "./MobileMenu";
 import styles from "./Header.module.css";
+import { useEffect } from "react";
 
 const LinkDropDownContent = items => {
     return (
@@ -39,6 +40,19 @@ const jobsByFunctionItems = [
 ];
 
 const Header = props => {
+    let location = useLocation();
+    const [previousPathName, setPreviousPathName] = useState("/");
+
+    useEffect(() => {
+        if (previousPathName !== location.pathname) {
+            setPreviousPathName(location.pathname);
+
+            if (props.mobileMenuOpen) {
+                props.toggleMenu(false);
+            }
+        }
+    }, [location, previousPathName, props]);
+
     return (
         <header>
             <nav>
@@ -87,7 +101,7 @@ const Header = props => {
                         {props.mobileMenuOpen && (
                             <Button
                                 ghost
-                                onClick={() => props.toggleMenu()}
+                                onClick={() => props.toggleMenu(!props.mobileMenuOpen)}
                                 style={{ border: "none", fontSize: "20px", padding: 0 }}
                             >
                                 <MenuUnfoldOutlined />
@@ -96,7 +110,7 @@ const Header = props => {
                         {!props.mobileMenuOpen && (
                             <Button
                                 ghost
-                                onClick={() => props.toggleMenu()}
+                                onClick={() => props.toggleMenu(!props.mobileMenuOpen)}
                                 style={{ border: "none", fontSize: "20px", padding: 0 }}
                             >
                                 <MenuFoldOutlined />

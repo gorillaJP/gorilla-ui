@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import styles from "./App.module.css";
@@ -20,8 +20,8 @@ function App() {
                 <div>
                     <Header
                         mobileMenuOpen={mobileMenuOpen}
-                        toggleMenu={() => {
-                            toggleMobileMenu(!mobileMenuOpen);
+                        toggleMenu={value => {
+                            toggleMobileMenu(value);
                         }}
                         userLoggeIn={userLoggeIn}
                         setUserLoggedIn={setUserLoggedIn}
