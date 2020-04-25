@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Empty, Row, Col, Pagination } from "antd";
@@ -16,6 +16,11 @@ const JobDetails = props => {
     //That job will be
     const [selectedJobAddId, setSelectedJobId] = useState(undefined);
     const [currentPage, setCurrentPage] = useState(1);
+    const [leftPanelInitialHeight, setLeftPanelInitialHeight] = useState(0);
+    const [leftPanelHeight, setLeftPanelHeight] = useState(0);
+
+    const leftPanel = useRef(null);
+    const rightPanel = useRef(null);
 
     const { searchJobs } = props.actions;
 
@@ -40,6 +45,24 @@ const JobDetails = props => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
 
+    useEffect(() => {
+        if (rightPanel.current && leftPanel.current) {
+            const rightDivHeight = rightPanel.current.getBoundingClientRect().height;
+            const leftDivHeight = leftPanel.current.getBoundingClientRect().height;
+
+            if (leftPanelInitialHeight === 0) {
+                setLeftPanelInitialHeight(leftDivHeight);
+            }
+
+            if (rightDivHeight > leftDivHeight) {
+                setLeftPanelHeight(rightDivHeight);
+            } else {
+                setLeftPanelHeight(0);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [jobToShow]);
+
     return (
         <div className={styles.jobDetailsPageWrapper}>
             <div>
@@ -47,44 +70,51 @@ const JobDetails = props => {
             </div>
             <Row className={styles.jobDetailsWrapper}>
                 <Col xs={24} sm={24} md={24} lg={8} className={styles.leftPannel}>
-                    {props.jobAdds.map(job => {
-                        return (
-                            <JobAddCard
-                                jobTitle={job.title}
-                                company={job.company}
-                                location={job.location}
-                                key={job._id}
-                                onSelect={key => {
-                                    setSelectedJobId(key);
-                                }}
-                                skills={job.skills}
-                                salaryMin={job.salaryMin}
-                                salarymax={job.salarymax}
-                                selected={jobToShow && jobToShow._id === job._id} //highlight the tile, for the job which is displayed
-                                jobId={job._id}
-                            />
-                        );
-                    })}
-                    {!props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
-                    {props.jobAdds.length ? (
-                        <div className={styles.paginationContainer}>
-                            <Pagination
-                                defaultCurrent={1}
-                                hideOnSinglePage
-                                defaultPageSize={props.jobLimitPerPage}
-                                total={props.totalAdds}
-                                current={currentPage}
-                                responsive
-                                onChange={pageNumber => {
-                                    setCurrentPage(pageNumber);
-                                }}
-                            />
-                        </div>
-                    ) : null}
+                    <div
+                        ref={leftPanel}
+                        style={{ height: leftPanelHeight ? `${leftPanelHeight}px` : `${leftPanelInitialHeight}px` }}
+                    >
+                        {props.jobAdds.map(job => {
+                            return (
+                                <JobAddCard
+                                    jobTitle={job.title}
+                                    company={job.company}
+                                    location={job.location}
+                                    key={job._id}
+                                    onSelect={key => {
+                                        setSelectedJobId(key);
+                                    }}
+                                    skills={job.skills}
+                                    salaryMin={job.salaryMin}
+                                    salarymax={job.salarymax}
+                                    selected={jobToShow && jobToShow._id === job._id} //highlight the tile, for the job which is displayed
+                                    jobId={job._id}
+                                />
+                            );
+                        })}
+                        {!props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+                        {props.jobAdds.length ? (
+                            <div className={styles.paginationContainer}>
+                                <Pagination
+                                    defaultCurrent={1}
+                                    hideOnSinglePage
+                                    defaultPageSize={props.jobLimitPerPage}
+                                    total={props.totalAdds}
+                                    current={currentPage}
+                                    responsive
+                                    onChange={pageNumber => {
+                                        setCurrentPage(pageNumber);
+                                    }}
+                                />
+                            </div>
+                        ) : null}
+                    </div>
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={16}>
                     {jobToShow ? (
-                        <JobDetailsCard job={jobToShow} />
+                        <div ref={rightPanel}>
+                            <JobDetailsCard job={jobToShow} ref={rightPanel} />
+                        </div>
                     ) : (
                         <Empty
                             image={Empty.PRESENTED_IMAGE_SIMPLE}

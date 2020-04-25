@@ -301,9 +301,9 @@ const EmployerSignup = props => {
                             }
                         }}
                     />
-                    {userDetailsErrors.confirmPassword && (
-                        <span className={Styles.validationErrors}>Password doesn't match</span>
-                    )}
+                    <FormErrorMsg
+                        msg={userDetailsErrors.confirmPassword ? "Password doesn't match" : ""}
+                    ></FormErrorMsg>
                 </div>
                 <div>
                     <FormLabel
@@ -353,7 +353,7 @@ const EmployerSignup = props => {
                     <FormErrorMsg msg={userErrorMsg.companyName}></FormErrorMsg>
                 </div>
             </div>
-            <div className={Styles.companyDetails}>
+            <div className={`${Styles.companyDetails} ${addCompanyForm ? Styles.twinColumns : ""}`}>
                 <div
                     className={Styles.addCompanyForm}
                     style={addCompanyForm ? { display: "block" } : { display: "none" }}
@@ -383,6 +383,7 @@ const EmployerSignup = props => {
                                 <UploadOutlined /> Click to Upload
                             </Button>
                         </Upload>
+                        <FormErrorMsg msg={companyErrMsg.logo}></FormErrorMsg>
                     </div>
                     <div>
                         <FormLabel
