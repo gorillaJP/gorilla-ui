@@ -11,6 +11,7 @@
     flex-direction: column;
     width: 100%;
     margin-bottom: 50px;
+    position: relative;
 }
 
 .userDetails {
@@ -73,6 +74,28 @@
     margin-top: 38px;
 }
 
+.hiddenForm {
+}
+
+.showBanner {
+    background-color: rgba(255, 255, 255, 0.4);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+.banner {
+    min-height: calc(100vh - 260px) !important;
+    align-self: center;
+    z-index: 599999;
+}
+
 @media (min-width: 481px) and (max-width: 767px), (min-width: 320px) and (max-width: 480px) {
     .signUpContainer {
         flex-direction: column !important;
@@ -86,5 +109,14 @@
 
     .addCompanyForm {
         margin-top: auto;
+    }
+
+    .hiddenForm {
+        display: none;
+    }
+
+    .showBanner {
+        top: 44px;
+        background-color: transparent;
     }
 }

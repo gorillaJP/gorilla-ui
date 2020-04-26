@@ -1,0 +1,48 @@
+.banner {
+    padding: 20px;
+}
+
+.success {
+    background-color: #caf5d1;
+}
+
+.header {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.message {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.btnPannel {
+    padding: 20px;
+    text-align: center;
+}
+
+.btn {
+    padding: 10px;
+    font-size: 14px;
+}
+
+.success .header {
+    color: #076e06;
+}
+
+.success .message {
+    color: #459946;
+}
+
+.success .btn {
+    color: #ffffff;
+    background-color: #076e06;
+}
+
+.success .btn:hover {
+    color: #ffffff;
+    background-color: #076e068a;
+}

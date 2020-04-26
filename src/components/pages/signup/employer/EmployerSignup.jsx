@@ -7,13 +7,15 @@ import FormLabel from "../../../common/form-label/FormLabel";
 import { Input, Button, Upload, AutoComplete, Tooltip } from "antd";
 import { UploadOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import Editor from "../../../common/editor/Editor";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { companyNamesAutoComplete } from "../../../../api/AutoCompleteApi";
 import { isValidEmail, isValidContactNumber, validatePassword } from "../../../../util/Util";
 import { loadingStarted, loadingFinished } from "../../../../actions/CommonActions";
 import { registerEmployer } from "../../../../api/UserApi";
 import FormErrorMsg from "../../../common/form-error-msg/FormErrorMsg";
+import Banner from "../../../common/banners/Banner";
+import { EMPLOYER_SIGNUP_SUCCESS_HEADER, EMPLOYER_SIGNUP_SUCCESS_MSG } from "../../../../constants/MessageConstants";
 
 const inputStyle = { margin: "15px", width: "90%" };
 const inputFullWidthStyle = { ...inputStyle, width: "100%", margin: "5px", display: "inline-block" };
@@ -43,6 +45,8 @@ const EmployerSignup = props => {
     const [userDetails, setUserDetails] = useState(userObj);
 
     const [userErrorMsg, setUserErrMsg] = useState(userObj);
+
+    const [signUpSuccess, setSignUpSuccess] = useState(false);
 
     const [userDetailsErrors, setUserDetailsErrors] = useState({
         firstName: false,
@@ -152,6 +156,8 @@ const EmployerSignup = props => {
                         setUserErrMsg({ ...userErrorMsg, ...{ [err.field]: err.message } });
                     }
                 }
+            } else {
+                setSignUpSuccess(true);
             }
             props.actions.loadingFinished();
         } else {
@@ -179,12 +185,17 @@ const EmployerSignup = props => {
         return Object.values(errorObject).includes(true) ? true : false;
     };
 
+    let history = useHistory();
+
     return (
         <div
             className={Styles.signUpContainer}
             style={addCompanyForm ? { flexDirection: "row", justifyContent: "space-around" } : {}}
         >
-            <div className={Styles.userDetails} style={addCompanyForm ? { alignSelf: "flex-start" } : {}}>
+            <div
+                className={`${Styles.userDetails} ${signUpSuccess ? Styles.hiddenForm : ""}`}
+                style={addCompanyForm ? { alignSelf: "flex-start" } : {}}
+            >
                 <div className={Styles.formHeader}>Get started with your profile</div>
                 <div>
                     <FormLabel name="First Name" required styles={labelStyles} error={userDetailsErrors.firstName} />
@@ -353,7 +364,11 @@ const EmployerSignup = props => {
                     <FormErrorMsg msg={userErrorMsg.companyName}></FormErrorMsg>
                 </div>
             </div>
-            <div className={`${Styles.companyDetails} ${addCompanyForm ? Styles.twinColumns : ""}`}>
+            <div
+                className={`${Styles.companyDetails} ${addCompanyForm ? Styles.twinColumns : ""} ${
+                    signUpSuccess ? Styles.hiddenForm : ""
+                } `}
+            >
                 <div
                     className={Styles.addCompanyForm}
                     style={addCompanyForm ? { display: "block" } : { display: "none" }}
@@ -464,6 +479,19 @@ const EmployerSignup = props => {
                 </div>
                 <div className={Styles.signin}>
                     Already on Gorilla ? <Link to="/signin">Sign in</Link>
+                </div>
+            </div>
+            <div className={`${signUpSuccess ? Styles.showBanner : Styles.hidden}`}>
+                <div className={Styles.banner}>
+                    <Banner
+                        type="success"
+                        header={EMPLOYER_SIGNUP_SUCCESS_HEADER}
+                        msg={EMPLOYER_SIGNUP_SUCCESS_MSG}
+                        btnText="OK"
+                        btnAction={() => {
+                            history.push("/");
+                        }}
+                    ></Banner>
                 </div>
             </div>
         </div>
