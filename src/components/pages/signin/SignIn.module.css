@@ -1,0 +1,66 @@
+.signInContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.signInDetails {
+    align-self: center;
+    width: 45%;
+}
+
+.header {
+    color: #0073b1;
+    display: block;
+    font-weight: bold;
+    font-size: 35px;
+    text-align: center;
+}
+
+.message {
+    color: #979a9c;
+    display: block;
+    font-size: 16px;
+    margin: 5px auto;
+    text-align: center;
+    width: 90%;
+    font-style: italic;
+}
+
+.rememberMeSection {
+    margin: 10px 5px;
+    color: #999999;
+    font-size: 16px;
+}
+
+.rememberMeSection label {
+    color: #999999;
+    font-size: 16px;
+}
+
+.rememberMeSection a {
+    float: right;
+}
+
+.loginBtn {
+    margin: 15px 5px;
+}
+
+.loginBtn button {
+    background-color: #0073b1;
+}
+
+.footerMessage {
+    color: #999999;
+    font-size: 16px;
+    text-align: center;
+}
+
+@media (min-width: 481px) and (max-width: 767px), (min-width: 320px) and (max-width: 480px) {
+    .signInDetails {
+        width: 100%;
+    }
+}

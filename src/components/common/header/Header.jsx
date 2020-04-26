@@ -74,11 +74,13 @@ const Header = props => {
                     </div>
                     <div className={styles.userActions}>
                         {!props.userLoggeIn && (
-                            <div className={styles.loginButton}>
-                                <Button type="primary" icon="login" size="large">
-                                    <span>Login</span>
-                                </Button>
-                            </div>
+                            <Link to="/signin">
+                                <div className={styles.loginButton}>
+                                    <Button type="primary" icon="login" size="large">
+                                        <span>Login</span>
+                                    </Button>
+                                </div>
+                            </Link>
                         )}
                         {!props.userLoggeIn && (
                             <Link to="/signup">

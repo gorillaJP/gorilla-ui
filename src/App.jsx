@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import styles from "./App.module.css";
@@ -7,8 +7,9 @@ import LandingPage from "./components/pages/landing-page/LandingPage";
 import JobDetails from "./components/pages/job-details-page/JobDetails";
 import JobPost from "./components/pages/job-post-page/JobPost";
 import Footer from "./components/common/footer/Footer";
-import Loader from "./components/pages/loader/Loader";
+import Loader from "./components/common/overlays/Loader";
 import EmployerSignup from "./components/pages/signup/employer/EmployerSignup";
+import SignIn from "./components/pages/signin/SignIn";
 
 function App() {
     const [mobileMenuOpen, toggleMobileMenu] = useState(false);
@@ -44,6 +45,11 @@ function App() {
                     <Switch>
                         <div className={styles.content}>
                             <Route exact path="/signup" render={() => <EmployerSignup />} />
+                        </div>
+                    </Switch>
+                    <Switch>
+                        <div className={styles.content}>
+                            <Route exact path="/signin" render={() => <SignIn />} />
                         </div>
                     </Switch>
                 </div>
