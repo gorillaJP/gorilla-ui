@@ -7,11 +7,13 @@ const Banner = props => {
         <div className={`${styles.banner} ${props.type === "success" ? styles.success : ""}`}>
             <span className={styles.header}>{props.header}</span>
             <div className={styles.message}>{props.msg}</div>
-            <div className={styles.btnPannel}>
-                <Button onClick={() => props.btnAction()} className={styles.btn}>
-                    {props.btnText}
-                </Button>
-            </div>
+            {props.btnText && (
+                <div className={styles.btnPannel}>
+                    <Button onClick={() => props.btnAction()} className={styles.btn}>
+                        {props.btnText}
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };

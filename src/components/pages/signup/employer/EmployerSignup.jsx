@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import Styles from "./EmployerSignup.module.css";
+import styles from "./EmployerSignup.module.css";
 import FormLabel from "../../../common/form-label/FormLabel";
 import { Input, Button, Upload, AutoComplete, Tooltip } from "antd";
 import { UploadOutlined, InfoCircleOutlined } from "@ant-design/icons";
@@ -189,14 +189,14 @@ const EmployerSignup = props => {
 
     return (
         <div
-            className={Styles.signUpContainer}
+            className={styles.signUpContainer}
             style={addCompanyForm ? { flexDirection: "row", justifyContent: "space-around" } : {}}
         >
             <div
-                className={`${Styles.userDetails} ${signUpSuccess ? Styles.hiddenForm : ""}`}
+                className={`${styles.userDetails} ${signUpSuccess ? styles.hiddenForm : ""}`}
                 style={addCompanyForm ? { alignSelf: "flex-start" } : {}}
             >
-                <div className={Styles.formHeader}>Get started with your profile</div>
+                <div className={styles.formHeader}>Get started with your profile</div>
                 <div>
                     <FormLabel name="First Name" required styles={labelStyles} error={userDetailsErrors.firstName} />
                     <Input
@@ -285,7 +285,7 @@ const EmployerSignup = props => {
                     <FormErrorMsg msg={userErrorMsg.password}></FormErrorMsg>
                     {passwordValidationMessages.map((message, index) => {
                         return (
-                            <span key={index} className={Styles.validationErrors}>
+                            <span key={index} className={styles.validationErrors}>
                                 {message}
                             </span>
                         );
@@ -323,7 +323,7 @@ const EmployerSignup = props => {
                         styles={labelStyles}
                         error={userDetailsErrors.companyName}
                     />
-                    <span className={Styles.addCompanyBtn}>
+                    <span className={styles.addCompanyBtn}>
                         <Button
                             type="link"
                             style={{ padding: 0 }}
@@ -365,12 +365,12 @@ const EmployerSignup = props => {
                 </div>
             </div>
             <div
-                className={`${Styles.companyDetails} ${addCompanyForm ? Styles.twinColumns : ""} ${
-                    signUpSuccess ? Styles.hiddenForm : ""
+                className={`${styles.companyDetails} ${addCompanyForm ? styles.twinColumns : ""} ${
+                    signUpSuccess ? styles.hiddenForm : ""
                 } `}
             >
                 <div
-                    className={Styles.addCompanyForm}
+                    className={styles.addCompanyForm}
                     style={addCompanyForm ? { display: "block" } : { display: "none" }}
                 >
                     <div>
@@ -386,7 +386,7 @@ const EmployerSignup = props => {
                         />
                         <FormErrorMsg msg={companyErrMsg.name}></FormErrorMsg>
                     </div>
-                    <div className={Styles.uploadBtn}>
+                    <div className={styles.uploadBtn}>
                         <FormLabel name="Company Logo" styles={labelStyles} error={companyDetailsErrors.logo} />
                         <Upload {...props} style={{ width: "100%", display: "block" }}>
                             <Button
@@ -468,21 +468,21 @@ const EmployerSignup = props => {
                         />
                     </div>
                 </div>
-                <div className={Styles.agreement}>
+                <div className={styles.agreement}>
                     By clicking Agree & Join, you agree to the Gorilla User Agreement, Privacy Policy, and Cookie
                     Policy.
                 </div>
-                <div className={Styles.submitContainer}>
+                <div className={styles.submitContainer}>
                     <Button type="primary" onClick={createEmployer}>
                         Agree & Join
                     </Button>
                 </div>
-                <div className={Styles.signin}>
+                <div className={styles.signin}>
                     Already on Gorilla ? <Link to="/signin">Sign in</Link>
                 </div>
             </div>
-            <div className={`${signUpSuccess ? Styles.showBanner : Styles.hidden}`}>
-                <div className={Styles.banner}>
+            <div className={`${signUpSuccess ? styles.showBanner : styles.hidden}`}>
+                <div className={styles.banner}>
                     <Banner
                         type="success"
                         header={EMPLOYER_SIGNUP_SUCCESS_HEADER}
