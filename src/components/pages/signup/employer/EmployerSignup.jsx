@@ -42,13 +42,7 @@ const EmployerSignup = props => {
         description: ""
     };
 
-    const [userDetails, setUserDetails] = useState(userObj);
-
-    const [userErrorMsg, setUserErrMsg] = useState(userObj);
-
-    const [signUpSuccess, setSignUpSuccess] = useState(false);
-
-    const [userDetailsErrors, setUserDetailsErrors] = useState({
+    const userDetailsErrorObj = {
         firstName: false,
         lastName: false,
         email: false,
@@ -56,19 +50,29 @@ const EmployerSignup = props => {
         password: false,
         confirmPassword: false,
         companyName: false
-    });
+    };
 
-    const [companyDetails, setCompanyDetails] = useState(companyObj);
-
-    const [companyErrMsg, setCompanyErrMsg] = useState(companyObj);
-
-    const [companyDetailsErrors, setCompanyDetailsErrors] = useState({
+    const companyDetailsErrorObj = {
         name: false,
         logo: false,
         email: false,
         phonenumber: false,
         description: false
-    });
+    };
+
+    const [userDetails, setUserDetails] = useState(userObj);
+
+    const [userErrorMsg, setUserErrMsg] = useState(userObj);
+
+    const [signUpSuccess, setSignUpSuccess] = useState(false);
+
+    const [userDetailsErrors, setUserDetailsErrors] = useState(userDetailsErrorObj);
+
+    const [companyDetails, setCompanyDetails] = useState(companyObj);
+
+    const [companyErrMsg, setCompanyErrMsg] = useState(companyObj);
+
+    const [companyDetailsErrors, setCompanyDetailsErrors] = useState(companyDetailsErrorObj);
 
     const [passwordValidationMessages, setPasswordValidationMessage] = useState([]);
 
@@ -78,6 +82,7 @@ const EmployerSignup = props => {
     const setUserDetailsObject = (field, value) => {
         if (value) {
             setUserDetailsErrors({ ...userDetailsErrors, [field]: false });
+            setCompanyDetailsErrors(companyDetailsErrorObj);
         } else {
             setUserDetailsErrors({ ...userDetailsErrors, [field]: true });
         }
@@ -282,13 +287,9 @@ const EmployerSignup = props => {
                             setPasswordValidationMessage(validatePassword(userDetails.password));
                         }}
                     />
-                    <FormErrorMsg msg={userErrorMsg.password}></FormErrorMsg>
+                    {!passwordValidationMessages.length && <FormErrorMsg msg={userErrorMsg.password}></FormErrorMsg>}
                     {passwordValidationMessages.map((message, index) => {
-                        return (
-                            <span key={index} className={styles.validationErrors}>
-                                {message}
-                            </span>
-                        );
+                        return <FormErrorMsg msg={message} key={index}></FormErrorMsg>;
                     })}
                 </div>
                 <div>

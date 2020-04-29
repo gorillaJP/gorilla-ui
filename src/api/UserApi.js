@@ -11,3 +11,14 @@ export const registerEmployer = async jobPost => {
             return [e.response.data.payload];
         });
 };
+
+export const signIn = async signInDetails => {
+    return await axios
+        .post(config.remote + 'api/login', signInDetails)
+        .then(res => {
+            return [];
+        })
+        .catch(e => {
+            return [e.response.data.payload];
+        });
+};

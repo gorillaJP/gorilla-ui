@@ -12,11 +12,14 @@ import FormErrorMsg from "../../common/form-error-msg/FormErrorMsg";
 import { isValidEmail } from "../../../util/Util";
 import { Link } from "react-router-dom";
 import Banner from "../../common/banners/Banner";
+import { signIn } from "../../../api/UserApi";
 
 const labelStyles = { margin: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
 const inputStyle = { margin: "15px", width: "90%" };
 const inputFullWidthStyle = { ...inputStyle, width: "100%", margin: "5px", display: "inline-block" };
 const errorInput = { ...inputFullWidthStyle, border: "1px solid red" };
+
+const domain = "employer";
 
 const SignIn = props => {
     const [email, setEmail] = useState({
@@ -24,9 +27,36 @@ const SignIn = props => {
         error: ""
     });
 
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState({
+        value: "",
+        error: ""
+    });
 
     const [rememberMe, setRememberMe] = useState(false);
+
+    const signInUser = async () => {
+        if (!email.value) {
+            setEmail({ ...email, ...{ error: "Insert Email" } });
+        } else {
+            setEmail({ ...email, ...{ error: "" } });
+        }
+
+        if (!password.value) {
+            setPassword({ ...password, ...{ error: "Insert Password" } });
+        } else {
+            setPassword({ ...password, ...{ error: "" } });
+        }
+
+        if (email.value && password.value) {
+            const errors = await signIn({
+                email: email.value,
+                password: password.value,
+                domain: domain
+            });
+
+            console.log(errors);
+        }
+    };
 
     return (
         <div className={styles.signInContainer}>
@@ -39,9 +69,9 @@ const SignIn = props => {
             )}
 
             <div className={styles.signInDetails}>
-                {!props.premiumSignin && <h3 className={styles.header}>{SIGN_IN_PREMIUM}</h3>}
-                {!!props.premiumSignin && (
-                    <h3 className={styles.header}>{!props.initialSignIn ? INITIAL_SIGN_IN_HEADER : SIGN_IN_HEADER}</h3>
+                {props.premiumSignin && <h3 className={styles.header}>{SIGN_IN_PREMIUM}</h3>}
+                {!props.premiumSignin && (
+                    <h3 className={styles.header}>{props.initialSignIn ? INITIAL_SIGN_IN_HEADER : SIGN_IN_HEADER}</h3>
                 )}
 
                 <p className={styles.message}>{INITIAL_SIGN_IN_MSG}</p>
@@ -64,16 +94,18 @@ const SignIn = props => {
                         <FormErrorMsg msg={email.error}></FormErrorMsg>
                     </div>
                     <div>
-                        <FormLabel name="Password" styles={labelStyles} />
+                        <FormLabel name="Password" styles={labelStyles} error={password.error} />
                         <Input
                             size="large"
-                            style={inputFullWidthStyle}
-                            value={password}
+                            style={password.error ? errorInput : inputFullWidthStyle}
+                            value={password.value}
                             type="password"
                             onChange={event => {
-                                setPassword(event.target.value);
+                                const value = event.target.value;
+                                setPassword({ ...password, ...{ value: value } });
                             }}
                         />
+                        <FormErrorMsg msg={password.error}></FormErrorMsg>
                     </div>
                     <div className={styles.rememberMeSection}>
                         <Checkbox value={rememberMe} onChange={e => setRememberMe(e.target.checked)}>
@@ -82,7 +114,13 @@ const SignIn = props => {
                         <Link to="/forgot-password">Forgot Password ?</Link>
                     </div>
                     <div className={styles.loginBtn}>
-                        <Button type="primary" block>
+                        <Button
+                            type="primary"
+                            block
+                            onClick={() => {
+                                signInUser();
+                            }}
+                        >
                             Sign In
                         </Button>
                     </div>
