@@ -8,7 +8,7 @@ export const registerEmployer = async jobPost => {
             return [];
         })
         .catch(e => {
-            return [e.response.data.payload];
+            return e.response.data.payload;
         });
 };
 
@@ -16,9 +16,13 @@ export const signIn = async signInDetails => {
     return await axios
         .post(config.remote + 'api/login', signInDetails)
         .then(res => {
-            return [];
+            return {
+                data: res
+            };
         })
         .catch(e => {
-            return [e.response.data.payload];
+            return {
+                error: e.response.data.payload
+            };
         });
 };

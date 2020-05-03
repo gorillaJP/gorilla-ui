@@ -60,7 +60,7 @@ const Header = props => {
                     <Link to="/" className={styles.brand}>
                         Gorilla
                     </Link>
-                    <div class={styles.headerLinks}>
+                    <div className={styles.headerLinks}>
                         <div className={styles.headerLink}>
                             <Dropdown overlay={LinkDropDownContent(jobsByFunctionItems)}>
                                 <span className={styles.submenu}>Job Search</span>

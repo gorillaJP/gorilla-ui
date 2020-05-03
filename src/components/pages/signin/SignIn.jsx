@@ -13,6 +13,10 @@ import { isValidEmail } from "../../../util/Util";
 import { Link } from "react-router-dom";
 import Banner from "../../common/banners/Banner";
 import { signIn } from "../../../api/UserApi";
+import { setLocalStorage, getLocalStorage } from "../../../api/LocalStorage";
+import { setSessionStorage, getSessionStorage } from "../../../api/SessionStorage";
+import { useEffect } from "react";
+import RedirectTo from "../../common/redirect-to/RedirectTo";
 
 const labelStyles = { margin: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
 const inputStyle = { margin: "15px", width: "90%" };
@@ -32,6 +36,20 @@ const SignIn = props => {
         error: ""
     });
 
+    const [token, setToken] = useState("");
+
+    useEffect(() => {
+        let token = getSessionStorage("token");
+
+        if (!token) {
+            token = getLocalStorage("token");
+        }
+
+        if (token) {
+            setToken(token);
+        }
+    }, []);
+
     const [rememberMe, setRememberMe] = useState(false);
 
     const signInUser = async () => {
@@ -48,18 +66,30 @@ const SignIn = props => {
         }
 
         if (email.value && password.value) {
-            const errors = await signIn({
+            const response = await signIn({
                 email: email.value,
                 password: password.value,
                 domain: domain
             });
 
-            console.log(errors);
+            const { data } = response;
+            if (data.status === 200) {
+                const innerData = data.data;
+
+                if (rememberMe) {
+                    setLocalStorage("token", innerData.token);
+                    setLocalStorage("userprofile", innerData.user);
+                } else {
+                    setSessionStorage("token", innerData.token);
+                    setSessionStorage("userprofile", innerData.user);
+                }
+            }
         }
     };
 
     return (
         <div className={styles.signInContainer}>
+            {token && <RedirectTo />}
             {!props.initialSignIn && (
                 <Banner
                     type="success"
@@ -108,7 +138,7 @@ const SignIn = props => {
                         <FormErrorMsg msg={password.error}></FormErrorMsg>
                     </div>
                     <div className={styles.rememberMeSection}>
-                        <Checkbox value={rememberMe} onChange={e => setRememberMe(e.target.checked)}>
+                        <Checkbox checked={rememberMe} onChange={e => setRememberMe(e.target.checked)}>
                             Remember me
                         </Checkbox>
                         <Link to="/forgot-password">Forgot Password ?</Link>
@@ -120,6 +150,7 @@ const SignIn = props => {
                             onClick={() => {
                                 signInUser();
                             }}
+                            size="large"
                         >
                             Sign In
                         </Button>

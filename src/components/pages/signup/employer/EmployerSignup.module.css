@@ -75,6 +75,7 @@
 }
 
 .hiddenForm {
+    display: none;
 }
 
 .hidden {
