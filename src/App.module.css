@@ -4,6 +4,7 @@
 
 .contentWrapper {
     min-height: calc(100vh - 260px) !important;
+    height: auto;
 }
 
 .content {
@@ -24,5 +25,17 @@
 @media (min-width: 320px) and (max-width: 480px) {
     .content {
         margin: 20px;
+    }
+}
+
+@media only screen and (max-width: 1023px) {
+    .contentWrapper {
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width: 1023px) {
+    .overlayContainer {
+        display: none;
     }
 }

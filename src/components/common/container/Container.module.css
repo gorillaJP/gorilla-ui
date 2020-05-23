@@ -1,0 +1,26 @@
+.container {
+    padding-right: 100px;
+    padding-left: 100px;
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape) {
+    .container {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait),
+    (max-device-width: 1024px) {
+    .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media only screen and (max-width: 1023px) {
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

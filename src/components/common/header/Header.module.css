@@ -1,71 +1,50 @@
-.header {
-    color: #000;
-    font-size: 30px;
-    border-bottom: 1px solid #474787;
-    height: 60px;
+.headerComp {
+    background-color: #ffffff;
+}
+
+.headerWrapper {
+    height: 70px;
     display: flex;
     flex-direction: row;
-    align-content: center;
+}
+
+.header {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
 }
 
 .brand {
-    margin-left: 40px;
-    margin-right: 40px;
-    font-size: 30px;
-}
-
-.headerLinks {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    flex-wrap: wrap;
-}
-
-.menuBtn {
-    display: none;
-    margin-right: 0;
-}
-
-.userActions {
-    margin-right: 20px;
+    color: #0073b1;
+    line-height: 70px;
+    font-size: 40px;
+    font-weight: 700;
+    font-family: "Segoe UI";
+    height: 100%;
 }
 
 .submenu {
-    color: #706fd3;
+    color: #889196;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 600;
-    margin-right: 20px;
-    text-transform: uppercase;
+    font-weight: bold;
+    margin-right: 50px;
+    box-sizing: border-box;
+    height: 45px;
+    line-height: 45px;
+    display: inline-block;
 }
 
 .submenu:hover {
-    color: #474787;
+    color: #000000;
 }
 
-.loginButton,
-.logoutButton,
-.signupButton {
-    display: inline;
-    margin: 0 5px;
-}
-
-.loginButton button,
-.logoutButton button,
-.signupButton button {
-    background-color: #474787;
-}
-
-.loginButton button:hover,
-.logoutButton button:hover,
-.signupButton button:hover {
-    background-color: #706fd3;
-}
-
-.dropdownitem {
-    width: 200px;
+.submenu:hover,
+.submenu:active {
+    border-bottom: 3px solid #56c596;
 }
 
 .linkDropDown {
@@ -79,57 +58,194 @@
 }
 
 .linkDropDown:hover {
-    border-left: 4px solid #706fd3;
-    color: #706fd3;
+    border-left: 4px solid #56c596;
+    color: #000000;
 }
 
-.dropDownButton {
-    color: cornflowerblue !important;
-    cursor: pointer;
-    padding: 2px;
-    border: 2px solid cornflowerblue;
-    border-radius: 4px;
+.actionButtons {
+    display: flex;
+    align-items: center;
 }
 
-.leftMenu {
-    background: #fff;
-    height: 0;
-    visibility: hidden;
+.actionButtons.mobileMenu {
+    display: block;
+}
+
+.loginButton,
+.employersButton {
+    display: inline;
+    margin: 0 5px;
+}
+
+.employersButton button {
+    color: #ffffff;
+    background-color: #56c596;
+    border-color: transparent;
+}
+
+.employersButton button:hover {
+    background-color: #4fae85;
+    border-color: transparent;
+}
+
+.settingsIcon {
+    margin-right: 20px;
+}
+
+.userMenu {
+    margin-left: 20px;
+}
+
+.settingsIcon svg {
+    color: #0073b1;
+    font-size: 40px;
+}
+
+.menuBtn {
+    display: none;
+    margin: auto 0 auto auto;
+}
+
+.menuContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.rightMenu {
+    background: rgb(32, 80, 114);
+    background-image: linear-gradient(#0072b1, #009ea5);
+    height: calc(100% - 24px) !important;
     position: absolute;
-    width: 100%;
+    width: 0;
     z-index: 999;
-    transition: height 0.4s ease-in-out 0s;
 }
 
-@media (min-width: 481px) and (max-width: 767px), (min-width: 320px) and (max-width: 480px) {
-    .header {
+.rightMenu.opened {
+    transition: width 0.3s ease-in-out 0s;
+}
+
+.mobileMenuItem {
+    background: rgb(32, 80, 114);
+    color: #ffffff;
+    margin: 0 !important;
+    display: none !important;
+}
+
+.mobileMenuItem.userDetails > div:first-child {
+    padding-top: 10px !important;
+    height: 80px !important;
+}
+
+.mobileMenuItem div {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-left: 24 !important;
+    padding-right: 0 !important;
+}
+
+.userDetails.mobileMenuItem div {
+    background-color: #329d9c !important;
+}
+
+.mobileMenuItem:hover,
+.mobileMenuItem div:hover {
+    background: rgb(32, 80, 114);
+}
+
+.mobileMenuItem div svg {
+    color: #ffffff !important;
+}
+
+.mobileMenuItem a,
+.mobileMenuItem a:hover,
+.mobileMenuItem a:active,
+.mobileMenuItem span,
+.mobileMenuItem i {
+    color: #ffffff;
+}
+
+.subMenuItem a,
+.subMenuItem a:hover,
+.subMenuItem a:active {
+    color: #0073b1 !important;
+}
+
+.mobileMenuItemWithActionButtons {
+    padding-left: 0 !important;
+    margin: 0 !important;
+    padding-right: 0 !important;
+}
+
+.userName {
+    color: #ffffff;
+    margin-left: 20px;
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait),
+    (max-device-width: 1024px) {
+    .submenu {
+        margin-right: 15px;
+        font-size: 14px;
+    }
+
+    .loginButton button,
+    .employersButton button {
+        height: 35px;
+    }
+}
+
+@media only screen and (max-width: 1023px) {
+    .headerComp {
         background-color: #0073b1;
+        width: 100vw;
+        z-index: 10000000;
+        position: fixed;
+    }
+
+    .headerWrapper {
         font-size: 19px;
-        padding: 6px 16px;
         border-bottom: 0;
         height: auto;
     }
 
+    .header,
+    .actionButtons {
+        display: none;
+    }
+
     .brand {
         font-size: 20px;
-        margin: auto 10px;
+        margin: 5px 0;
         color: #fff;
-    }
-
-    .headerLink {
-        display: none;
-    }
-
-    .userActions {
-        display: none;
+        line-height: unset;
     }
 
     .menuBtn {
         display: block;
     }
 
-    .leftMenu.visible {
-        visibility: visible;
-        height: calc(100% - 44px) !important;
+    .opened .mobileMenuItem {
+        display: block !important;
+    }
+
+    .rightMenu.opened {
+        width: 330px;
+        height: 100vh !important;
+    }
+
+    .menuBtn {
+        display: block;
+    }
+
+    .loginButton,
+    .employersButton {
+        margin: 0;
+    }
+
+    .loginButton button,
+    .employersButton button {
+        height: 40px;
+        border-radius: 0;
+        width: 165px;
     }
 }

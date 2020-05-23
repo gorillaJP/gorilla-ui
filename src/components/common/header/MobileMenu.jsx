@@ -1,51 +1,110 @@
 import React from "react";
-import { Menu } from "antd";
+import { Menu, Button, Avatar } from "antd";
 import { Link } from "react-router-dom";
-import { SearchOutlined, UserOutlined } from "@ant-design/icons";
+import {
+    SearchOutlined,
+    UserOutlined,
+    DownloadOutlined,
+    EnvironmentOutlined,
+    CheckCircleOutlined
+} from "@ant-design/icons";
+
+import styles from "./Header.module.css";
 
 const { SubMenu } = Menu;
 
-const jobsByFunctionItems = [
-    {
-        linkName: "Jobs By Skill",
-        linkPath: "/jobs-by-skill"
-    },
-    {
-        linkName: "Jobs By Company",
-        linkPath: "/jobs-by-company"
-    },
-    {
-        linkName: "Jobs By Function",
-        linkPath: "/jobs-by-function"
-    }
-];
-
-const MobileMenu = () => {
+const MobileMenu = props => {
     return (
-        <Menu style={{ width: "100%" }} defaultSelectedKeys={["0"]} defaultOpenKeys={["sub1"]} mode="inline">
+        <Menu
+            style={{ width: "100%" }}
+            defaultSelectedKeys={["0"]}
+            defaultOpenKeys={["sub1"]}
+            mode="inline"
+            inlineCollapsed={props.collapsed}
+            className={`${props.opened ? styles.opened : ""}`}
+        >
+            {!props.userLoggeIn && (
+                <Menu.Item key="login" className={`${styles.mobileMenuItemWithActionButtons}`}>
+                    <div className={`${styles.actionButtons} ${styles.mobileMenu}`}>
+                        <Link to="/signin">
+                            <div className={styles.loginButton}>
+                                <Button size="large">
+                                    <span>Login / Sign Up</span>
+                                </Button>
+                            </div>
+                        </Link>
+                        <Link to="/signup">
+                            <div className={styles.employersButton}>
+                                <Button type="primary" size="large">
+                                    <span>For Employers</span>
+                                </Button>
+                            </div>
+                        </Link>
+                    </div>
+                </Menu.Item>
+            )}
+            {props.userLoggeIn && (
+                <SubMenu
+                    key="user-details"
+                    title={
+                        <span>
+                            <Avatar size={64} icon={<UserOutlined />} />
+                            <span className={styles.userName}>{props.userName}</span>
+                        </span>
+                    }
+                    className={`${styles.mobileMenuItem} ${styles.userDetails}`}
+                >
+                    {props.profileLinks.map((item, i) => {
+                        return (
+                            <Menu.Item key={i} className={styles.subMenuItem}>
+                                <Link to={item.linkPath}>{item.linkName}</Link>
+                            </Menu.Item>
+                        );
+                    })}
+                </SubMenu>
+            )}
+            <Menu.Item key="job-search" className={styles.mobileMenuItem}>
+                <span>
+                    <SearchOutlined />
+                    <Link to={"/job-search"}>Job Search</Link>
+                </span>
+            </Menu.Item>
+            <Menu.Item key="job-industries" className={styles.mobileMenuItem}>
+                <span>
+                    <DownloadOutlined />
+                    <Link to={"/job-search"}>Industries</Link>
+                </span>
+            </Menu.Item>
+            <Menu.Item key="job-locations" className={styles.mobileMenuItem}>
+                <span>
+                    <EnvironmentOutlined />
+                    <Link to={"/job-search"}>Locations</Link>
+                </span>
+            </Menu.Item>
+            <Menu.Item key="job-companies" className={styles.mobileMenuItem}>
+                <span>
+                    <CheckCircleOutlined />
+                    <Link to={"/job-search"}>Companies</Link>
+                </span>
+            </Menu.Item>
             <SubMenu
-                key="job-search"
+                key="more"
                 title={
                     <span>
                         <SearchOutlined />
-                        <span>Job Search</span>
+                        <span>More</span>
                     </span>
                 }
+                className={styles.mobileMenuItem}
             >
-                {jobsByFunctionItems.map((item, i) => {
+                {props.moreJobs.map((item, i) => {
                     return (
-                        <Menu.Item key={i}>
+                        <Menu.Item key={i} className={styles.subMenuItem}>
                             <Link to={item.linkPath}>{item.linkName}</Link>
                         </Menu.Item>
                     );
                 })}
             </SubMenu>
-            <Menu.Item key="job-post">
-                <span>
-                    <UserOutlined />
-                    <Link to={"/job-post"}>Job Post</Link>
-                </span>
-            </Menu.Item>
         </Menu>
     );
 };

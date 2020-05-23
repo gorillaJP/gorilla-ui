@@ -18,7 +18,7 @@ if (process.env.REACT_APP_ENV === 'uat') {
 } else {
     if (process.env.NODE_ENV === 'development') {
         //conf as per the env
-        config = devConfig;
+        config = prodConfig;
     } else if (process.env.NODE_ENV === 'production') {
         config = prodConfig;
     }
