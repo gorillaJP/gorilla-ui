@@ -63,9 +63,9 @@
         flex-direction: column;
     }
 
-    .typeTransition div,
-    .cityTransition div,
-    .fromHome .searchBox div {
+    .typeTransition > div,
+    .cityTransition > div,
+    .fromHome .searchBox > div {
         width: 100% !important;
         display: block !important;
         border-radius: 0 !important;

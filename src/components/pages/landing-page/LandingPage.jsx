@@ -21,34 +21,32 @@ const LandingPage = props => {
     return (
         <div className={styles.homepageWrapper}>
             <div className={styles.searchBoxWrapper} style={{ backgroundImage: `url(${LandingPageCoverImage})` }}>
-                <Row>
-                    <div className={styles.jobSearchWrapper}>
+                <div className={styles.jobSearchWrapper}>
+                    <Container>
                         <SimpleJobSearch />
-                    </div>
-                </Row>
+                    </Container>
+                </div>
             </div>
-            <Row>
-                <Container>
-                    <div className={styles.carouselContainer}>
-                        <Carousel slidesToShow={10} swipeToSlide swipe infinite accessibility arrows autoplay>
-                            {props.topHiringCompanies.map(company => {
-                                return (
-                                    <div key={company.companyid}>
-                                        <img
-                                            alt={company.key}
-                                            src={`${config.remote}/${company.logo}`}
-                                            width="80"
-                                            height="80"
-                                        />
-                                    </div>
-                                );
-                            })}
-                        </Carousel>
-                    </div>
-                </Container>
-            </Row>
-            <Row>
-                <Container>
+            <Container>
+                <div className={styles.carouselContainer}>
+                    <Carousel slidesToShow={10} swipeToSlide swipe infinite accessibility arrows>
+                        {props.topHiringCompanies.map(company => {
+                            return (
+                                <div key={company.companyid}>
+                                    <img
+                                        alt={company.key}
+                                        src={`${config.remote}/${company.logo}`}
+                                        width="80"
+                                        height="80"
+                                    />
+                                </div>
+                            );
+                        })}
+                    </Carousel>
+                </div>
+            </Container>
+            <Container>
+                <Row>
                     <Col xs={24} sm={24} md={24} lg={8}>
                         <div className={styles.header}>Featured Jobs</div>
                         <div className={styles.featuredJobContainer}>
@@ -80,8 +78,8 @@ const LandingPage = props => {
                             })}
                         </div>
                     </Col>
-                </Container>
-            </Row>
+                </Row>
+            </Container>
         </div>
     );
 };

@@ -120,7 +120,7 @@ const HeaderComp = props => {
                             <div className={styles.actionButtons}>
                                 <Link to="/signin">
                                     <div className={styles.loginButton}>
-                                        <Button icon="user" size="large">
+                                        <Button icon={<UserOutlined />} size="large">
                                             <span>Login / Sign Up</span>
                                         </Button>
                                     </div>

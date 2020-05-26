@@ -1,7 +1,15 @@
+.simpleSearchWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 500px;
+}
+
 .simpleSeach {
-    margin: 167px auto auto auto;
+    margin: auto;
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 .searchBox,
@@ -117,7 +125,6 @@
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     font-size: 16px;
 }
-
 @media only screen and (max-device-width: 768px) {
     .simpleSeach {
         flex-direction: column;
@@ -126,7 +133,8 @@
     }
 
     .searchBox {
-        padding: 32px 22px;
+        padding: 15px;
+        width: 100%;
     }
 
     .actionsBox {
@@ -143,7 +151,6 @@
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
     .simpleSeach {
         height: 295px;
-        width: 900px;
     }
 
     .searchHeader {
@@ -151,25 +158,26 @@
     }
 
     .searchBox.searchOpened {
-        width: 900px;
+        width: 100%;
     }
 }
 
 @media only screen and (min-device-width: 375px) and (max-device-width: 992px) and (orientation: landscape) {
+    .simpleSearchWrapper {
+        height: 800px;
+    }
     .simpleSeach {
         flex-direction: column;
-        margin-top: 50px;
-        width: 700px;
     }
 
     .searchBox {
         padding: 32px 22px;
-        width: 700px;
+        width: 100%;
     }
 
     .actionsBox {
         display: flex !important;
-        width: 700px !important;
+        width: 100% !important;
     }
 
     .searchHeader {
@@ -179,42 +187,37 @@
 }
 
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) {
-    .simpleSeach,
-    .searchBox,
-    .actionsBox {
-        width: 600px !important;
+    .simpleSearchWrapper {
+        height: 650px;
     }
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
-    .simpleSeach,
-    .searchBox,
-    .actionsBox {
-        width: 95% !important;
-    }
-
     .searchHeader {
         font-size: 19px;
     }
 }
 
 @media only screen and (min-device-width: 414px) and (max-device-width: 768px) and (orientation: portrait) {
+    .simpleSearchWrapper {
+        height: 650px;
+    }
+
     .simpleSeach,
     .searchBox,
     .actionsBox {
-        width: 100% !important;
+        width: 100%;
     }
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
-    .simpleSeach,
-    .searchBox,
-    .actionsBox {
-        width: 500px !important;
-    }
 }
 
 @media only screen and (max-device-width: 992px) {
+    .simpleSearchWrapper {
+        height: 750px;
+    }
+
     .addvanceSearchBtn {
         align-self: center;
     }
@@ -222,8 +225,7 @@
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
     .simpleSeach {
-        height: 295px;
-        width: 670px;
+        height: min-content;
         flex-direction: column;
     }
 
@@ -236,7 +238,7 @@
     }
 
     .searchBox.searchOpened {
-        width: 670px;
+        width: 100%;
     }
 
     .actionsBox > span {
@@ -247,16 +249,11 @@
 /** Portrait and landscape iPad Pro */
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) {
     .simpleSeach {
-        width: 100%;
         flex-direction: row;
     }
 
     .searchHeader {
         font-size: 40px;
-    }
-
-    .searchBox.searchOpened {
-        width: 100%;
     }
 }
 
@@ -264,15 +261,6 @@
 @media only screen and (min-device-width: 1200px) and (max-device-width: 1600px) {
     .simpleSeach {
         height: 295px;
-        width: 1200px;
-    }
-
-    .searchBox {
-        width: 700px;
-    }
-
-    .searchBox.searchOpened {
-        width: 1200px;
     }
 
     .actionsBox {
@@ -281,5 +269,11 @@
 
     .searchHeader {
         font-size: 40px;
+    }
+}
+
+@media only screen and (min-device-width: 411px) and (max-device-width: 823px) and (orientation: landscape) {
+    .simpleSeach {
+        height: auto;
     }
 }
