@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Row, Col, Input, Button, Select, AutoComplete } from "antd";
+import { Input, Button, Select, AutoComplete } from "antd";
 import shortId from "shortid";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -14,11 +14,6 @@ import { debounce } from "../../../../util/Util";
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
-
-const searchBoxStyles = {
-    width: "100%",
-    marginBottom: "10px"
-};
 
 const SearchComp = props => {
     const history = useHistory();
@@ -70,9 +65,28 @@ const SearchComp = props => {
             );
         });
 
+    const fromHomePage = props.from === "home" ? true : false;
+
+    const searchBoxStyleObj = useCallback(
+        componentNo => {
+            if ((componentNo === 1 && fromHomePage) || (fromHomePage && openedState)) {
+                return { paddingTop: "2px", paddingBottom: "2px", width: "100%", borderRadius: "0" };
+            }
+
+            if (componentNo !== 1 && !openedState) {
+                return { padding: "2px", width: "0px", display: "none" };
+            }
+
+            if ((!fromHomePage && openedState) || (componentNo !== 1 && openedState)) {
+                return { padding: "2px", width: "100%", borderRadius: "0" };
+            }
+        },
+        [openedState, fromHomePage]
+    );
+
     return (
-        <Row className={styles.searchSection} gutter={20}>
-            <Col xs={24} sm={24} md={24} lg={7} style={{ padding: "2px" }}>
+        <div className={`${styles.searchSection} ${fromHomePage ? styles.fromHome : ""}`}>
+            <div className={styles.searchBox}>
                 {/**  Job results should refresh for both manually entered values and selected values from dropdown*/}
                 <AutoComplete
                     id={shortId.generate()}
@@ -101,7 +115,7 @@ const SearchComp = props => {
                         props.setOpenedState && props.setOpenedState(true);
                     }}
                     defaultActiveFirstOption={false}
-                    style={searchBoxStyles}
+                    style={searchBoxStyleObj(1)}
                     dataSource={categorySuggestion.map(e => {
                         return (
                             <AutoCompleteOption style={{ fontWeight: 600 }} value={e.name}>
@@ -132,24 +146,17 @@ const SearchComp = props => {
                         size="large"
                     />
                 </AutoComplete>
-            </Col>
-            <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={7}
-                style={!openedState ? { padding: "2px", width: "0px", display: "none" } : { padding: "2px" }}
-                className={styles.cityTransition}
-            >
+            </div>
+            <div className={`${styles.cityTransition} ${openedState ? styles.searchBox : ""}`}>
                 <Select
                     mode="multiple"
-                    style={{ width: "100%" }}
                     defaultValue={props.searchParams.location}
                     placeholder={"City"}
                     allowClear={true}
                     onChange={val => {
                         onChangeSearchField("location", val);
                     }}
+                    style={searchBoxStyleObj(2)}
                     size="large"
                     onSearch={value => {
                         setTempData({ ...tempData, location: value });
@@ -157,21 +164,14 @@ const SearchComp = props => {
                 >
                     {[...metaCityOptions]}
                 </Select>
-            </Col>
-            <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={7}
-                style={!openedState ? { padding: "2px", width: "0px", display: "none" } : { padding: "2px" }}
-                className={styles.typeTransition}
-            >
+            </div>
+            <div className={`${styles.typeTransition} ${openedState ? styles.searchBox : ""}`}>
                 <Select
                     mode="multiple"
-                    style={{ width: "100%" }}
                     defaultValue={props.searchParams.type ? [props.searchParams.type] : []}
                     placeholder={"Type"}
                     allowClear={true}
+                    style={searchBoxStyleObj(2)}
                     onChange={val => {
                         onChangeSearchField("type", val);
                     }}
@@ -193,8 +193,8 @@ const SearchComp = props => {
                         <HighLightedText text="Part time" highlightText={tempData.type}></HighLightedText>
                     </Option>
                 </Select>
-            </Col>
-            <Col xs={24} sm={24} md={24} lg={3} style={{ padding: "2px" }}>
+            </div>
+            <div style={{ ...searchBoxStyleObj(1), width: "auto" }} className={styles.actionBtns}>
                 <Button
                     type="primary"
                     loading={false}
@@ -208,11 +208,12 @@ const SearchComp = props => {
                         }
                     }}
                     size="large"
+                    className={styles.searchBtn}
                 >
                     Search
                 </Button>
-            </Col>
-        </Row>
+            </div>
+        </div>
     );
 };
 

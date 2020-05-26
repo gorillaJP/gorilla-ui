@@ -16,3 +16,8 @@ export const META_CREATEDDATES = 'META_GET_CREATEDDATE';
 
 //loading meta data - happens at the applicaiton startup
 export const SEARCH_PARAM_UPDATE = 'SEARCH_PARAM_UPDATE';
+
+// loading matrix data
+export const TOP_HIRING_COMPANIES = 'TOP_HIRING_COMPANIES';
+export const FEATURED_JOBS = 'FEATURED_JOBS';
+export const JOBS_BY_CATEGORY = 'JOBS_BY_CATEGORY';

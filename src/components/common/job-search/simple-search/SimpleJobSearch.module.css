@@ -1,47 +1,79 @@
 .simpleSeach {
-    border-radius: 4px;
-    background-color: black;
-    opacity: 0.8;
+    margin: 167px auto auto auto;
+    display: flex;
+    flex-direction: row;
 }
 
-.qouteSection {
-    margin: 30px 50px;
+.searchBox,
+.actionsBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    flex-grow: 1;
 }
 
-.addSection {
-    margin: 5px 40px 30px 40px !important;
+.searchBox {
+    align-content: flex-start;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 85px;
 }
 
-.buttonSection {
-    margin: 5px 50px 10px 50px;
-    transition: visibility 0.4s ease-out 0.2s;
+.actionsBox {
+    background: rgba(24, 27, 24, 0.92);
+    padding: 20px 30px;
 }
 
-.qoute {
-    color: #fff;
-    display: block;
-    font-style: italic;
-    font-size: 20px;
-    font-family: cursive;
+.actionsBox.searchOpened {
+    width: 0;
+    display: none;
 }
 
-.qouteBy {
-    color: #fff;
-    display: block;
+.actionsBox > span {
+    align-self: center;
+    color: #ffffff;
 }
 
-.textButton {
-    background-color: transparent;
-    border: transparent;
-    color: #fff;
-    cursor: pointer;
-    float: right;
-    line-height: 20px;
+.uploadResume,
+.createJobAlert {
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    justify-content: center;
 }
 
-.textButton:hover {
-    color: #fff;
-    font-size: 18px;
+.uploadResume {
+    color: #000000;
+}
+
+.createJobAlert button {
+    color: #ffffff;
+    background-color: #56c596;
+    border-color: #56c596;
+}
+
+.createJobAlert button:hover {
+    color: #ffffff;
+    background-color: #4fae85;
+    border-color: transparent;
+}
+
+.searchHeader {
+    color: #3d3d3d;
+    font-size: 56px;
+    font-weight: bold;
+}
+
+.addvanceSearchBtn {
+    align-self: flex-end;
+    padding: 0 !important;
+}
+
+.addvanceSearchBtn span {
+    color: #889196;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .certain-category-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input-suffix {
@@ -86,40 +118,168 @@
     font-size: 16px;
 }
 
-@media (min-width: 481px) and (max-width: 767px) {
-    .qoute {
-        font-size: 15px;
+@media only screen and (max-device-width: 768px) {
+    .simpleSeach {
+        flex-direction: column;
+        margin-top: 50px;
+        width: 100%;
     }
 
-    .qouteSection {
-        margin: 10px 15px !important;
+    .searchBox {
+        padding: 32px 22px;
     }
 
-    .addSection {
-        margin: 10px 5px 20px 5px !important;
+    .actionsBox {
+        display: flex !important;
+        width: 100% !important;
     }
 
-    /* Hide button section in mobile for now*/
-    .buttonSection {
-        display: none;
+    .searchHeader {
+        font-size: 26px;
+        text-align: justify;
     }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
-    .qoute {
-        font-size: 15px;
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+    .simpleSeach {
+        height: 295px;
+        width: 900px;
     }
 
-    .qouteSection {
-        margin: 10px 15px !important;
+    .searchHeader {
+        font-size: 30px;
     }
 
-    .addSection {
-        margin: 10px 5px 20px 5px !important;
+    .searchBox.searchOpened {
+        width: 900px;
+    }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 992px) and (orientation: landscape) {
+    .simpleSeach {
+        flex-direction: column;
+        margin-top: 50px;
+        width: 700px;
     }
 
-    /* Hide button section in mobile for now*/
-    .buttonSection {
-        display: none;
+    .searchBox {
+        padding: 32px 22px;
+        width: 700px;
+    }
+
+    .actionsBox {
+        display: flex !important;
+        width: 700px !important;
+    }
+
+    .searchHeader {
+        font-size: 26px;
+        text-align: justify;
+    }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) {
+    .simpleSeach,
+    .searchBox,
+    .actionsBox {
+        width: 600px !important;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+    .simpleSeach,
+    .searchBox,
+    .actionsBox {
+        width: 95% !important;
+    }
+
+    .searchHeader {
+        font-size: 19px;
+    }
+}
+
+@media only screen and (min-device-width: 414px) and (max-device-width: 768px) and (orientation: portrait) {
+    .simpleSeach,
+    .searchBox,
+    .actionsBox {
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+    .simpleSeach,
+    .searchBox,
+    .actionsBox {
+        width: 500px !important;
+    }
+}
+
+@media only screen and (max-device-width: 992px) {
+    .addvanceSearchBtn {
+        align-self: center;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    .simpleSeach {
+        height: 295px;
+        width: 670px;
+        flex-direction: column;
+    }
+
+    .searchHeader {
+        font-size: 20px;
+    }
+
+    .searchBox {
+        padding: 20px;
+    }
+
+    .searchBox.searchOpened {
+        width: 670px;
+    }
+
+    .actionsBox > span {
+        font-size: 12px;
+    }
+}
+
+/** Portrait and landscape iPad Pro */
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) {
+    .simpleSeach {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .searchHeader {
+        font-size: 40px;
+    }
+
+    .searchBox.searchOpened {
+        width: 100%;
+    }
+}
+
+/** Desktops and laptops */
+@media only screen and (min-device-width: 1200px) and (max-device-width: 1600px) {
+    .simpleSeach {
+        height: 295px;
+        width: 1200px;
+    }
+
+    .searchBox {
+        width: 700px;
+    }
+
+    .searchBox.searchOpened {
+        width: 1200px;
+    }
+
+    .actionsBox {
+        width: 500px;
+    }
+
+    .searchHeader {
+        font-size: 40px;
     }
 }

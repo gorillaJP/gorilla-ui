@@ -77,6 +77,10 @@
     margin: 0 5px;
 }
 
+.loginButton > button > span {
+    color: black;
+}
+
 .employersButton button {
     color: #ffffff;
     background-color: #56c596;
@@ -129,6 +133,7 @@
     color: #ffffff;
     margin: 0 !important;
     display: none !important;
+    width: 0 !important;
 }
 
 .mobileMenuItem.userDetails > div:first-child {
@@ -226,6 +231,7 @@
 
     .opened .mobileMenuItem {
         display: block !important;
+        width: auto !important;
     }
 
     .rightMenu.opened {

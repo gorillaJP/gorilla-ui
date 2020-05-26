@@ -24,7 +24,10 @@ const MobileMenu = props => {
             className={`${props.opened ? styles.opened : ""}`}
         >
             {!props.userLoggeIn && (
-                <Menu.Item key="login" className={`${styles.mobileMenuItemWithActionButtons}`}>
+                <Menu.Item
+                    key="login"
+                    className={` ${styles.mobileMenuItem} ${styles.mobileMenuItemWithActionButtons}`}
+                >
                     <div className={`${styles.actionButtons} ${styles.mobileMenu}`}>
                         <Link to="/signin">
                             <div className={styles.loginButton}>

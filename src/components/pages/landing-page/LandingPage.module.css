@@ -1,3 +1,7 @@
+.homepageWrapper {
+    background-color: #ffffff;
+}
+
 .searchBoxWrapper {
     background-position: center;
     background-repeat: no-repeat;
@@ -10,15 +14,64 @@
     margin: 50px;
 }
 
+.header {
+    color: #889196;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.carouselContainer {
+    margin: 30px;
+}
+
+.featuredJobContainer {
+    background-color: #e6e6e6;
+    max-height: 800px;
+    overflow: auto;
+    padding: 5px;
+}
+
+.featuredIndustries {
+    border: 1px solid #707070;
+    height: 800px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.categoryLinks {
+    color: #0073b1;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 7.5px 15px;
+    text-decoration: underline;
+    width: 50%;
+}
 @media (min-width: 481px) and (max-width: 767px) {
     .jobSearchWrapper {
         margin: 20px;
     }
-
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
     .jobSearchWrapper {
         margin: 20px;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    .jobSearchWrapper {
+        height: 550px;
+    }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 840px) and (orientation: landscape),
+    (max-device-width: 992px) {
+    .jobSearchWrapper {
+        height: 650px;
     }
 }

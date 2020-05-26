@@ -23,5 +23,10 @@ export default {
     },
     commonData: {
         loading: false
+    },
+    matrixData: {
+        topHiringCompanies: [],
+        featuredJobs: [],
+        jobsByCategory: []
     }
 };

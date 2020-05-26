@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col } from "antd";
+import { Row, Col, Button, Divider } from "antd";
 
 import AddPromoCard from "../../cards/add-promo-card/AddPromoCard";
 import styles from "./SimpleJobSearch.module.css";
@@ -12,16 +12,35 @@ const SimpleJobSearch = props => {
     const [showAdvnaceSearch, setShowAdvanceSearch] = useState(false);
     return (
         <div className={styles.simpleSeach}>
-            <Row>
-                <div className={styles.qouteSection}>
-                    <span className={styles.qoute}>
-                        "Opportunities don't often come along, So when they do, you have to grab them."
-                    </span>
-                    <span className={styles.qouteBy}>-Audery Hepburn</span>
+            <div className={`${styles.searchBox} ${jobSearchOpened ? styles.searchOpened : ""}`}>
+                <span className={styles.searchHeader}>Find jobs with Gorilla...</span>
+                <SearchComp showSearchButton={true} setOpenedState={setOpenedState} from="home" />
+                <Button
+                    type="link"
+                    className={styles.addvanceSearchBtn}
+                    onClick={() => {
+                        setShowAdvanceSearch(true);
+                    }}
+                >
+                    Advanced Search
+                </Button>
+            </div>
+            <div className={`${styles.actionsBox} ${jobSearchOpened ? styles.searchOpened : ""}`}>
+                <span>Make Your Search Easy</span>
+                <span>Upload your resume</span>
+                <span>Don't have a resume? Build one in 3 steps</span>
+                <div className={styles.uploadResume}>
+                    <Button size="large">Upload/Build Resume</Button>
                 </div>
-            </Row>
-            <SearchComp showSearchButton={true} setOpenedState={setOpenedState} />
-            <Row>
+                <Divider plain style={{ marginTop: "10px", marginBottom: "10px" }}></Divider>
+                <span>Free Job Alert</span>
+                <span>Get an Email matching your criteria</span>
+                <span>No Regirstration Required</span>
+                <div className={styles.createJobAlert}>
+                    <Button size="large">Create Job Alert</Button>
+                </div>
+            </div>
+            {/* <Row>
                 <div
                     className={styles.buttonSection}
                     style={!jobSearchOpened ? { display: "none" } : { visibility: "visible", width: "100%" }}
@@ -44,8 +63,8 @@ const SimpleJobSearch = props => {
                         </Col>
                     </Row>
                 </div>
-            </Row>
-            <Row className={styles.addSection}>
+            </Row> */}
+            {/* <Row className={styles.addSection}>
                 <Col xs={24} sm={24} md={12} lg={12} style={{ textAlign: "right", height: "100%" }}>
                     <AddPromoCard
                         linkPath="/resume"
@@ -65,6 +84,7 @@ const SimpleJobSearch = props => {
                     />
                 </Col>
             </Row>
+             */}
             {showAdvnaceSearch ? <AdvancedSerachModal setShow={setShowAdvanceSearch} /> : null}
         </div>
     );
