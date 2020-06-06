@@ -14,6 +14,8 @@ import { Layout } from "antd";
 import { getSessionStorage } from "./api/SessionStorage";
 import { getLocalStorage } from "./api/LocalStorage";
 import Overlay from "./components/common/overlays/Overlay";
+import EmployeeSignup from "./components/pages/signup/employee/EmployeeSignup";
+import Signup from "./components/pages/signup/Signup";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -72,14 +74,10 @@ function App() {
                         <Route exact path="/job-post/preview" render={() => <JobPost />} />
                     </Switch>
                     <Switch>
-                        <div className={styles.content}>
-                            <Route exact path="/signup" render={() => <EmployerSignup />} />
-                        </div>
+                        <Route exact path="/signin" render={() => <SignIn />} />
                     </Switch>
                     <Switch>
-                        <div className={styles.content}>
-                            <Route exact path="/signin" render={() => <SignIn />} />
-                        </div>
+                        <Route exact path="/signup" render={() => <Signup />} />
                     </Switch>
                     <div className={styles.overlayContainer}>
                         <Overlay show={mobileMenuOpen} styles={overlayStyles} />

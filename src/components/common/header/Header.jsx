@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Avatar } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
 // import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
@@ -10,6 +10,10 @@ import { useEffect } from "react";
 import { Container } from "../container/Container";
 import MobileMenu from "./MobileMenu";
 import { MenuUnfoldOutlined, MenuFoldOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
+import { EMPLOYER, EMPLOYEE } from "../../../constants/AppConstants";
+import { bindActionCreators } from "redux";
+import { setUserDomain } from "../../../actions/MetaActions";
+import { connect } from "react-redux";
 
 const LinkDropDownContent = items => {
     return (
@@ -88,6 +92,7 @@ const profileLinks = [
 const HeaderComp = props => {
     let location = useLocation();
     const [previousPathName, setPreviousPathName] = useState("/");
+    const { domain } = props;
 
     useEffect(() => {
         if (previousPathName !== location.pathname) {
@@ -118,7 +123,7 @@ const HeaderComp = props => {
                         </div>
                         {!props.userLoggeIn && (
                             <div className={styles.actionButtons}>
-                                <Link to="/signin">
+                                <Link to={`/signin`}>
                                     <div className={styles.loginButton}>
                                         <Button icon={<UserOutlined />} size="large">
                                             <span>Login / Sign Up</span>
@@ -126,13 +131,21 @@ const HeaderComp = props => {
                                     </div>
                                 </Link>
 
-                                <Link to="/signup">
-                                    <div className={styles.employersButton}>
-                                        <Button type="primary" size="large">
-                                            <span>For Employers</span>
-                                        </Button>
-                                    </div>
-                                </Link>
+                                <div
+                                    className={`${
+                                        domain === EMPLOYEE ? styles.employersButton : styles.employeeButton
+                                    }`}
+                                >
+                                    <Button
+                                        type="primary"
+                                        size="large"
+                                        onClick={() =>
+                                            props.actions.setUserDomain(domain === EMPLOYEE ? EMPLOYER : EMPLOYEE)
+                                        }
+                                    >
+                                        <span>{domain === EMPLOYEE ? "For Employers" : "For Candidates"}</span>
+                                    </Button>
+                                </div>
                             </div>
                         )}
                         {props.userLoggeIn && (
@@ -182,4 +195,18 @@ const HeaderComp = props => {
     );
 };
 
-export default HeaderComp;
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: {
+            setUserDomain: bindActionCreators(setUserDomain, dispatch)
+        }
+    };
+};
+
+const mapStateToProps = state => {
+    return {
+        domain: state.metaData.domain
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderComp);

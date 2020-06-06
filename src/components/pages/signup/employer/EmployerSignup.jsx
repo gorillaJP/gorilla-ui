@@ -9,6 +9,7 @@ import { UploadOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import Editor from "../../../common/editor/Editor";
 import { Link, useHistory } from "react-router-dom";
 
+import { Container } from "../../../common/container/Container";
 import { companyNamesAutoComplete } from "../../../../api/AutoCompleteApi";
 import { isValidEmail, isValidContactNumber, validatePassword } from "../../../../util/Util";
 import { loadingStarted, loadingFinished } from "../../../../actions/CommonActions";
@@ -17,10 +18,10 @@ import FormErrorMsg from "../../../common/form-error-msg/FormErrorMsg";
 import Banner from "../../../common/banners/Banner";
 import { EMPLOYER_SIGNUP_SUCCESS_HEADER, EMPLOYER_SIGNUP_SUCCESS_MSG } from "../../../../constants/MessageConstants";
 
-const inputStyle = { margin: "15px", width: "90%" };
-const inputFullWidthStyle = { ...inputStyle, width: "100%", margin: "5px", display: "inline-block" };
+const inputStyle = { marginTop: "5px", width: "100%" };
+const inputFullWidthStyle = { ...inputStyle, display: "inline-block" };
 const errorInput = { ...inputFullWidthStyle, border: "1px solid red" };
-const labelStyles = { margin: "5px", display: "inline-block", fontSize: "16px" };
+const labelStyles = { marginTop: "5px", display: "inline-block", fontSize: "16px" };
 const AutoCompleteOption = AutoComplete.Option;
 
 const EmployerSignup = props => {
@@ -193,308 +194,347 @@ const EmployerSignup = props => {
     let history = useHistory();
 
     return (
-        <div
-            className={styles.signUpContainer}
-            style={addCompanyForm ? { flexDirection: "row", justifyContent: "space-around" } : {}}
-        >
-            <div
-                className={`${styles.userDetails} ${signUpSuccess ? styles.hiddenForm : ""}`}
-                style={addCompanyForm ? { alignSelf: "flex-start" } : {}}
-            >
-                <div className={styles.formHeader}>Get started with your profile</div>
-                <div>
-                    <FormLabel name="First Name" required styles={labelStyles} error={userDetailsErrors.firstName} />
-                    <Input
-                        size="large"
-                        style={userDetailsErrors.firstName ? errorInput : inputFullWidthStyle}
-                        value={userDetails.firstName}
-                        onChange={event => {
-                            setUserDetailsObject("firstName", event.target.value);
-                        }}
-                    />
-                    <FormErrorMsg msg={userErrorMsg.firstName}></FormErrorMsg>
-                </div>
-                <div>
-                    <FormLabel name="Last Name" styles={labelStyles} error={userDetailsErrors.lastName} />
-                    <Input
-                        size="large"
-                        style={userDetailsErrors.lastName ? errorInput : inputFullWidthStyle}
-                        value={userDetails.lastName}
-                        onChange={event => {
-                            setUserDetailsObject("lastName", event.target.value);
-                        }}
-                    />
-                    <FormErrorMsg msg={userErrorMsg.lastName}></FormErrorMsg>
-                </div>
-                <div>
-                    <FormLabel name="Email Address" required styles={labelStyles} error={userDetailsErrors.email} />
-                    <Input
-                        size="large"
-                        style={userDetailsErrors.email ? errorInput : inputFullWidthStyle}
-                        value={userDetails.email}
-                        onChange={event => {
-                            const value = event.target.value;
-                            if (isValidEmail(value)) {
-                                setUserDetailsErrors({ ...userDetailsErrors, email: false });
-                            } else {
-                                setUserDetailsErrors({ ...userDetailsErrors, email: true });
-                            }
-
-                            setUserDetails({ ...userDetails, email: value });
-                        }}
-                    />
-                    <FormErrorMsg msg={userErrorMsg.email}></FormErrorMsg>
-                </div>
-                <div>
-                    <FormLabel
-                        name="Phone Number"
-                        required
-                        styles={labelStyles}
-                        error={userDetailsErrors.phonenumber}
-                    />
-                    <Input
-                        size="large"
-                        style={userDetailsErrors.phonenumber ? errorInput : inputFullWidthStyle}
-                        value={userDetails.phonenumber}
-                        onChange={event => {
-                            const value = event.target.value;
-                            if (isValidContactNumber(value)) {
-                                setUserDetailsErrors({ ...userDetailsErrors, phonenumber: false });
-                            } else {
-                                setUserDetailsErrors({ ...userDetailsErrors, phonenumber: true });
-                            }
-
-                            setUserDetails({ ...userDetails, phonenumber: value });
-                        }}
-                    />
-                    <FormErrorMsg msg={userErrorMsg.phonenumber}></FormErrorMsg>
-                </div>
-                <div>
-                    <FormLabel name="Password" required styles={labelStyles} error={userDetailsErrors.password}>
-                        <Tooltip title="Password must contain atleast one captial letter, simple letter, number, symbol and minimum character length should be 6">
-                            <InfoCircleOutlined twoToneColor="#eb2f96" />
-                        </Tooltip>
-                    </FormLabel>
-                    <Input
-                        size="large"
-                        style={userDetailsErrors.password ? errorInput : inputFullWidthStyle}
-                        value={userDetails.password}
-                        type="password"
-                        onChange={event => {
-                            setUserDetailsObject("password", event.target.value);
-                        }}
-                        onBlur={() => {
-                            setPasswordValidationMessage(validatePassword(userDetails.password));
-                        }}
-                    />
-                    {!passwordValidationMessages.length && <FormErrorMsg msg={userErrorMsg.password}></FormErrorMsg>}
-                    {passwordValidationMessages.map((message, index) => {
-                        return <FormErrorMsg msg={message} key={index}></FormErrorMsg>;
-                    })}
-                </div>
-                <div>
-                    <FormLabel
-                        name="Confirm Password"
-                        required
-                        styles={labelStyles}
-                        error={userDetailsErrors.confirmPassword}
-                    />
-                    <Input
-                        size="large"
-                        style={userDetailsErrors.confirmPassword ? errorInput : inputFullWidthStyle}
-                        value={userDetails.confirmPassword}
-                        type="password"
-                        onChange={event => {
-                            setUserDetailsObject("confirmPassword", event.target.value);
-                        }}
-                        onBlur={() => {
-                            if (userDetails.password !== userDetails.confirmPassword) {
-                                setUserDetailsErrors({ ...userDetailsErrors, confirmPassword: true });
-                            }
-                        }}
-                    />
-                    <FormErrorMsg
-                        msg={userDetailsErrors.confirmPassword ? "Password doesn't match" : ""}
-                    ></FormErrorMsg>
-                </div>
-                <div>
-                    <FormLabel
-                        name="Company Name"
-                        required
-                        styles={labelStyles}
-                        error={userDetailsErrors.companyName}
-                    />
-                    <span className={styles.addCompanyBtn}>
-                        <Button
-                            type="link"
-                            style={{ padding: 0 }}
-                            onClick={() => {
-                                addCompany();
-                            }}
-                        >
-                            + Add Company
-                        </Button>
-                    </span>
-                    <AutoComplete
-                        size="large"
-                        style={inputFullWidthStyle}
-                        value={userDetails.companyName}
-                        onSearch={value => {
-                            setUserDetailsObject("companyName", value);
-
-                            companyNamesAutoComplete(value).then(res => {
-                                setCompanyNames(res.data.payload);
-                            });
-                        }}
-                        onSelect={value => {
-                            setUserDetailsObject("companyName", value);
-                        }}
-                        defaultActiveFirstOption={false}
-                        dataSource={companyNames.map(e => {
-                            return (
-                                <AutoCompleteOption style={{ fontWeight: 600 }} value={e.id} key={e.id}>
-                                    {/* <HighLightedText text={e.name} highlightText={tempData.category}></HighLightedText> */}
-                                    {e.name}
-                                </AutoCompleteOption>
-                            );
-                        })}
-                        allowClear={true}
+        <div className={styles.signupCover}>
+            <Container>
+                <div className={styles.signupWrapper}>
+                    <div
+                        className={styles.signUpContainer}
+                        style={
+                            addCompanyForm
+                                ? { justifyContent: "flex-start", flexDirection: "row" }
+                                : { flexDirection: "column" }
+                        }
                     >
-                        <Input placeholder="--select here--" size="large" />
-                    </AutoComplete>
-                    <FormErrorMsg msg={userErrorMsg.companyName}></FormErrorMsg>
-                </div>
-            </div>
-            <div
-                className={`${styles.companyDetails} ${addCompanyForm ? styles.twinColumns : ""} ${
-                    signUpSuccess ? styles.hiddenForm : ""
-                } `}
-            >
-                <div
-                    className={styles.addCompanyForm}
-                    style={addCompanyForm ? { display: "block" } : { display: "none" }}
-                >
-                    <div>
-                        <FormLabel name="Company Name" styles={labelStyles} error={companyDetailsErrors.name} />
-                        <Input
-                            size="large"
-                            style={companyDetailsErrors.name ? errorInput : inputFullWidthStyle}
-                            value={companyDetails.name}
-                            disabled={userDetails.companyName ? true : false}
-                            onChange={event => {
-                                setCompanyDetailsObject("name", event.target.value);
-                            }}
-                        />
-                        <FormErrorMsg msg={companyErrMsg.name}></FormErrorMsg>
-                    </div>
-                    <div className={styles.uploadBtn}>
-                        <FormLabel name="Company Logo" styles={labelStyles} error={companyDetailsErrors.logo} />
-                        <Upload {...props} style={{ width: "100%", display: "block" }}>
-                            <Button
-                                block
-                                disabled={userDetails.companyName ? true : false}
-                                size="large"
-                                style={{ margin: "5px" }}
+                        <div
+                            className={`${styles.userDetails} ${signUpSuccess ? styles.hiddenForm : ""} ${
+                                addCompanyForm ? styles.addCompanyForm : ""
+                            }`}
+                        >
+                            <div className={styles.formHeader}>Get started with your profile</div>
+                            <div>
+                                <FormLabel
+                                    name="First Name"
+                                    required
+                                    styles={labelStyles}
+                                    error={userDetailsErrors.firstName}
+                                />
+                                <Input
+                                    size="large"
+                                    style={userDetailsErrors.firstName ? errorInput : inputFullWidthStyle}
+                                    value={userDetails.firstName}
+                                    onChange={event => {
+                                        setUserDetailsObject("firstName", event.target.value);
+                                    }}
+                                />
+                                {/* <FormErrorMsg msg={userErrorMsg.firstName}></FormErrorMsg> */}
+                            </div>
+                            <div>
+                                <FormLabel name="Last Name" styles={labelStyles} error={userDetailsErrors.lastName} />
+                                <Input
+                                    size="large"
+                                    style={userDetailsErrors.lastName ? errorInput : inputFullWidthStyle}
+                                    value={userDetails.lastName}
+                                    onChange={event => {
+                                        setUserDetailsObject("lastName", event.target.value);
+                                    }}
+                                />
+                                {/* <FormErrorMsg msg={userErrorMsg.lastName}></FormErrorMsg> */}
+                            </div>
+                            <div>
+                                <FormLabel
+                                    name="Email Address"
+                                    required
+                                    styles={labelStyles}
+                                    error={userDetailsErrors.email}
+                                />
+                                <Input
+                                    size="large"
+                                    style={userDetailsErrors.email ? errorInput : inputFullWidthStyle}
+                                    value={userDetails.email}
+                                    onChange={event => {
+                                        const value = event.target.value;
+                                        if (isValidEmail(value)) {
+                                            setUserDetailsErrors({ ...userDetailsErrors, email: false });
+                                        } else {
+                                            setUserDetailsErrors({ ...userDetailsErrors, email: true });
+                                        }
+
+                                        setUserDetails({ ...userDetails, email: value });
+                                    }}
+                                />
+                                {/* <FormErrorMsg msg={userErrorMsg.email}></FormErrorMsg> */}
+                            </div>
+                            <div>
+                                <FormLabel
+                                    name="Phone Number"
+                                    required
+                                    styles={labelStyles}
+                                    error={userDetailsErrors.phonenumber}
+                                />
+                                <Input
+                                    size="large"
+                                    style={userDetailsErrors.phonenumber ? errorInput : inputFullWidthStyle}
+                                    value={userDetails.phonenumber}
+                                    onChange={event => {
+                                        const value = event.target.value;
+                                        if (isValidContactNumber(value)) {
+                                            setUserDetailsErrors({ ...userDetailsErrors, phonenumber: false });
+                                        } else {
+                                            setUserDetailsErrors({ ...userDetailsErrors, phonenumber: true });
+                                        }
+
+                                        setUserDetails({ ...userDetails, phonenumber: value });
+                                    }}
+                                />
+                                {/* <FormErrorMsg msg={userErrorMsg.phonenumber}></FormErrorMsg> */}
+                            </div>
+                            <div>
+                                <FormLabel
+                                    name="Password"
+                                    required
+                                    styles={labelStyles}
+                                    error={userDetailsErrors.password}
+                                >
+                                    <Tooltip title="Password must contain atleast one captial letter, simple letter, number, symbol and minimum character length should be 6">
+                                        <InfoCircleOutlined twoToneColor="#eb2f96" />
+                                    </Tooltip>
+                                </FormLabel>
+                                <Input
+                                    size="large"
+                                    style={userDetailsErrors.password ? errorInput : inputFullWidthStyle}
+                                    value={userDetails.password}
+                                    type="password"
+                                    onChange={event => {
+                                        setUserDetailsObject("password", event.target.value);
+                                    }}
+                                    onBlur={() => {
+                                        setPasswordValidationMessage(validatePassword(userDetails.password));
+                                    }}
+                                />
+                                {/* {!passwordValidationMessages.length && (
+                             <FormErrorMsg msg={userErrorMsg.password}></FormErrorMsg>
+                        )}
+                        {passwordValidationMessages.map((message, index) => {
+                             return <FormErrorMsg msg={message} key={index}></FormErrorMsg>;
+                        })} */}
+                            </div>
+                            <div>
+                                <FormLabel
+                                    name="Confirm Password"
+                                    required
+                                    styles={labelStyles}
+                                    error={userDetailsErrors.confirmPassword}
+                                />
+                                <Input
+                                    size="large"
+                                    style={userDetailsErrors.confirmPassword ? errorInput : inputFullWidthStyle}
+                                    value={userDetails.confirmPassword}
+                                    type="password"
+                                    onChange={event => {
+                                        setUserDetailsObject("confirmPassword", event.target.value);
+                                    }}
+                                    onBlur={() => {
+                                        if (userDetails.password !== userDetails.confirmPassword) {
+                                            setUserDetailsErrors({ ...userDetailsErrors, confirmPassword: true });
+                                        }
+                                    }}
+                                />
+                                {/* <FormErrorMsg
+                            msg={userDetailsErrors.confirmPassword ? "Password doesn't match" : ""}
+                        ></FormErrorMsg> */}
+                            </div>
+                            <div>
+                                <FormLabel
+                                    name="Company Name"
+                                    required
+                                    styles={labelStyles}
+                                    error={userDetailsErrors.companyName}
+                                />
+                                <span className={styles.addCompanyBtn}>
+                                    <Button
+                                        type="link"
+                                        style={{ padding: 0 }}
+                                        onClick={() => {
+                                            addCompany();
+                                        }}
+                                    >
+                                        + Add Company
+                                    </Button>
+                                </span>
+                                <AutoComplete
+                                    size="large"
+                                    style={inputFullWidthStyle}
+                                    value={userDetails.companyName}
+                                    onSearch={value => {
+                                        setUserDetailsObject("companyName", value);
+
+                                        companyNamesAutoComplete(value).then(res => {
+                                            setCompanyNames(res.data.payload);
+                                        });
+                                    }}
+                                    onSelect={value => {
+                                        setUserDetailsObject("companyName", value);
+                                    }}
+                                    defaultActiveFirstOption={false}
+                                    dataSource={companyNames.map(e => {
+                                        return (
+                                            <AutoCompleteOption style={{ fontWeight: 600 }} value={e.id} key={e.id}>
+                                                {/* <HighLightedText text={e.name} highlightText={tempData.category}></HighLightedText> */}
+                                                {e.name}
+                                            </AutoCompleteOption>
+                                        );
+                                    })}
+                                    allowClear={true}
+                                >
+                                    <Input placeholder="--select here--" size="large" />
+                                </AutoComplete>
+                                {/* <FormErrorMsg msg={userErrorMsg.companyName}></FormErrorMsg> */}
+                            </div>
+                        </div>
+                        <div
+                            className={`${styles.companyDetails} ${
+                                addCompanyForm ? styles.twinColumns : styles.singleColumn
+                            } ${signUpSuccess ? styles.hiddenForm : ""} `}
+                        >
+                            <div
+                                className={styles.addCompanyForm}
+                                style={addCompanyForm ? { display: "block" } : { display: "none" }}
                             >
-                                <UploadOutlined /> Click to Upload
-                            </Button>
-                        </Upload>
-                        <FormErrorMsg msg={companyErrMsg.logo}></FormErrorMsg>
-                    </div>
-                    <div>
-                        <FormLabel
-                            name="Company Email"
-                            required
-                            styles={labelStyles}
-                            error={companyDetailsErrors.email}
-                        />
-                        <Input
-                            size="large"
-                            style={companyDetailsErrors.email ? errorInput : inputFullWidthStyle}
-                            value={companyDetails.email}
-                            disabled={userDetails.companyName ? true : false}
-                            onChange={event => {
-                                const value = event.target.value;
-                                if (isValidEmail(value)) {
-                                    setCompanyDetailsErrors({ ...companyDetailsErrors, email: false });
-                                } else {
-                                    setCompanyDetailsErrors({ ...companyDetailsErrors, email: true });
-                                }
+                                <div>
+                                    <FormLabel
+                                        name="Company Name"
+                                        styles={labelStyles}
+                                        error={companyDetailsErrors.name}
+                                    />
+                                    <Input
+                                        size="large"
+                                        style={companyDetailsErrors.name ? errorInput : inputFullWidthStyle}
+                                        value={companyDetails.name}
+                                        disabled={userDetails.companyName ? true : false}
+                                        onChange={event => {
+                                            setCompanyDetailsObject("name", event.target.value);
+                                        }}
+                                    />
+                                    {/* <FormErrorMsg msg={companyErrMsg.name}></FormErrorMsg> */}
+                                </div>
+                                <div className={styles.uploadBtn}>
+                                    <FormLabel
+                                        name="Company Logo"
+                                        styles={labelStyles}
+                                        error={companyDetailsErrors.logo}
+                                    />
+                                    <Upload {...props} style={{ width: "100%", display: "block" }}>
+                                        <Button
+                                            block
+                                            disabled={userDetails.companyName ? true : false}
+                                            size="large"
+                                            style={{ marginTop: "5px" }}
+                                        >
+                                            <UploadOutlined /> Click to Upload
+                                        </Button>
+                                    </Upload>
+                                    {/* <FormErrorMsg msg={companyErrMsg.logo}></FormErrorMsg> */}
+                                </div>
+                                <div>
+                                    <FormLabel
+                                        name="Company Email"
+                                        required
+                                        styles={labelStyles}
+                                        error={companyDetailsErrors.email}
+                                    />
+                                    <Input
+                                        size="large"
+                                        style={companyDetailsErrors.email ? errorInput : inputFullWidthStyle}
+                                        value={companyDetails.email}
+                                        disabled={userDetails.companyName ? true : false}
+                                        onChange={event => {
+                                            const value = event.target.value;
+                                            if (isValidEmail(value)) {
+                                                setCompanyDetailsErrors({ ...companyDetailsErrors, email: false });
+                                            } else {
+                                                setCompanyDetailsErrors({ ...companyDetailsErrors, email: true });
+                                            }
 
-                                setCompanyDetails({ ...companyDetails, email: value });
-                            }}
-                        />
-                        <FormErrorMsg msg={companyErrMsg.email}></FormErrorMsg>
-                    </div>
-                    <div>
-                        <FormLabel
-                            name="Comapany Phone Number"
-                            required
-                            styles={labelStyles}
-                            error={companyDetailsErrors.phonenumber}
-                        />
-                        <Input
-                            size="large"
-                            style={companyDetailsErrors.phonenumber ? errorInput : inputFullWidthStyle}
-                            value={companyDetails.phonenumber}
-                            disabled={userDetails.companyName ? true : false}
-                            onChange={event => {
-                                const value = event.target.value;
-                                if (isValidContactNumber(value)) {
-                                    setCompanyDetailsErrors({ ...companyDetailsErrors, phonenumber: false });
-                                } else {
-                                    setCompanyDetailsErrors({ ...companyDetailsErrors, phonenumber: true });
-                                }
+                                            setCompanyDetails({ ...companyDetails, email: value });
+                                        }}
+                                    />
+                                    {/* <FormErrorMsg msg={companyErrMsg.email}></FormErrorMsg> */}
+                                </div>
+                                <div>
+                                    <FormLabel
+                                        name="Comapany Phone Number"
+                                        required
+                                        styles={labelStyles}
+                                        error={companyDetailsErrors.phonenumber}
+                                    />
+                                    <Input
+                                        size="large"
+                                        style={companyDetailsErrors.phonenumber ? errorInput : inputFullWidthStyle}
+                                        value={companyDetails.phonenumber}
+                                        disabled={userDetails.companyName ? true : false}
+                                        onChange={event => {
+                                            const value = event.target.value;
+                                            if (isValidContactNumber(value)) {
+                                                setCompanyDetailsErrors({
+                                                    ...companyDetailsErrors,
+                                                    phonenumber: false
+                                                });
+                                            } else {
+                                                setCompanyDetailsErrors({ ...companyDetailsErrors, phonenumber: true });
+                                            }
 
-                                setCompanyDetails({ ...companyDetails, phonenumber: value });
-                            }}
-                        />
-                        <FormErrorMsg msg={companyErrMsg.phonenumber}></FormErrorMsg>
+                                            setCompanyDetails({ ...companyDetails, phonenumber: value });
+                                        }}
+                                    />
+                                    {/* <FormErrorMsg msg={companyErrMsg.phonenumber}></FormErrorMsg> */}
+                                </div>
+                                <div>
+                                    <FormLabel
+                                        name="Description"
+                                        required
+                                        styles={labelStyles}
+                                        error={companyDetailsErrors.description}
+                                    />
+                                    <Editor
+                                        style={inputFullWidthStyle}
+                                        placeholder="Company Description"
+                                        value={companyDetails.description}
+                                        disabled={userDetails.companyName ? true : false}
+                                        onChange={html => {
+                                            setCompanyDetailsObject("description", html);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.agreement}>
+                                By clicking Agree & Join, you agree to the Gorilla User Agreement, Privacy Policy, and
+                                Cookie Policy.
+                            </div>
+                            <div className={styles.submitContainer}>
+                                <Button type="primary" onClick={createEmployer}>
+                                    Agree & Join
+                                </Button>
+                            </div>
+                            <div className={styles.signin}>
+                                Already on Gorilla ? <Link to="/signin">Sign in</Link>
+                            </div>
+                        </div>
+                        <div className={`${signUpSuccess ? styles.showBanner : styles.hidden}`}>
+                            <div className={styles.banner}>
+                                <Banner
+                                    type="success"
+                                    header={EMPLOYER_SIGNUP_SUCCESS_HEADER}
+                                    msg={EMPLOYER_SIGNUP_SUCCESS_MSG}
+                                    btnText="OK"
+                                    btnAction={() => {
+                                        history.push("/");
+                                    }}
+                                ></Banner>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <FormLabel
-                            name="Description"
-                            required
-                            styles={labelStyles}
-                            error={companyDetailsErrors.description}
-                        />
-                        <Editor
-                            style={inputFullWidthStyle}
-                            placeholder="Company Description"
-                            value={companyDetails.description}
-                            disabled={userDetails.companyName ? true : false}
-                            onChange={html => {
-                                setCompanyDetailsObject("description", html);
-                            }}
-                        />
-                    </div>
                 </div>
-                <div className={styles.agreement}>
-                    By clicking Agree & Join, you agree to the Gorilla User Agreement, Privacy Policy, and Cookie
-                    Policy.
-                </div>
-                <div className={styles.submitContainer}>
-                    <Button type="primary" onClick={createEmployer}>
-                        Agree & Join
-                    </Button>
-                </div>
-                <div className={styles.signin}>
-                    Already on Gorilla ? <Link to="/signin">Sign in</Link>
-                </div>
-            </div>
-            <div className={`${signUpSuccess ? styles.showBanner : styles.hidden}`}>
-                <div className={styles.banner}>
-                    <Banner
-                        type="success"
-                        header={EMPLOYER_SIGNUP_SUCCESS_HEADER}
-                        msg={EMPLOYER_SIGNUP_SUCCESS_MSG}
-                        btnText="OK"
-                        btnAction={() => {
-                            history.push("/");
-                        }}
-                    ></Banner>
-                </div>
-            </div>
+            </Container>
         </div>
     );
 };

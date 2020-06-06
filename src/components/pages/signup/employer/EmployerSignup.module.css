@@ -1,31 +1,65 @@
 .formHeader {
-    margin: 5px;
+    margin: 5px 0;
     font-weight: bold;
     font-size: 19px;
     color: #0073b1;
 }
 
+.signupCover {
+    background-image: url(../../../../images/employer-signin-cover.png);
+    background-image: -webkit-image-set(
+        url(../../../../images/employer-signin-cover.png) 1x,
+        url(../../../../images/employer-signin-cover-2x.png) 2x
+    );
+    background-image: image-set(
+        url(../../../../images/employer-signin-cover.png) 1x,
+        url(../../../../images/employer-signin-cover-2x.png) 2x
+    );
+    background-size: cover;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.signupWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
 .signUpContainer {
     display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 50px;
+    justify-content: flex-start;
+    background-color: #fff;
+    flex-direction: row;
+    align-content: flex-start;
     position: relative;
+    padding: 20px;
+    width: fit-content;
 }
 
 .userDetails {
-    align-self: center;
-    width: 45%;
+    align-self: flex-start;
+    width: 100%;
+}
+
+.userDetails.addCompanyForm {
+    width: 50%;
+    margin-right: 20px;
 }
 
 .companyDetails {
-    align-self: center;
-    width: 45%;
+    margin-top: 39.6px;
+    align-self: flex-start;
+    width: 50%;
 }
 
 .companyDetails.twinColumns {
     align-self: auto;
+}
+
+.companyDetails.singleColumn {
+    margin-top: 0;
+    width: 100%;
 }
 
 .addCompanyBtn {
@@ -70,10 +104,6 @@
     display: inline;
 }
 
-.addCompanyForm {
-    margin-top: 38px;
-}
-
 .hiddenForm {
     display: none;
 }
@@ -110,10 +140,6 @@
     .userDetails,
     .companyDetails {
         width: 100%;
-    }
-
-    .addCompanyForm {
-        margin-top: auto;
     }
 
     .hiddenForm {

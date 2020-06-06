@@ -72,9 +72,15 @@
 }
 
 .loginButton,
-.employersButton {
+.employersButton,
+.employeeButton {
     display: inline;
     margin: 0 5px;
+}
+
+.employersButton button,
+.employeeButton button {
+    width: 140px;
 }
 
 .loginButton > button > span {
@@ -87,7 +93,8 @@
     border-color: transparent;
 }
 
-.employersButton button:hover {
+.employersButton button:hover,
+.employersButton button:focus {
     background-color: #4fae85;
     border-color: transparent;
 }
@@ -194,7 +201,8 @@
     }
 
     .loginButton button,
-    .employersButton button {
+    .employersButton button,
+    .employeeButton button {
         height: 35px;
     }
 }
@@ -244,11 +252,13 @@
     }
 
     .loginButton,
+    .employeeButton,
     .employersButton {
         margin: 0;
     }
 
     .loginButton button,
+    .employeeButton button,
     .employersButton button {
         height: 40px;
         border-radius: 0;

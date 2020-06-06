@@ -10,10 +10,15 @@ import {
 } from "@ant-design/icons";
 
 import styles from "./Header.module.css";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { setUserDomain } from "../../../actions/MetaActions";
+import { EMPLOYEE, EMPLOYER } from "../../../constants/AppConstants";
 
 const { SubMenu } = Menu;
 
 const MobileMenu = props => {
+    const { domain } = props;
     return (
         <Menu
             style={{ width: "100%" }}
@@ -36,13 +41,15 @@ const MobileMenu = props => {
                                 </Button>
                             </div>
                         </Link>
-                        <Link to="/signup">
-                            <div className={styles.employersButton}>
-                                <Button type="primary" size="large">
-                                    <span>For Employers</span>
-                                </Button>
-                            </div>
-                        </Link>
+                        <div className={`${domain === EMPLOYEE ? styles.employersButton : styles.employeeButton}`}>
+                            <Button
+                                type="primary"
+                                size="large"
+                                onClick={() => props.actions.setUserDomain(domain === EMPLOYEE ? EMPLOYER : EMPLOYEE)}
+                            >
+                                <span>{domain === EMPLOYEE ? "For Employers" : "For Candidates"}</span>
+                            </Button>
+                        </div>
                     </div>
                 </Menu.Item>
             )}
@@ -112,4 +119,18 @@ const MobileMenu = props => {
     );
 };
 
-export default MobileMenu;
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: {
+            setUserDomain: bindActionCreators(setUserDomain, dispatch)
+        }
+    };
+};
+
+const mapStateToProps = state => {
+    return {
+        domain: state.metaData.domain
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MobileMenu);

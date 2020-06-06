@@ -1,3 +1,5 @@
+import { EMPLOYEE, EMPLOYER } from '../constants/AppConstants';
+
 export default {
     jobData: {
         jobList: [],
@@ -19,7 +21,8 @@ export default {
         metaSalaries: [],
         metaJobTypes: [],
         metaRoles: [],
-        metaCreatedAtDates: []
+        metaCreatedAtDates: [],
+        domain: EMPLOYEE
     },
     commonData: {
         loading: false
@@ -28,5 +31,8 @@ export default {
         topHiringCompanies: [],
         featuredJobs: [],
         jobsByCategory: []
+    },
+    authData: {
+        token: ''
     }
 };

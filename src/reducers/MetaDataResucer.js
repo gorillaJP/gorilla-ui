@@ -1,7 +1,7 @@
 import * as actions from '../actions/ActionTypes';
 import initialState from './InitialState';
 
-export default function jobDataReducer(state = initialState.metaData, action) {
+export default function metaDataResucer(state = initialState.metaData, action) {
     switch (action.type) {
         case actions.META_CITIES:
             return { ...state, ...{ metaCities: action.payload } };
@@ -15,6 +15,8 @@ export default function jobDataReducer(state = initialState.metaData, action) {
             return { ...state, ...{ metaRoles: action.payload } };
         case actions.META_CREATEDDATES:
             return { ...state, ...{ metaCreatedAtDates: action.payload } };
+        case actions.META_SET_USER_DOMAIN:
+            return { ...state, ...{ domain: action.payload } };
         default:
             return state;
     }

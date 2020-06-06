@@ -4,28 +4,36 @@ import {
     INITIAL_SIGN_IN_HEADER,
     SIGN_IN_HEADER,
     INITIAL_SIGN_IN_MSG,
-    SIGN_IN_PREMIUM
+    SIGN_IN_PREMIUM,
+    INITIAL_SIGN_IN_MSG_EMPLOYEE
 } from "../../../constants/MessageConstants";
 import FormLabel from "../../common/form-label/FormLabel";
-import { Input, Checkbox, Button } from "antd";
-import FormErrorMsg from "../../common/form-error-msg/FormErrorMsg";
+import { Input, Checkbox, Button, Divider } from "antd";
 import { isValidEmail } from "../../../util/Util";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Banner from "../../common/banners/Banner";
 import { signIn } from "../../../api/UserApi";
 import { setLocalStorage, getLocalStorage } from "../../../api/LocalStorage";
 import { setSessionStorage, getSessionStorage } from "../../../api/SessionStorage";
 import { useEffect } from "react";
 import RedirectTo from "../../common/redirect-to/RedirectTo";
+import { Container } from "../../common/container/Container";
+import { EMPLOYER, EMPLOYEE } from "../../../constants/AppConstants";
+import { connect } from "react-redux";
 
-const labelStyles = { margin: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
-const inputStyle = { margin: "15px", width: "90%" };
-const inputFullWidthStyle = { ...inputStyle, width: "100%", margin: "5px", display: "inline-block" };
+const labelStyles = { marginTop: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
+const inputStyle = { width: "90%" };
+const inputFullWidthStyle = {
+    ...inputStyle,
+    width: "100%",
+    display: "inline-block",
+    marginBottom: "10px",
+    marginTop: "3px"
+};
 const errorInput = { ...inputFullWidthStyle, border: "1px solid red" };
 
-const domain = "employer";
-
 const SignIn = props => {
+    const { domain } = props;
     const [email, setEmail] = useState({
         value: "",
         error: ""
@@ -90,81 +98,116 @@ const SignIn = props => {
     return (
         <div className={styles.signInContainer}>
             {token && <RedirectTo />}
-            {!props.initialSignIn && (
-                <Banner
-                    type="success"
-                    header="Your account is active now !"
-                    msg="Please sign in to find the best employees for Dialog Axiata PLC"
-                ></Banner>
-            )}
 
-            <div className={styles.signInDetails}>
-                {props.premiumSignin && <h3 className={styles.header}>{SIGN_IN_PREMIUM}</h3>}
-                {!props.premiumSignin && (
-                    <h3 className={styles.header}>{props.initialSignIn ? INITIAL_SIGN_IN_HEADER : SIGN_IN_HEADER}</h3>
+            <div className={`${domain === EMPLOYER ? styles.employer : styles.employee} ${styles.signInCover}`}>
+                {props.initialSignIn && (
+                    <Banner
+                        type="success"
+                        header="Your account is active now !"
+                        msg="Please sign in to find the best employees for Dialog Axiata PLC"
+                    ></Banner>
                 )}
+                <Container>
+                    <div className={styles.signInDetails}>
+                        {props.premiumSignin && <h3 className={styles.header}>{SIGN_IN_PREMIUM}</h3>}
+                        {!props.premiumSignin && (
+                            <h3 className={styles.header}>
+                                {props.initialSignIn ? INITIAL_SIGN_IN_HEADER : SIGN_IN_HEADER}
+                            </h3>
+                        )}
 
-                <p className={styles.message}>{INITIAL_SIGN_IN_MSG}</p>
-                <div>
-                    <div>
-                        <FormLabel name="Email Address" styles={labelStyles} error={email.error} />
-                        <Input
-                            size="large"
-                            style={email.error ? errorInput : inputFullWidthStyle}
-                            value={email.value}
-                            onChange={event => {
-                                const value = event.target.value;
-                                if (isValidEmail(value)) {
-                                    setEmail({ error: "", value: value });
-                                } else {
-                                    setEmail({ error: "Invalid Email", value: value });
-                                }
-                            }}
-                        />
-                        <FormErrorMsg msg={email.error}></FormErrorMsg>
+                        <p className={styles.message}>
+                            {domain === EMPLOYEE ? INITIAL_SIGN_IN_MSG_EMPLOYEE : INITIAL_SIGN_IN_MSG}
+                        </p>
+                        <div>
+                            <div>
+                                <FormLabel name="Email Address" styles={labelStyles} error={email.error} />
+                                <Input
+                                    size="large"
+                                    style={email.error ? errorInput : inputFullWidthStyle}
+                                    value={email.value}
+                                    onChange={event => {
+                                        const value = event.target.value;
+                                        if (isValidEmail(value)) {
+                                            setEmail({ error: "", value: value });
+                                        } else {
+                                            setEmail({ error: "Invalid Email", value: value });
+                                        }
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <FormLabel name="Password" styles={labelStyles} error={password.error} />
+                                <Input
+                                    size="large"
+                                    style={password.error ? errorInput : inputFullWidthStyle}
+                                    value={password.value}
+                                    type="password"
+                                    onChange={event => {
+                                        const value = event.target.value;
+                                        setPassword({ ...password, ...{ value: value } });
+                                    }}
+                                />
+                            </div>
+                            <div className={styles.rememberMeSection}>
+                                <Checkbox checked={rememberMe} onChange={e => setRememberMe(e.target.checked)}>
+                                    Remember me
+                                </Checkbox>
+                                <Link to="/forgot-password">Forgot Password ?</Link>
+                            </div>
+                            <div className={styles.loginBtn}>
+                                <Button
+                                    type="primary"
+                                    block
+                                    onClick={() => {
+                                        signInUser();
+                                    }}
+                                    size="large"
+                                >
+                                    Sign In
+                                </Button>
+                            </div>
+                            {domain === EMPLOYEE && (
+                                <>
+                                    <Divider>
+                                        <span className={styles.divider}>Or</span>
+                                    </Divider>
+                                    <div className={styles.faceBookBtn}>
+                                        <Button type="primary" block size="large">
+                                            Continue With Facebook
+                                        </Button>
+                                    </div>
+                                    <div className={styles.googleBtn}>
+                                        <Button type="primary" block size="large">
+                                            Continue With Google
+                                        </Button>
+                                    </div>
+                                    <p className={styles.footerMessage}>
+                                        New to Gorilla? <Link to="/signup">Join now!</Link>
+                                    </p>
+                                    <p className={styles.footerMessage}>
+                                        Are you looking for jobs? <Link to="/job-details">Start finding now!</Link>
+                                    </p>
+                                </>
+                            )}
+                            {domain === EMPLOYER && (
+                                <>
+                                    <p className={styles.footerMessage}>
+                                        New to Gorilla? <Link to="/signup">Join now!</Link>
+                                    </p>
+                                </>
+                            )}
+                        </div>
                     </div>
-                    <div>
-                        <FormLabel name="Password" styles={labelStyles} error={password.error} />
-                        <Input
-                            size="large"
-                            style={password.error ? errorInput : inputFullWidthStyle}
-                            value={password.value}
-                            type="password"
-                            onChange={event => {
-                                const value = event.target.value;
-                                setPassword({ ...password, ...{ value: value } });
-                            }}
-                        />
-                        <FormErrorMsg msg={password.error}></FormErrorMsg>
-                    </div>
-                    <div className={styles.rememberMeSection}>
-                        <Checkbox checked={rememberMe} onChange={e => setRememberMe(e.target.checked)}>
-                            Remember me
-                        </Checkbox>
-                        <Link to="/forgot-password">Forgot Password ?</Link>
-                    </div>
-                    <div className={styles.loginBtn}>
-                        <Button
-                            type="primary"
-                            block
-                            onClick={() => {
-                                signInUser();
-                            }}
-                            size="large"
-                        >
-                            Sign In
-                        </Button>
-                    </div>
-                    <p className={styles.footerMessage}>
-                        New to Gorilla? <Link to="/signup">Join now!</Link>
-                    </p>
-                    <p className={styles.footerMessage}>
-                        Are you looking for jobs? <Link to="/job-details">Start finding now!</Link>
-                    </p>
-                </div>
+                </Container>
             </div>
         </div>
     );
 };
+const mapStateToProps = state => {
+    return {
+        domain: state.metaData.domain
+    };
+};
 
-export default SignIn;
+export default connect(mapStateToProps, undefined)(SignIn);

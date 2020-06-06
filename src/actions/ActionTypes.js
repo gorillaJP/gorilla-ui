@@ -13,6 +13,7 @@ export const META_ROLES = 'META_GET_ROLES';
 export const META_JOBTYPES = 'META_GET_JOBTYPES';
 export const META_EXPERIENCE = 'META_GET_EXPERIENCE';
 export const META_CREATEDDATES = 'META_GET_CREATEDDATE';
+export const META_SET_USER_DOMAIN = 'META_SET_USER_DOMAIN';
 
 //loading meta data - happens at the applicaiton startup
 export const SEARCH_PARAM_UPDATE = 'SEARCH_PARAM_UPDATE';
@@ -21,3 +22,6 @@ export const SEARCH_PARAM_UPDATE = 'SEARCH_PARAM_UPDATE';
 export const TOP_HIRING_COMPANIES = 'TOP_HIRING_COMPANIES';
 export const FEATURED_JOBS = 'FEATURED_JOBS';
 export const JOBS_BY_CATEGORY = 'JOBS_BY_CATEGORY';
+
+// Auth Data
+export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';

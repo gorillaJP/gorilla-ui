@@ -1,15 +1,51 @@
 .signInContainer {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
     width: 100%;
     margin-bottom: 50px;
     position: relative;
 }
 
+.signInCover {
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.employee.signInCover {
+    background-image: url(../../../images/employee-signin-cover.png);
+    background-image: -webkit-image-set(
+        url(../../../images/employee-signin-cover.png) 1x,
+        url(../../../images/employee-signin-cover-2x.png) 2x
+    );
+    background-image: image-set(
+        url(../../../images/employee-signin-cover.png) 1x,
+        url(../../../images/employee-signin-cover-2x.png) 2x
+    );
+}
+
+.employer.signInCover {
+    background-image: url(../../../images/employer-signin-cover.png);
+    background-image: -webkit-image-set(
+        url(../../../images/employer-signin-cover.png) 1x,
+        url(../../../images/employer-signin-cover-2x.png) 2x
+    );
+    background-image: image-set(
+        url(../../../images/employer-signin-cover.png) 1x,
+        url(../../../images/employer-signin-cover-2x.png) 2x
+    );
+}
+
 .signInDetails {
     align-self: center;
+    background-color: #ffffff;
     width: 45%;
+    padding: 15px 60px;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    max-width: 500px;
+    margin-left: auto;
 }
 
 .header {
@@ -18,6 +54,7 @@
     font-weight: bold;
     font-size: 35px;
     text-align: center;
+    margin-bottom: 0;
 }
 
 .message {
@@ -31,7 +68,7 @@
 }
 
 .rememberMeSection {
-    margin: 10px 5px;
+    margin: 10px 0;
     color: #999999;
     font-size: 16px;
 }
@@ -45,8 +82,10 @@
     float: right;
 }
 
-.loginBtn {
-    margin: 15px 5px;
+.loginBtn,
+.faceBookBtn,
+.googleBtn {
+    margin: 15px 0;
 }
 
 .loginBtn button {
@@ -59,8 +98,31 @@
     text-align: center;
 }
 
+.divider {
+    color: #838689;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.faceBookBtn button {
+    background-color: #3b5998;
+}
+
+.faceBookBtn button:hover {
+    background-color: #3b5998f0;
+}
+
+.googleBtn button {
+    background-color: #de5246;
+}
+
+.googleBtn button:hover {
+    background-color: #de5246d1;
+}
+
 @media (min-width: 481px) and (max-width: 767px), (min-width: 320px) and (max-width: 480px) {
     .signInDetails {
         width: 100%;
+        padding: 20px;
     }
 }
