@@ -33,6 +33,7 @@ export default {
         jobsByCategory: []
     },
     authData: {
-        token: ''
+        token: '',
+        profile: {}
     }
 };

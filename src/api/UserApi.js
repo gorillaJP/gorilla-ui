@@ -1,9 +1,20 @@
 import axios from 'axios';
 import config from '../util/config';
 
-export const registerEmployer = async jobPost => {
+export const registerEmployer = async employerData => {
     return await axios
-        .post(config.remote + 'api/employerprofile', jobPost)
+        .post(config.remote + 'api/employerprofile', employerData)
+        .then(res => {
+            return [];
+        })
+        .catch(e => {
+            return e.response.data.payload;
+        });
+};
+
+export const registerEmployee = async employeeData => {
+    return await axios
+        .post(config.remote + 'api/candidate/profile', employeeData)
         .then(res => {
             return [];
         })

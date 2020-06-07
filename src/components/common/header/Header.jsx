@@ -92,7 +92,7 @@ const profileLinks = [
 const HeaderComp = props => {
     let location = useLocation();
     const [previousPathName, setPreviousPathName] = useState("/");
-    const { domain } = props;
+    const { domain, userProfile } = props;
 
     useEffect(() => {
         if (previousPathName !== location.pathname) {
@@ -153,7 +153,7 @@ const HeaderComp = props => {
                                 <SettingOutlined className={styles.settingsIcon} />
                                 <Avatar size={60} icon={<UserOutlined />} />
                                 <Dropdown overlay={LinkDropDownContent(profileLinks)} className={styles.userMenu}>
-                                    <span className={styles.submenu}>{props.userProfile.firstname}</span>
+                                    <span className={styles.submenu}>{userProfile.firstname}</span>
                                 </Dropdown>
                             </div>
                         )}
@@ -185,7 +185,7 @@ const HeaderComp = props => {
                             userLoggeIn={props.userLoggeIn}
                             moreJobs={moreJobs}
                             profileLinks={profileLinks}
-                            userName={props.userProfile.firstname}
+                            userName={userProfile.firstname}
                             opened={props.mobileMenuOpen}
                         />
                     </div>

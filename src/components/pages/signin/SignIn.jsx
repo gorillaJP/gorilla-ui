@@ -10,7 +10,7 @@ import {
 import FormLabel from "../../common/form-label/FormLabel";
 import { Input, Checkbox, Button, Divider } from "antd";
 import { isValidEmail } from "../../../util/Util";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Banner from "../../common/banners/Banner";
 import { signIn } from "../../../api/UserApi";
 import { setLocalStorage, getLocalStorage } from "../../../api/LocalStorage";
@@ -20,6 +20,8 @@ import RedirectTo from "../../common/redirect-to/RedirectTo";
 import { Container } from "../../common/container/Container";
 import { EMPLOYER, EMPLOYEE } from "../../../constants/AppConstants";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { setActionToken, setUserProfile } from "../../../actions/UserAction";
 
 const labelStyles = { marginTop: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
 const inputStyle = { width: "90%" };
@@ -34,6 +36,7 @@ const errorInput = { ...inputFullWidthStyle, border: "1px solid red" };
 
 const SignIn = props => {
     const { domain } = props;
+    const history = useHistory();
     const [email, setEmail] = useState({
         value: "",
         error: ""
@@ -91,6 +94,10 @@ const SignIn = props => {
                     setSessionStorage("token", innerData.token);
                     setSessionStorage("userprofile", innerData.user);
                 }
+
+                props.actions.setAccessToken(innerData.token);
+                props.actions.setUserProfile(innerData.user);
+                history.push("/");
             }
         }
     };
@@ -210,4 +217,12 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, undefined)(SignIn);
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: {
+            setAccessToken: bindActionCreators(setActionToken, dispatch),
+            setUserProfile: bindActionCreators(setUserProfile, dispatch)
+        }
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

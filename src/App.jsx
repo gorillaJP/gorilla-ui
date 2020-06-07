@@ -16,6 +16,9 @@ import { getLocalStorage } from "./api/LocalStorage";
 import Overlay from "./components/common/overlays/Overlay";
 import EmployeeSignup from "./components/pages/signup/employee/EmployeeSignup";
 import Signup from "./components/pages/signup/Signup";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { setUserProfile } from "./actions/UserAction";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -27,11 +30,10 @@ const overlayStyles = {
     bottom: 0,
     marginTop: "40px"
 };
-function App() {
+const App = props => {
+    const { userProfile } = props;
     const [mobileMenuOpen, toggleMobileMenu] = useState(false);
     const [userLoggeIn, setUserLoggedIn] = useState(false);
-    const [userProfile, setUserProfile] = useState({});
-
     useEffect(() => {
         let userProfile = getSessionStorage("userprofile");
 
@@ -40,10 +42,10 @@ function App() {
         }
 
         if (userProfile) {
-            setUserProfile(JSON.parse(userProfile));
+            props.actions.setUserProfile(JSON.parse(userProfile));
             setUserLoggedIn(true);
         }
-    }, []);
+    }, [props.actions]);
 
     return (
         <Layout className={styles.app}>
@@ -54,7 +56,7 @@ function App() {
                         toggleMenu={value => {
                             toggleMobileMenu(value);
                         }}
-                        userLoggeIn={userLoggeIn}
+                        userLoggeIn={userProfile.id || userLoggeIn}
                         setUserLoggedIn={setUserLoggedIn}
                         userProfile={userProfile}
                     />
@@ -91,6 +93,19 @@ function App() {
             <Loader />
         </Layout>
     );
-}
+};
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        userProfile: state.authData.profile
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: {
+            setUserProfile: bindActionCreators(setUserProfile, dispatch)
+        }
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

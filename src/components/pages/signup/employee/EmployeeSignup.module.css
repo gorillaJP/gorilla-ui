@@ -53,6 +53,13 @@
     margin-right: 30px;
 }
 
+.divider {
+    color: #838689;
+    font-size: 16px;
+    font-style: italic;
+    display: none;
+}
+
 .faceBookBtn,
 .googleBtn {
     margin: 15px 15px 15px 0;
@@ -97,4 +104,47 @@
 .submitContainer {
     display: flex;
     justify-content: center;
+}
+
+.hiddenForm {
+    display: none;
+}
+
+@media only screen and (max-device-width: 640px) {
+    .signUpDetails {
+        padding: 20px;
+        width: auto;
+    }
+
+    .signUpForm {
+        flex-direction: column;
+    }
+
+    .inputContainer,
+    .btnContainer {
+        margin: 0;
+    }
+
+    .faceBookBtn,
+    .googleBtn {
+        width: 100%;
+    }
+
+    .divider {
+        display: block;
+    }
+
+    .inputContainer {
+        order: 1;
+    }
+
+    .agreementContainer {
+        align-self: center;
+        padding: 20px;
+        order: 2;
+    }
+
+    .btnContainer {
+        order: 3;
+    }
 }
