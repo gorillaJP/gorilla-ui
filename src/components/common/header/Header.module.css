@@ -19,11 +19,30 @@
 
 .brand {
     color: #0073b1;
-    line-height: 70px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    line-height: 40px;
     font-size: 40px;
     font-weight: 700;
     font-family: "Segoe UI";
-    height: 100%;
+}
+
+.forEmployers {
+    font-size: 24px;
+    line-height: 70px;
+}
+
+.forEmployers .forEmployersText {
+    color: #707070;
+    display: inline;
+    padding-top: 20px;
+    text-transform: uppercase;
+}
+
+.divider {
+    height: 50px !important;
+    border-left-width: 2px !important;
+    border-color: #707070 !important;
 }
 
 .submenu {

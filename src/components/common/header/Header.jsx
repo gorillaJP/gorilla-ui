@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Avatar } from "antd";
+import { Button, Avatar, Divider } from "antd";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
 // import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
@@ -112,6 +112,16 @@ const HeaderComp = props => {
                         <Link to="/" className={styles.brand}>
                             Gorilla
                         </Link>
+                        <div className={styles.forEmployers}>
+                            {domain === EMPLOYER && (
+                                <>
+                                    <Divider type="vertical" className={styles.divider} />
+                                    <div className={styles.forEmployersText}>
+                                        <span className={styles.forEmployersText}>For Employers</span>
+                                    </div>
+                                </>
+                            )}
+                        </div>
                         <div className={styles.header}>
                             <span className={styles.submenu}>Search Jobs</span>
                             <span className={styles.submenu}>Industries</span>

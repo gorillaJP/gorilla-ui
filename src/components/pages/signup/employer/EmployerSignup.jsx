@@ -196,7 +196,11 @@ const EmployerSignup = props => {
     return (
         <div className={styles.signupCover}>
             <Container>
-                <div className={styles.signupWrapper}>
+                <div
+                    className={`${styles.signupWrapper} ${signUpSuccess ? styles.hiddenForm : ""} ${
+                        addCompanyForm ? styles.addCompanyForm : ""
+                    }`}
+                >
                     <div
                         className={styles.signUpContainer}
                         style={
@@ -519,19 +523,19 @@ const EmployerSignup = props => {
                                 Already on Gorilla ? <Link to="/signin">Sign in</Link>
                             </div>
                         </div>
-                        <div className={`${signUpSuccess ? styles.showBanner : styles.hidden}`}>
-                            <div className={styles.banner}>
-                                <Banner
-                                    type="success"
-                                    header={EMPLOYER_SIGNUP_SUCCESS_HEADER}
-                                    msg={EMPLOYER_SIGNUP_SUCCESS_MSG}
-                                    btnText="OK"
-                                    btnAction={() => {
-                                        history.push("/");
-                                    }}
-                                ></Banner>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                <div className={`${signUpSuccess ? styles.showBanner : styles.hidden}`}>
+                    <div className={styles.banner}>
+                        <Banner
+                            type="success"
+                            header={EMPLOYER_SIGNUP_SUCCESS_HEADER}
+                            msg={EMPLOYER_SIGNUP_SUCCESS_MSG}
+                            btnText="OK"
+                            btnAction={() => {
+                                history.push("/");
+                            }}
+                        ></Banner>
                     </div>
                 </div>
             </Container>

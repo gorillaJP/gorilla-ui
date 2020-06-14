@@ -1,4 +1,4 @@
-import { EMPLOYEE, EMPLOYER } from '../constants/AppConstants';
+import { EMPLOYEE } from '../constants/AppConstants';
 
 export default {
     jobData: {
