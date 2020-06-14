@@ -18,7 +18,7 @@ import { setSessionStorage, getSessionStorage } from "../../../api/SessionStorag
 import { useEffect } from "react";
 import RedirectTo from "../../common/redirect-to/RedirectTo";
 import { Container } from "../../common/container/Container";
-import { EMPLOYER, EMPLOYEE } from "../../../constants/AppConstants";
+import { EMPLOYER, EMPLOYEE, TOKEN, USERPROFILE } from "../../../constants/AppConstants";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setActionToken, setUserProfile } from "../../../actions/UserAction";
@@ -88,11 +88,11 @@ const SignIn = props => {
                 const innerData = data.data;
 
                 if (rememberMe) {
-                    setLocalStorage("token", innerData.token);
-                    setLocalStorage("userprofile", innerData.user);
+                    setLocalStorage(TOKEN, innerData.token);
+                    setLocalStorage(USERPROFILE, innerData.user);
                 } else {
-                    setSessionStorage("token", innerData.token);
-                    setSessionStorage("userprofile", innerData.user);
+                    setSessionStorage(TOKEN, innerData.token);
+                    setSessionStorage(USERPROFILE, innerData.user);
                 }
 
                 props.actions.setAccessToken(innerData.token);

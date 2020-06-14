@@ -14,22 +14,7 @@ import { EMPLOYER, EMPLOYEE } from "../../../constants/AppConstants";
 import { bindActionCreators } from "redux";
 import { setUserDomain } from "../../../actions/MetaActions";
 import { connect } from "react-redux";
-
-const LinkDropDownContent = items => {
-    return (
-        <Menu>
-            {items.map((item, i) => {
-                return (
-                    <Menu.Item key={i}>
-                        <Link to={item.linkPath} className={styles.linkDropDown}>
-                            {item.linkName}
-                        </Link>
-                    </Menu.Item>
-                );
-            })}
-        </Menu>
-    );
-};
+import { logOut } from "../../../actions/UserAction";
 
 const moreJobs = [
     {
@@ -82,12 +67,51 @@ const profileLinks = [
     {
         linkName: "Change Password",
         linkPath: "/change-password"
-    },
-    {
-        linkName: "Log Out",
-        linkPath: "/logout"
     }
 ];
+
+const UserProfileDropDownContent = props => {
+    const { logOut } = props;
+    return (
+        <Menu>
+            {profileLinks.map((item, i) => {
+                return (
+                    <Menu.Item key={i}>
+                        <Link to={item.linkPath} className={styles.linkDropDown}>
+                            {item.linkName}
+                        </Link>
+                    </Menu.Item>
+                );
+            })}
+            <Menu.Item key="logout">
+                <Link
+                    className={styles.linkDropDown}
+                    onClick={() => {
+                        logOut();
+                    }}
+                >
+                    Log Out
+                </Link>
+            </Menu.Item>
+        </Menu>
+    );
+};
+
+const LinkDropDownContent = items => {
+    return (
+        <Menu>
+            {items.map((item, i) => {
+                return (
+                    <Menu.Item key={i}>
+                        <Link to={item.linkPath} className={styles.linkDropDown}>
+                            {item.linkName}
+                        </Link>
+                    </Menu.Item>
+                );
+            })}
+        </Menu>
+    );
+};
 
 const HeaderComp = props => {
     let location = useLocation();
@@ -127,7 +151,7 @@ const HeaderComp = props => {
                             <span className={styles.submenu}>Industries</span>
                             <span className={styles.submenu}>Locations</span>
                             <span className={styles.submenu}>Companies</span>
-                            <Dropdown overlay={LinkDropDownContent(moreJobs)}>
+                            <Dropdown overlay={LinkDropDownContent(moreJobs, this)}>
                                 <span className={styles.submenu}>More</span>
                             </Dropdown>
                         </div>
@@ -162,7 +186,10 @@ const HeaderComp = props => {
                             <div className={styles.actionButtons}>
                                 <SettingOutlined className={styles.settingsIcon} />
                                 <Avatar size={60} icon={<UserOutlined />} />
-                                <Dropdown overlay={LinkDropDownContent(profileLinks)} className={styles.userMenu}>
+                                <Dropdown
+                                    overlay={UserProfileDropDownContent({ logOut: props.actions.logOut })}
+                                    className={styles.userMenu}
+                                >
                                     <span className={styles.submenu}>{userProfile.firstname}</span>
                                 </Dropdown>
                             </div>
@@ -208,7 +235,8 @@ const HeaderComp = props => {
 const mapDispatchToProps = dispatch => {
     return {
         actions: {
-            setUserDomain: bindActionCreators(setUserDomain, dispatch)
+            setUserDomain: bindActionCreators(setUserDomain, dispatch),
+            logOut: bindActionCreators(logOut, dispatch)
         }
     };
 };

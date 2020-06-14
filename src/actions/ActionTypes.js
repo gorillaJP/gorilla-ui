@@ -26,3 +26,5 @@ export const JOBS_BY_CATEGORY = 'JOBS_BY_CATEGORY';
 // Auth Data
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 export const SET_USER_PROFILE = 'SET_USER_PROFILE';
+export const UNSET_AUTH_TOKEN = 'UNSET_AUTH_TOKEN';
+export const UNSET_USER_PROFILE = 'UNSET_USER_PROFILE';
