@@ -421,6 +421,24 @@ const EmployerSignup = props => {
                                     />
                                     {/* <FormErrorMsg msg={companyErrMsg.name}></FormErrorMsg> */}
                                 </div>
+                                <div>
+                                    <FormLabel
+                                        name="Industry"
+                                        styles={labelStyles}
+                                        error={companyDetailsErrors.industry}
+                                    />
+                                    <Input
+                                        size="large"
+                                        style={companyDetailsErrors.name ? errorInput : inputFullWidthStyle}
+                                        value={companyDetails.industry}
+                                        disabled={userDetails.industry ? true : false}
+                                        onChange={event => {
+                                            setCompanyDetailsObject("industry", event.target.value);
+                                        }}
+                                    />
+                                    {/* <FormErrorMsg msg={companyErrMsg.name}></FormErrorMsg> */}
+                                </div>
+
                                 <div className={styles.uploadBtn}>
                                     <FormLabel
                                         name="Company Logo"
