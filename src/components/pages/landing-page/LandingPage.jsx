@@ -29,7 +29,7 @@ const LandingPage = props => {
             </div>
             <Container>
                 <div className={styles.carouselContainer}>
-                    <Carousel slidesToShow={10} swipeToSlide swipe infinite accessibility arrows>
+                    <Carousel slidesToShow={10} swipeToSlide swipe infinite accessibility arrows autoplay>
                         {props.topHiringCompanies.map(company => {
                             return (
                                 <div key={company.companyid}>
