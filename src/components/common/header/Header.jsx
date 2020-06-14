@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Avatar, Divider } from "antd";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useHistory } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
 // import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
@@ -115,6 +115,8 @@ const LinkDropDownContent = items => {
 
 const HeaderComp = props => {
     let location = useLocation();
+    const history = useHistory();
+
     const [previousPathName, setPreviousPathName] = useState("/");
     const { domain, userProfile } = props;
 
@@ -136,15 +138,15 @@ const HeaderComp = props => {
                         <Link to="/" className={styles.brand}>
                             Gorilla
                         </Link>
-                        <div className={styles.forEmployers}>
-                            {domain === EMPLOYER && (
-                                <>
-                                    <Divider type="vertical" className={styles.divider} />
-                                    <div className={styles.forEmployersText}>
-                                        <span className={styles.forEmployersText}>For Employers</span>
-                                    </div>
-                                </>
-                            )}
+                        <div
+                            className={`${styles.forEmployers} ${
+                                domain === EMPLOYER ? styles.showText : styles.hideText
+                            }`}
+                        >
+                            <Divider type="vertical" className={styles.divider} />
+                            <div className={styles.forEmployersText}>
+                                <span className={styles.forEmployersText}>For Employers</span>
+                            </div>
                         </div>
                         <div className={styles.header}>
                             <span className={styles.submenu}>Search Jobs</span>
@@ -173,9 +175,10 @@ const HeaderComp = props => {
                                     <Button
                                         type="primary"
                                         size="large"
-                                        onClick={() =>
-                                            props.actions.setUserDomain(domain === EMPLOYEE ? EMPLOYER : EMPLOYEE)
-                                        }
+                                        onClick={() => {
+                                            props.actions.setUserDomain(domain === EMPLOYEE ? EMPLOYER : EMPLOYEE);
+                                            history.push("/signin");
+                                        }}
                                     >
                                         <span>{domain === EMPLOYEE ? "For Employers" : "For Candidates"}</span>
                                     </Button>

@@ -28,18 +28,30 @@
 }
 
 .forEmployers {
+    display: flex;
+    flex-direction: row;
     font-size: 24px;
     line-height: 70px;
+    transition: opacity 0.4s;
+}
+
+.forEmployers.hideText {
+    opacity: 0;
+}
+
+.forEmployers.showText {
+    opacity: 1;
 }
 
 .forEmployers .forEmployersText {
     color: #707070;
     display: inline;
-    padding-top: 20px;
+    padding-top: 6px;
     text-transform: uppercase;
 }
 
 .divider {
+    align-self: center;
     height: 50px !important;
     border-left-width: 2px !important;
     border-color: #707070 !important;
@@ -282,5 +294,22 @@
         height: 40px;
         border-radius: 0;
         width: 165px;
+    }
+
+    .forEmployers {
+        font-size: 16px;
+        line-height: unset;
+    }
+
+    .forEmployers .forEmployersText {
+        color: #ffffff;
+        display: inline;
+        padding-top: 10px;
+    }
+
+    .divider {
+        height: 27px !important;
+        border-left-width: 2px !important;
+        border-color: #ffffff !important;
     }
 }
