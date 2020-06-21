@@ -55,7 +55,7 @@ const newStateObj = {
     overview: "",
     type: "",
     level: "",
-    industry: "",
+    category: "",
     expireDate: "",
     description: "",
     receiveApplicantPreferrence: "internal",
@@ -173,7 +173,7 @@ class JobPost extends React.Component {
             "overview",
             "type",
             "level",
-            "industry",
+            "category",
             "expireDate",
             "description"
         ];
@@ -492,18 +492,18 @@ class JobPost extends React.Component {
                                     <Col xs={24} sm={24} md={12} lg={12}>
                                         <div style={marginStyle}>
                                             <FormLabel
-                                                name="Company Industry"
+                                                name="Company Category"
                                                 required
                                                 styles={labelStyles}
-                                                error={this.state.errors.industry}
+                                                error={this.state.errors.category}
                                             />
                                             <Select
                                                 showSearch
                                                 style={inputFullWidthStyle}
-                                                placeholder="Company Industry"
-                                                value={this.state.industry}
+                                                placeholder="Company Category"
+                                                value={this.state.category}
                                                 onChange={value => {
-                                                    this.setState({ industry: value });
+                                                    this.setState({ category: value });
                                                 }}
                                                 size="large"
                                             >
