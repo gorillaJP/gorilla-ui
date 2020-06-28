@@ -13,6 +13,8 @@ import { loadingStarted, loadingFinished } from "../../../../actions/CommonActio
 import { registerEmployee } from "../../../../api/UserApi";
 import { EMPLOYEE_SIGNUP_SUCCESS_MSG, EMPLOYEE_SIGNUP_SUCCESS_HEADER } from "../../../../constants/MessageConstants";
 import Banner from "../../../common/banners/Banner";
+import config from "../../../../util/config";
+import { GOOGLE_AUTH_CANDIDATE } from "../../../../constants/AppConstants";
 
 const labelStyles = { marginTop: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
 const inputStyle = { width: "90%" };
@@ -111,9 +113,11 @@ const EmployeeSignup = props => {
                                 </Button>
                             </div>
                             <div className={styles.googleBtn}>
-                                <Button type="primary" block size="large">
-                                    Continue With Google
-                                </Button>
+                                <a href={`${config.remote}${GOOGLE_AUTH_CANDIDATE}`}>
+                                    <Button type="primary" block size="large">
+                                        Continue With Google
+                                    </Button>
+                                </a>
                             </div>
                         </div>
                         <div className={styles.inputContainer}>

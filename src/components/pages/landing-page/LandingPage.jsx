@@ -10,14 +10,18 @@ import { connect } from "react-redux";
 import { getTopHiringCompanies, getFeaturedJobs, getJobsByCategory } from "../../../actions/MatrixActions";
 import JobAddCard from "../../common/cards/job-add-card/JobAddCard";
 import config from "../../../util/config";
+import { setSelectedJobId, updateSearchParam } from "../../../actions/JobActions";
+import { useHistory } from "react-router-dom";
 
 const LandingPage = props => {
+    const history = useHistory();
+
     useEffect(() => {
         props.actions.getTopHiringCompanies();
         props.actions.getFeaturedJobs();
         props.actions.getJobsByCategory();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [props.actions]);
     return (
         <div className={styles.homepageWrapper}>
             <div className={styles.searchBoxWrapper} style={{ backgroundImage: `url(${LandingPageCoverImage})` }}>
@@ -61,6 +65,16 @@ const LandingPage = props => {
                                         salaryMin={job.salaryMin}
                                         salarymax={job.salarymax}
                                         jobId={job._id}
+                                        onSelect={() => {
+                                            const newSearchParam = {
+                                                q: job.title,
+                                                location: [job.location],
+                                                type: job.type
+                                            };
+                                            props.actions.updateSearchParam(newSearchParam);
+                                            props.actions.setSelectedJobId(job._id);
+                                            history.push("/job-details");
+                                        }}
                                     />
                                 );
                             })}
@@ -89,7 +103,9 @@ const mapDispatchToProps = dispatch => {
         actions: {
             getTopHiringCompanies: bindActionCreators(getTopHiringCompanies, dispatch),
             getFeaturedJobs: bindActionCreators(getFeaturedJobs, dispatch),
-            getJobsByCategory: bindActionCreators(getJobsByCategory, dispatch)
+            getJobsByCategory: bindActionCreators(getJobsByCategory, dispatch),
+            setSelectedJobId: bindActionCreators(setSelectedJobId, dispatch),
+            updateSearchParam: bindActionCreators(updateSearchParam, dispatch)
         }
     };
 };

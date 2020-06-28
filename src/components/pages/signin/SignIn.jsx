@@ -18,10 +18,12 @@ import { setSessionStorage, getSessionStorage } from "../../../api/SessionStorag
 import { useEffect } from "react";
 import RedirectTo from "../../common/redirect-to/RedirectTo";
 import { Container } from "../../common/container/Container";
-import { EMPLOYER, EMPLOYEE, TOKEN, USERPROFILE } from "../../../constants/AppConstants";
+import { EMPLOYER, EMPLOYEE, TOKEN, USERPROFILE, GOOGLE_AUTH_CANDIDATE } from "../../../constants/AppConstants";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setActionToken, setUserProfile } from "../../../actions/UserAction";
+import { setAccessToken, setUserProfile } from "../../../actions/UserAction";
+import config from "../../../util/config";
+import { useQuery } from "../../../custom-hooks/UseQuery";
 
 const labelStyles = { marginTop: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
 const inputStyle = { width: "90%" };
@@ -36,6 +38,8 @@ const errorInput = { ...inputFullWidthStyle, border: "1px solid red" };
 
 const SignIn = props => {
     const { domain } = props;
+    const queryString = useQuery();
+
     const history = useHistory();
     const [email, setEmail] = useState({
         value: "",
@@ -46,6 +50,8 @@ const SignIn = props => {
         value: "",
         error: ""
     });
+
+    const [initialSignIn, setInitialSignIn] = useState(false);
 
     const [token, setToken] = useState("");
 
@@ -59,7 +65,11 @@ const SignIn = props => {
         if (token) {
             setToken(token);
         }
-    }, []);
+
+        if (queryString.get("login") === "initial") {
+            setInitialSignIn(true);
+        }
+    }, [queryString]);
 
     const [rememberMe, setRememberMe] = useState(false);
 
@@ -107,7 +117,7 @@ const SignIn = props => {
             {token && <RedirectTo />}
 
             <div className={`${domain === EMPLOYER ? styles.employer : styles.employee} ${styles.signInCover}`}>
-                {props.initialSignIn && (
+                {initialSignIn && (
                     <Banner
                         type="success"
                         header="Your account is active now !"
@@ -118,9 +128,7 @@ const SignIn = props => {
                     <div className={styles.signInDetails}>
                         {props.premiumSignin && <h3 className={styles.header}>{SIGN_IN_PREMIUM}</h3>}
                         {!props.premiumSignin && (
-                            <h3 className={styles.header}>
-                                {props.initialSignIn ? INITIAL_SIGN_IN_HEADER : SIGN_IN_HEADER}
-                            </h3>
+                            <h3 className={styles.header}>{initialSignIn ? INITIAL_SIGN_IN_HEADER : SIGN_IN_HEADER}</h3>
                         )}
 
                         <p className={styles.message}>
@@ -185,9 +193,11 @@ const SignIn = props => {
                                         </Button>
                                     </div>
                                     <div className={styles.googleBtn}>
-                                        <Button type="primary" block size="large">
-                                            Continue With Google
-                                        </Button>
+                                        <a href={`${config.remote}${GOOGLE_AUTH_CANDIDATE}`}>
+                                            <Button type="primary" block size="large">
+                                                Continue With Google
+                                            </Button>
+                                        </a>
                                     </div>
                                     <p className={styles.footerMessage}>
                                         New to Gorilla? <Link to="/signup">Join now!</Link>
@@ -220,7 +230,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         actions: {
-            setAccessToken: bindActionCreators(setActionToken, dispatch),
+            setAccessToken: bindActionCreators(setAccessToken, dispatch),
             setUserProfile: bindActionCreators(setUserProfile, dispatch)
         }
     };

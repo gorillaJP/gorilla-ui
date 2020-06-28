@@ -113,11 +113,14 @@
 }
 
 .googleBtn button {
+    border-color: #de5246;
     background-color: #de5246;
 }
 
-.googleBtn button:hover {
+.googleBtn button:hover,
+.googleBtn button:active {
     background-color: #de5246d1;
+    border-color: #de5246d1;
 }
 
 @media (min-width: 481px) and (max-width: 767px), (min-width: 320px) and (max-width: 480px) {

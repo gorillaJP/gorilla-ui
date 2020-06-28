@@ -9,6 +9,13 @@ export const jobSearchSuccess = payload => {
     };
 };
 
+export const setSelectedJobId = jobId => {
+    return {
+        type: actions.SET_SELECTED_JOB_ID,
+        payload: { jobId }
+    };
+};
+
 export const updateSearchParam = filterOptions => {
     return dispatch => {
         dispatch({ type: actions.SEARCH_PARAM_UPDATE, payload: filterOptions });
