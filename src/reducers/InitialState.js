@@ -3,7 +3,8 @@ import { EMPLOYEE } from '../constants/AppConstants';
 export default {
     jobData: {
         jobList: [],
-        total: 0
+        total: 0,
+        selectedJobId: ''
     },
     searchParams: {
         q: '',

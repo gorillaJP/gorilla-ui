@@ -37,3 +37,24 @@ export const signIn = async signInDetails => {
             };
         });
 };
+
+export const signInWithToken = async token => {
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    };
+    return await axios
+        .get(config.remote + 'api/loginwithtoken', ReqConfig)
+        .then(res => {
+            return {
+                data: res
+            };
+        })
+        .catch(e => {
+            return {
+                error: e.response.data.payload
+            };
+        });
+};

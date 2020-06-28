@@ -39,6 +39,10 @@ const JobDetails = props => {
     }
 
     useEffect(() => {
+        setSelectedJobId(props.selectedJobId);
+    }, [props.selectedJobId]);
+
+    useEffect(() => {
         const params = { ...props.searchParams };
         params.offset = (currentPage - 1) * params.limit;
         searchJobs(params);
@@ -144,7 +148,8 @@ const mapStateToProps = state => {
         jobAdds: state.jobData.jobList,
         totalAdds: state.jobData.total,
         jobLimitPerPage: state.searchParams.limit,
-        searchParams: state.searchParams
+        searchParams: state.searchParams,
+        selectedJobId: state.jobData.selectedJobId
     };
 };
 

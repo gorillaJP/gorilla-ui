@@ -19,6 +19,7 @@ import Signup from "./components/pages/signup/Signup";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUserProfile } from "./actions/UserAction";
+import SuccessLogin from "./components/pages/signin/SuccessLogin";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -64,22 +65,19 @@ const App = props => {
 
                 <div className={`${styles.contentWrapper}`}>
                     <Switch>
-                        <Route exact path="/" render={() => <LandingPage />} />
-                    </Switch>
-                    <Switch>
                         <Route exact path="/job-details" render={() => <JobDetails />} />
-                    </Switch>
-                    <Switch>
+
                         <Route exact path="/job-post" render={() => <JobPost />} />
-                    </Switch>
-                    <Switch>
+
                         <Route exact path="/job-post/preview" render={() => <JobPost />} />
-                    </Switch>
-                    <Switch>
-                        <Route exact path="/signin" render={() => <SignIn />} />
-                    </Switch>
-                    <Switch>
+
+                        <Route path="/signin" render={() => <SignIn />} />
+
                         <Route exact path="/signup" render={() => <Signup />} />
+
+                        <Route exact path="/signinoauth2" render={() => <SuccessLogin />} />
+
+                        <Route path="/" render={() => <LandingPage />} />
                     </Switch>
                     <div className={styles.overlayContainer}>
                         <Overlay show={mobileMenuOpen} styles={overlayStyles} />
