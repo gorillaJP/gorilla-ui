@@ -10,3 +10,4 @@ export const SIGN_IN_HEADER = 'Welcome Back';
 export const SIGN_IN_PREMIUM = 'Welcome to Gorilla Premium Job Portal';
 export const INITIAL_SIGN_IN_MSG = 'To make your organization success, hire the best of the best employees';
 export const INITIAL_SIGN_IN_MSG_EMPLOYEE = 'Thousands of jobs are awaiting for you. Take your first step to find jobs';
+export const INITIAL_SIGN_IN_MSG_EMPLOYER = 'SAMPLE MESSAGE - Login to find thousands of matching candidates';

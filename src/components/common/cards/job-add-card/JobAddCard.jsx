@@ -15,6 +15,7 @@ const JobAddCard = props => {
             onClick={() => {
                 props.onSelect && props.onSelect(props.jobId);
             }}
+            id={props.jobId}
         >
             <Meta title={props.jobTitle} className={styles.antCardMetaAvatar}></Meta>
             <div className={styles.location}>

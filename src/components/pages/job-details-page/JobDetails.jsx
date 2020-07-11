@@ -39,6 +39,11 @@ const JobDetails = props => {
     }
 
     useEffect(() => {
+        var elmnt = document.getElementById(props.selectedJobId);
+        if (elmnt) {
+            elmnt.scrollIntoView();
+        }
+
         setSelectedJobId(props.selectedJobId);
     }, [props.selectedJobId]);
 
@@ -114,7 +119,7 @@ const JobDetails = props => {
                         ) : null}
                     </div>
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={16}>
+                <Col xs={24} sm={24} md={24} lg={16} className={styles.rightPanel}>
                     {jobToShow ? (
                         <div ref={rightPanel}>
                             <JobDetailsCard job={jobToShow} ref={rightPanel} />

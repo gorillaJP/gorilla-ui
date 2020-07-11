@@ -9,6 +9,10 @@
     overflow: auto;
 }
 
+.rightPanel {
+    min-height: calc(100vh - 150px);
+}
+
 .paginationContainer {
     display: flex;
     justify-content: center;

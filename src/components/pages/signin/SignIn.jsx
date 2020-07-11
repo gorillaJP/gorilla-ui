@@ -5,7 +5,8 @@ import {
     SIGN_IN_HEADER,
     INITIAL_SIGN_IN_MSG,
     SIGN_IN_PREMIUM,
-    INITIAL_SIGN_IN_MSG_EMPLOYEE
+    INITIAL_SIGN_IN_MSG_EMPLOYEE,
+    INITIAL_SIGN_IN_MSG_EMPLOYER
 } from "../../../constants/MessageConstants";
 import FormLabel from "../../common/form-label/FormLabel";
 import { Input, Checkbox, Button, Divider } from "antd";
@@ -24,6 +25,7 @@ import { bindActionCreators } from "redux";
 import { setAccessToken, setUserProfile } from "../../../actions/UserAction";
 import config from "../../../util/config";
 import { useQuery } from "../../../custom-hooks/UseQuery";
+import { setUserDomain } from "../../../actions/MetaActions";
 
 const labelStyles = { marginTop: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
 const inputStyle = { width: "90%" };
@@ -69,7 +71,13 @@ const SignIn = props => {
         if (queryString.get("login") === "initial") {
             setInitialSignIn(true);
         }
-    }, [queryString]);
+
+        let domain = queryString.get("domain");
+        domain = domain === "employer" ? EMPLOYER : EMPLOYEE;
+        if (domain) {
+            props.actions.setUserDomain(domain);
+        }
+    }, [props.actions, queryString]);
 
     const [rememberMe, setRememberMe] = useState(false);
 
@@ -121,7 +129,7 @@ const SignIn = props => {
                     <Banner
                         type="success"
                         header="Your account is active now !"
-                        msg="Please sign in to find the best employees for Dialog Axiata PLC"
+                        msg={domain === EMPLOYEE ? INITIAL_SIGN_IN_MSG_EMPLOYEE : INITIAL_SIGN_IN_MSG_EMPLOYER}
                     ></Banner>
                 )}
                 <Container>
@@ -231,7 +239,8 @@ const mapDispatchToProps = dispatch => {
     return {
         actions: {
             setAccessToken: bindActionCreators(setAccessToken, dispatch),
-            setUserProfile: bindActionCreators(setUserProfile, dispatch)
+            setUserProfile: bindActionCreators(setUserProfile, dispatch),
+            setUserDomain: bindActionCreators(setUserDomain, dispatch)
         }
     };
 };
