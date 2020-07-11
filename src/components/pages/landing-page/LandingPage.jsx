@@ -12,6 +12,7 @@ import JobAddCard from "../../common/cards/job-add-card/JobAddCard";
 import config from "../../../util/config";
 import { setSelectedJobId, updateSearchParam } from "../../../actions/JobActions";
 import { useHistory } from "react-router-dom";
+import JobPostMessageCard from "../../common/cards/job-post-message-card/JobPostMessageCard";
 
 const LandingPage = props => {
     const history = useHistory();
@@ -94,6 +95,9 @@ const LandingPage = props => {
                     </Col>
                 </Row>
             </Container>
+            <div className={styles.jobPostMessageContainer}>
+                <JobPostMessageCard />
+            </div>
         </div>
     );
 };

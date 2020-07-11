@@ -50,3 +50,7 @@
     text-decoration: underline;
     width: 50%;
 }
+
+.jobPostMessageContainer {
+    margin-top: 40px;
+}

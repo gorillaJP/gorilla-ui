@@ -1,0 +1,37 @@
+.jobPostSection {
+    background-color: #56c596;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.jobPostSection h2,
+.jobPostSection h3,
+.jobPostSection p {
+    color: #ffffff;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.jobPostSection h2 {
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+.jobPostSection h3 {
+    font-size: 34px;
+}
+
+.jobPostSection p {
+    font-size: 28px;
+}
+
+.jobPostSection button {
+    color: #56c596;
+    width: 340px;
+}
+
+.jobPostSection button:hover {
+    color: #2f6e53;
+    outline-color: #2f6e53;
+    border-color: #2f6e53;
+}
