@@ -30,48 +30,53 @@ class ProfilePage extends Component {
 
     render() {
         const { profile } = this.props;
-        console.log(profile);
         return (
             <div className={styles.profilePage}>
                 <Container>
-                    <div className={styles.profileMetaData}>
-                        <ProfileCompleteness
-                            completeness={profile.completeness ? profile.completeness.replace("%", "") : 0}
-                        />
-                        <div className={`${styles.linkButton} ${styles.addSkills}`}>
-                            <Button type="link">+ Add Skills</Button>
+                    <div className={styles.profileFlex}>
+                        <div className={styles.profileMetaData}>
+                            <div className={styles.profileMetaData}>
+                                <ProfileCompleteness
+                                    completeness={profile.completeness ? profile.completeness.replace("%", "") : 0}
+                                />
+                                <div className={`${styles.linkButton} ${styles.addSkills}`}>
+                                    <Button type="link">+ Add Skills</Button>
+                                </div>
+                            </div>
+                            <div>
+                                <ProfileMeta
+                                    imageUrl="http://159.89.161.233:443//upload_ba5949bfcb985f0c482b5e9036466ace1.jpeg"
+                                    name={`${profile.firstName} ${profile.lastName}`}
+                                    email={profile.email}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <ProfileMeta
-                            imageUrl="http://159.89.161.233:443//upload_ba5949bfcb985f0c482b5e9036466ace1.jpeg"
-                            name={`${profile.firstname} ${profile.lastname}`}
-                            email={profile.email}
-                        />
-                    </div>
-                    <div>
-                        <ProfileResumeSection />
-                    </div>
-                    <div>
-                        <ProfileWorkExperience experiences={profile.experiences} />
-                    </div>
-                    <div>
-                        <ProfileEducation educations={profile.educations} />
-                    </div>
-                    <div>
-                        <ProfileLanguages languages={profile.languages} />
-                    </div>
-                    <div>
-                        <ProfileSkills skills={profile.skills} />
-                    </div>
-                    <div>
-                        <ProfileAwards />
-                    </div>
-                    <div>
-                        <ProfilePersonalDetails />
-                    </div>
-                    <div>
-                        <ProfileJobPreference />
+                        <div className={styles.profileDetails}>
+                            <div>
+                                <ProfileResumeSection />
+                            </div>
+                            <div>
+                                <ProfileWorkExperience experiences={profile.experiences} />
+                            </div>
+                            <div>
+                                <ProfileEducation educations={profile.educations} />
+                            </div>
+                            <div>
+                                <ProfileLanguages languages={profile.languages} />
+                            </div>
+                            <div>
+                                <ProfileSkills skills={profile.skills} />
+                            </div>
+                            <div>
+                                <ProfileAwards />
+                            </div>
+                            <div>
+                                <ProfilePersonalDetails />
+                            </div>
+                            <div>
+                                <ProfileJobPreference />
+                            </div>
+                        </div>
                     </div>
                 </Container>
             </div>

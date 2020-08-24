@@ -2,7 +2,22 @@
     background-color: #fff;
 }
 
+.profileFlex,
+.profileMetaData,
+.profileDetails {
+    display: flex;
+    flex-direction: row;
+}
+
 .profileMetaData {
+    display: flex;
+    flex-direction: column;
+}
+
+.profileDetails {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .linkButton {
@@ -69,7 +84,43 @@
 }
 
 .addSkills {
+    align-self: flex-end;
 }
 
 .addMore {
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape),
+    screen and (min-device-width: 1366px) and (orientation: landscape) {
+    .profileFlex {
+        flex-direction: row;
+    }
+
+    .profileMetaData {
+        width: 300px;
+    }
+
+    .profileDetails {
+        margin-left: 20px;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) {
+    .profileFlex {
+        flex-direction: row;
+    }
+
+    .profileMetaData {
+        width: 300px;
+    }
+
+    .profileDetails {
+        margin-left: 20px;
+    }
+}
+
+@media only screen and (max-width: 1023px) {
+    .profileFlex {
+        flex-direction: column;
+    }
 }
