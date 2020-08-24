@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUserProfile } from "./actions/UserAction";
 import SuccessLogin from "./components/pages/signin/SuccessLogin";
+import ProfilePage from "./components/pages/profile-page/ProfilePage";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -76,6 +77,8 @@ const App = props => {
                         <Route exact path="/signup" render={() => <Signup />} />
 
                         <Route exact path="/signinoauth2" render={() => <SuccessLogin />} />
+
+                        <Route exact path="/profile" render={() => <ProfilePage />} />
 
                         <Route path="/" render={() => <LandingPage />} />
                     </Switch>
