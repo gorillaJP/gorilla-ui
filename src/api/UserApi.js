@@ -58,3 +58,24 @@ export const signInWithToken = async token => {
             };
         });
 };
+
+export const getUserProfile = async token => {
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    };
+    return await axios
+        .get(config.remote + 'api/candidate/profile', ReqConfig)
+        .then(res => {
+            return {
+                data: res
+            };
+        })
+        .catch(e => {
+            return {
+                error: e.response.data.payload
+            };
+        });
+};

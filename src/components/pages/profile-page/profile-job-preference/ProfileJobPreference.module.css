@@ -1,0 +1,10 @@
+.header {
+    align-self: flex-start;
+    color: #707070;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.buildResume {
+    text-align: center;
+}

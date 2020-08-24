@@ -1,0 +1,8 @@
+.details {
+    margin: 5px 0 0 0;
+}
+
+.details .percentage {
+    color: #000000;
+    float: right;
+}

@@ -60,3 +60,16 @@ export const logOut = () => {
         dispatch(clearToken());
     };
 };
+
+export const getUserProfile = token => {
+    return async dispatch => {
+        const response = await UserApi.getUserProfile(token);
+        const { data } = response;
+        if (data && data.status === 200) {
+            dispatch(setUserProfile(data.data.user));
+        } else {
+            console.log('redirecting');
+            window.location.href = '/signin';
+        }
+    };
+};

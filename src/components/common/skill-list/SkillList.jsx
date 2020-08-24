@@ -16,11 +16,17 @@ const styles = {
         display: "inline-block",
         margin: "5px 10px 5px auto",
         padding: "5px 15px"
+    },
+    outLined: {
+        color: "#0073B1",
+        backgroundColor: "#fff",
+        border: "1px solid #0073B1",
+        boxShadow: "none"
     }
 };
 
 const SkillList = props => {
-    const { skills, guideText } = props;
+    const { skills, guideText, outLined } = props;
     return (
         <>
             {skills && (
@@ -28,7 +34,7 @@ const SkillList = props => {
                     {guideText && <div style={styles.skills}>Required Skills - </div>}
                     {skills.map((skill, i) => {
                         return (
-                            <div style={styles.skill} key={i}>
+                            <div style={{ ...styles.skill, ...(outLined ? styles.outLined : {}) }} key={i}>
                                 {skill}
                             </div>
                         );

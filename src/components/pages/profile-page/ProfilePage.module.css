@@ -1,0 +1,75 @@
+.profilePage {
+    background-color: #fff;
+}
+
+.profileMetaData {
+}
+
+.linkButton {
+    float: right;
+}
+
+.linkButton button {
+    padding: 0;
+}
+
+.linkButton button span {
+    text-decoration: underline;
+}
+
+.sectionWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border: 1px solid #3f3f3f;
+    padding: 15px;
+}
+
+.sectionWrapper button {
+    background-color: #0073b1;
+}
+
+.textButton button {
+    background-color: transparent;
+    color: #0073b1;
+}
+
+.header {
+    align-self: flex-start;
+    color: #707070;
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+.headerText {
+    line-height: 40px;
+}
+
+.editorIcon {
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: 600;
+    float: right;
+}
+
+.detailBlock {
+    padding: 20px;
+    width: 100%;
+}
+
+.subHeader {
+    align-self: flex-start;
+    color: #707070;
+    display: block;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.addSkills {
+}
+
+.addMore {
+}
