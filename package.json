@@ -22,11 +22,14 @@
     "scripts": {
         "uat": "REACT_APP_ENV=uat react-scripts start",
         "start": "react-scripts start",
+        "uat1": "HTTPS=true SSL_CRT_FILE=/apps/certs/gorilla.lk/gorilla.lk.crt PORT=443 SSL_KEY_FILE=/apps/certs/gorilla.lk/gorilla_lk_key.key   react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "startProd": "serve -s build -l 443",
         "reactStartProd": "http-server  ./build -p 443 --ssl --cert /apps/certs/gorilla.lk/gorilla.lk.crt  --key  /apps/certs/gorilla.lk/gorilla_lk_key.key",
+        "reactStartProdTest": "HTTPS=true SSL_CRT_FILE=/apps/certs/gorilla.lk/gorilla.lk.crt PORT=443 SSL_KEY_FILE=/apps/certs/gorilla.lk/gorilla_lk_key.key   react-scripts start",
+        "reactStartProd2": "http-server  ./build -p 443 --ssl --cert /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk.key  --key /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla.lk.crt",
         "reactStartProdServe": "HTTPS=true react-scripts start"
     },
     "eslintConfig": {

@@ -15,4 +15,5 @@ RUN npm install
 EXPOSE 443
 
 #CMD ["npm", "run", "uat"]
-CMD ["npm", "run", "reactStartProd"]
+#CMD ["npm", "run", "reactStartProd"]
+CMD ["npm", "run", "reactStartProdTest"]
