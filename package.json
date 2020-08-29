@@ -16,7 +16,8 @@
         "react-scripts": "3.2.0",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
-        "shortid": "^2.2.15"
+        "shortid": "^2.2.15",
+        "http-server": "0.12.3"
     },
     "scripts": {
         "uat": "REACT_APP_ENV=uat react-scripts start",
@@ -24,7 +25,9 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "startProd": "serve -s build -l 3000"
+        "startProd": "serve -s build -l 443",
+        "reactStartProd": "http-server  ./build -p 443 --ssl --cert /apps/certs/gorilla.lk/gorilla.lk.crt  --key  /apps/certs/gorilla.lk/gorilla_lk_key.key",
+        "reactStartProdServe": "HTTPS=true react-scripts start"
     },
     "eslintConfig": {
         "extends": "react-app"

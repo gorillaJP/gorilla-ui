@@ -5,11 +5,11 @@ let devConfig = (config = {
 });
 
 let uatConfig = (config = {
-    remote: 'http://159.89.161.233:443/'
+    remote: 'https://159.89.161.233:444/'
 });
 
 let prodConfig = (config = {
-    remote: 'http://159.89.161.233:443/'
+    remote: 'https://159.89.161.233:444/'
 });
 
 if (process.env.REACT_APP_ENV === 'uat') {

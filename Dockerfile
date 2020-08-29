@@ -12,7 +12,7 @@ RUN npm install
 #create react app prod build
 # PROD RUN npm run build
 
-EXPOSE 3000
+EXPOSE 443
 
-#PROD CMD ["npm", "run", "startProd"]
-CMD ["npm", "run", "uat"]
+#CMD ["npm", "run", "uat"]
+CMD ["npm", "run", "reactStartProd"]
