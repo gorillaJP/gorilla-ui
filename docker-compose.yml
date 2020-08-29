@@ -5,5 +5,4 @@ services:
         ports:
             - "443:443"
         volumes:
-            - /apps/logs/service:/app/log:r
-            - /apps/certs/gorilla.lk:/apps/certs/gorilla.lk:r
+            - /apps/certs/gorilla.lk:/apps/certs/gorilla.lk:read-only
