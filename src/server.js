@@ -1,6 +1,7 @@
 import express from 'express';
 //import cors from 'cors';
 import bodyParser from 'body-parser';
+const { createProxyMiddleware } = require('http-proxy-middleware');
 //import compression from 'compression';
 
 const fs = require('fs');
@@ -38,6 +39,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.disable('etag');
+
+app.use('/api', createProxyMiddleware({ target: 'https://gorilla.com/444/api', changeOrigin: fase }));
 
 app.use('/health', (req, res) => {
     res.send({ status: 'OK' });

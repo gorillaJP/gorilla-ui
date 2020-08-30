@@ -8,8 +8,9 @@ let uatConfig = (config = {
     remote: 'https://159.89.161.233:444/'
 });
 
+//remote: 'https://gorilla.lk:444/'
 let prodConfig = (config = {
-    remote: 'https://gorilla.lk:444/'
+    remote: 'https://gorilla.lk/'
 });
 
 if (process.env.REACT_APP_ENV === 'uat') {
