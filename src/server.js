@@ -26,7 +26,7 @@ const app = express();
 //app.use(cors());
 //app.use(compression());
 app.use(express.static('build'));
-app.use(express.static('/apps/certs/images/gorilla.lk'));
+app.use(express.static('/apps/images/gorilla.lk'));
 
 //enable gzip for prod env
 console.log('process.env.NODE_ENV : ' + process.env.NODE_ENV);

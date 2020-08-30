@@ -6,4 +6,4 @@ services:
             - "443:443"
         volumes:
             - /apps/certs/gorilla.lk:/apps/certs/gorilla.lk
-            - /apps/certs/images/gorilla.lk:/apps/certs/images/gorilla.lk:rw
+            - /apps/images/gorilla.lk:/apps/images/gorilla.lk:rw
