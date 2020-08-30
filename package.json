@@ -29,6 +29,7 @@
         "startProd": "serve -s build -l 443",
         "reactStartProd": "http-server  ./build -p 443 --ssl --cert /apps/certs/gorilla.lk/gorilla.lk.crt  --key  /apps/certs/gorilla.lk/gorilla_lk_key.key",
         "reactStartProdTest": "HTTPS=true SSL_CA_FILE=/apps/certs/gorilla.lk/gorilla_lk.ca-bundle SSL_CRT_FILE=/apps/certs/gorilla.lk/gorilla.lk.crt PORT=443 SSL_KEY_FILE=/apps/certs/gorilla.lk/gorilla_lk_key.key   react-scripts start",
+        "reactStartProdTest2": "http-server  ./build -p 443 --ssl --key /apps/certs/gorilla.lk/gorilla_lk_key.key --cert /apps/certs/gorilla.lk/gorilla.lk.crt --ca /apps/certs/gorilla.lk/gorilla_lk.ca-bundle",
         "reactStartProd2": "http-server  ./build -p 443 --ssl --key   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk_key.txt  --cert   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk.crt  --ca   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk.ca-bundle",
         "reactStartProdServe": "HTTPS=true react-scripts start"
     },

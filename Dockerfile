@@ -16,4 +16,4 @@ EXPOSE 443
 
 #CMD ["npm", "run", "uat"]
 #CMD ["npm", "run", "reactStartProd"]
-CMD ["npm", "run", "reactStartProdTest"]
+CMD ["npm", "run", "reactStartProdTest2"]
