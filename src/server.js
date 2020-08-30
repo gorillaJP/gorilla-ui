@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.disable('etag');
 
-app.use('/api', createProxyMiddleware({ target: 'https://gorilla.lk:444/api', changeOrigin: false }));
+app.use('/api', createProxyMiddleware({ target: 'https://gorilla.lk:444', changeOrigin: false }));
 
 app.use('/health', (req, res) => {
     res.send({ status: 'OK' });
