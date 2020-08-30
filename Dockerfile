@@ -14,7 +14,7 @@ RUN npm run build
 
 EXPOSE 443
 
-RUN num run prodBuildServer
+RUN npm run prodBuildServer
 
 #CMD ["npm", "run", "uat"]
 #CMD ["npm", "run", "reactStartProd"]
