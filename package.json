@@ -31,7 +31,11 @@
         "reactStartProdTest": "HTTPS=true SSL_CA_FILE=/apps/certs/gorilla.lk/gorilla_lk.ca-bundle SSL_CRT_FILE=/apps/certs/gorilla.lk/gorilla.lk.crt PORT=443 SSL_KEY_FILE=/apps/certs/gorilla.lk/gorilla_lk_key.key   react-scripts start",
         "reactStartProdTest2": "http-server  ./build -p 443 --ssl --key /apps/certs/gorilla.lk/gorilla_lk_key.key --cert /apps/certs/gorilla.lk/gorilla.lk.crt --ca /apps/certs/gorilla.lk/gorilla_lk.ca-bundle",
         "reactStartProd2": "http-server  ./build -p 443 --ssl --key   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk_key.txt  --cert   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk.crt  --ca   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk.ca-bundle",
-        "reactStartProdServe": "HTTPS=true react-scripts start"
+        "reactStartProdServe": "HTTPS=true react-scripts start",
+        "prodBuild": "babel -d ./buildwer ./src/server.js",
+        "prodBuildServer": "babel -d ./server ./src/server.js",
+        "local": "NODE_ENV=local node ./server/server.js",
+        "prod": "cross-env NODE_ENV=production node ./server/server.js"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -53,6 +57,15 @@
         "eslint-plugin-jsx-a11y": "^6.2.3",
         "eslint-plugin-prettier": "^3.1.1",
         "redux-devtools-extension": "^2.13.8",
-        "prettier": "^1.19.1"
+        "prettier": "^1.19.1",
+        "@babel/cli": "^7.7.5",
+        "@babel/core": "^7.7.5",
+        "@babel/node": "^7.7.4",
+        "@babel/plugin-proposal-class-properties": "^7.7.4",
+        "@babel/plugin-syntax-dynamic-import": "^7.7.4",
+        "@babel/preset-env": "^7.7.6",
+        "@babel/preset-react": "^7.7.4",
+        "babel-plugin-import": "^1.13.0",
+        "cross-env": "^6.0.3"
     }
 }

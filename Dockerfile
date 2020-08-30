@@ -7,13 +7,16 @@ WORKDIR /app
 
 ADD . /app
 
-RUN npm install 
+RUN npm install
 
 #create react app prod build
-# PROD RUN npm run build
+RUN npm run build
 
 EXPOSE 443
 
+RUN num run prodBuildServer
+
 #CMD ["npm", "run", "uat"]
 #CMD ["npm", "run", "reactStartProd"]
-CMD ["npm", "run", "reactStartProdTest2"]
+#CMD ["npm", "run", "reactStartProdTest2"]
+CMD ["npm", "run", "prod"]
