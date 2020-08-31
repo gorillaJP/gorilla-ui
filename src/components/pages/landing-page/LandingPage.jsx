@@ -35,18 +35,19 @@ const LandingPage = props => {
             <Container>
                 <div className={styles.carouselContainer}>
                     <Carousel slidesToShow={10} swipeToSlide swipe infinite accessibility arrows autoplay>
-                        {props.topHiringCompanies.map(company => {
-                            return (
-                                <div key={company.companyid}>
-                                    <img
-                                        alt={company.key}
-                                        src={`${config.remote}/${company.logo}`}
-                                        width="80"
-                                        height="80"
-                                    />
-                                </div>
-                            );
-                        })}
+                        {props.topHiringCompanies &&
+                            props.topHiringCompanies.map(company => {
+                                return (
+                                    <div key={company.companyid}>
+                                        <img
+                                            alt={company.key}
+                                            src={`${config.remote}/${company.logo}`}
+                                            width="80"
+                                            height="80"
+                                        />
+                                    </div>
+                                );
+                            })}
                     </Carousel>
                 </div>
             </Container>
@@ -55,42 +56,45 @@ const LandingPage = props => {
                     <Col xs={24} sm={24} md={24} lg={8}>
                         <div className={styles.header}>Featured Jobs</div>
                         <div className={styles.featuredJobContainer}>
-                            {props.featuredJobs.map(job => {
-                                return (
-                                    <JobAddCard
-                                        jobTitle={job.title}
-                                        company={job.company}
-                                        location={job.location}
-                                        key={job._id}
-                                        skills={job.skills}
-                                        salaryMin={job.salaryMin}
-                                        salarymax={job.salarymax}
-                                        jobId={job._id}
-                                        onSelect={() => {
-                                            const newSearchParam = {
-                                                q: job.title,
-                                                location: [job.location],
-                                                type: job.type
-                                            };
-                                            props.actions.updateSearchParam(newSearchParam);
-                                            props.actions.setSelectedJobId(job._id);
-                                            history.push("/job-details");
-                                        }}
-                                    />
-                                );
-                            })}
+                            {props.featuredJobs &&
+                                props.featuredJobs.map(job => {
+                                    return (
+                                        <JobAddCard
+                                            jobTitle={job.title}
+                                            company={job.company}
+                                            location={job.location}
+                                            key={job._id}
+                                            skills={job.skills}
+                                            salaryMin={job.salaryMin}
+                                            salarymax={job.salarymax}
+                                            jobId={job._id}
+                                            onSelect={() => {
+                                                const newSearchParam = {
+                                                    q: job.title,
+                                                    location: [job.location],
+                                                    type: job.type
+                                                };
+                                                props.actions.updateSearchParam(newSearchParam);
+                                                props.actions.setSelectedJobId(job._id);
+                                                history.push("/job-details");
+                                            }}
+                                        />
+                                    );
+                                })}
                         </div>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={16}>
                         <div className={styles.header}>Job by Category</div>
                         <div className={styles.featuredIndustries}>
-                            {props.jobsByCategory.map(category => {
-                                return (
-                                    <div
-                                        className={styles.categoryLinks}
-                                    >{`${category.key} (${category.doc_count})`}</div>
-                                );
-                            })}
+                            {props.jobsByCategory &&
+                                props.jobsByCategory.length &&
+                                props.jobsByCategory.map(category => {
+                                    return (
+                                        <div
+                                            className={styles.categoryLinks}
+                                        >{`${category.key} (${category.doc_count})`}</div>
+                                    );
+                                })}
                         </div>
                     </Col>
                 </Row>

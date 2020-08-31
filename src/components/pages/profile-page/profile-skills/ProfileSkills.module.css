@@ -3,3 +3,13 @@
     font-size: 14px;
     text-transform: capitalize;
 }
+
+.skillSelect,
+.skillSelect > div {
+    display: block;
+    width: 100%;
+}
+
+.skillSelect {
+    margin-bottom: 10px;
+}
