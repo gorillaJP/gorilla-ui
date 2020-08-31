@@ -43,6 +43,7 @@
 }
 
 .sectionWrapper button {
+    color: #fff;
     background-color: #0073b1;
 }
 
@@ -88,6 +89,31 @@
 }
 
 .addMore {
+}
+
+.addNew {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.addNew .buttonContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.addNew .buttonContainer button {
+    min-width: 40%;
+}
+
+.addFormLabel {
+    margin-top: 10px;
+}
+
+.addFormLabel label span {
+    font-size: 16px;
+    color: #707070;
 }
 
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape),
