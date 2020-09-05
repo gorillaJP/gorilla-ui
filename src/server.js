@@ -1,4 +1,5 @@
 import express from 'express';
+import logger from './logger';
 //import cors from 'cors';
 import bodyParser from 'body-parser';
 const { createProxyMiddleware } = require('http-proxy-middleware');
@@ -30,7 +31,7 @@ app.use(express.static('/apps/images/gorilla.lk'));
 
 //http to https redirect
 app.use((request, response, next) => {
-    console.log('here: ' + request.secure);
+    logger.info('received http :', request.http);
 
     if (process.env.NODE_ENV != 'development' && !request.secure) {
         return response.redirect('https://' + request.headers.host + request.url);

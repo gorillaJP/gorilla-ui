@@ -17,7 +17,8 @@
         "react-scripts": "3.2.0",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
-        "shortid": "^2.2.15"
+        "shortid": "^2.2.15",
+        "winston": "^3.2.1"
     },
     "scripts": {
         "uat": "REACT_APP_ENV=uat react-scripts start",
