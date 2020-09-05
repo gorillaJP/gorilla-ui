@@ -34,7 +34,7 @@
         "reactStartProd2": "http-server  ./build -p 443 --ssl --key   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk_key.txt  --cert   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk.crt  --ca   /Users/dimuthusenanayaka/workspace/gorilla/src/keys/gorilla.lk/gorilla_lk.ca-bundle",
         "reactStartProdServe": "HTTPS=true react-scripts start",
         "prodBuild": "babel -d ./buildwer ./src/server.js",
-        "prodBuildServer": "babel -d ./server ./src/server.js",
+        "prodBuildServer": "babel -d ./server ./src/server.js ./src/logger.js",
         "local": "NODE_ENV=local node ./server/server.js",
         "prod": "cross-env NODE_ENV=production node ./server/server.js"
     },
