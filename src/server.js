@@ -28,6 +28,14 @@ const app = express();
 app.use(express.static('build'));
 app.use(express.static('/apps/images/gorilla.lk'));
 
+//http to https redirect
+app.use((request, response, next) => {
+    if (process.env.NODE_ENV != 'development' && !request.secure) {
+        return response.redirect('https://' + request.headers.host + request.url);
+    }
+    next();
+});
+
 //enable gzip for prod env
 console.log('process.env.NODE_ENV : ' + process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
