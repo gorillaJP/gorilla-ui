@@ -30,6 +30,8 @@ app.use(express.static('/apps/images/gorilla.lk'));
 
 //http to https redirect
 app.use((request, response, next) => {
+    console.log('here: ' + request.secure);
+
     if (process.env.NODE_ENV != 'development' && !request.secure) {
         return response.redirect('https://' + request.headers.host + request.url);
     }
