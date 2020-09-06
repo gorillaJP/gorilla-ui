@@ -26,14 +26,10 @@ const options = {
 const app = express();
 //app.use(cors());
 //app.use(compression());
-app.use(express.static('build'));
-app.use(express.static('/apps/images/gorilla.lk'));
 
 //middleware for http to https redirect
 app.use((request, response, next) => {
     logger.info('received http :', request.secure);
-    logger.info('received http :', request);
-    logger.info('received http :', JSON.stringify(equest));
 
     if (process.env.NODE_ENV != 'development' && !request.secure) {
         logger.info('redirecting to https');
@@ -42,6 +38,8 @@ app.use((request, response, next) => {
         next();
     }
 });
+app.use(express.static('build'));
+app.use(express.static('/apps/images/gorilla.lk'));
 
 //enable gzip for prod env
 console.log('process.env.NODE_ENV : ' + process.env.NODE_ENV);
