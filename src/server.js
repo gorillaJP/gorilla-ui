@@ -36,6 +36,9 @@ app.use((request, response, next) => {
     }
 });
 
+app.use(express.static('build'));
+app.use(express.static('/apps/images/gorilla.lk'));
+
 app.disable('etag');
 
 //enable gzip for prod env
@@ -47,9 +50,6 @@ if (process.env.NODE_ENV === 'production') {
         next();
     });
 }
-
-app.use(express.static('build'));
-app.use(express.static('/apps/images/gorilla.lk'));
 
 //proxy from UI to service (only active in prod. to avoid CORS)
 app.use('/api', createProxyMiddleware({ target: 'https://gorilla.lk:444', changeOrigin: false }));
