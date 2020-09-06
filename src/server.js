@@ -59,7 +59,7 @@ app.use('/health', (req, res) => {
 });
 
 //if there is non mathcing -> then return static resoruce (this is to avoid 404 error when hitting the react routes(which are handed at the browser itself) directly like gorilla.lk/login)
-app.use('*', express.static(publicPath));
+app.use('*', express.static('build'));
 app.use('*', express.static('/apps/images/gorilla.lk'));
 
 if (process.env.NODE_ENV === 'production') {
