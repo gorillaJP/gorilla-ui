@@ -29,20 +29,16 @@ const app = express();
 
 //middleware for http to https redirect
 app.use((request, response, next) => {
-    logger.info('received http :', request.secure);
-
     if (process.env.NODE_ENV != 'development' && !request.secure) {
-        logger.info('redirecting to https');
         return response.redirect('https://' + request.headers.host + request.url);
     } else {
         next();
     }
 });
-app.use(express.static('build'));
-app.use(express.static('/apps/images/gorilla.lk'));
+
+app.disable('etag');
 
 //enable gzip for prod env
-console.log('process.env.NODE_ENV : ' + process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
     app.get('*.js', function(req, res, next) {
         req.url = req.url + '.gz';
@@ -52,7 +48,8 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-app.disable('etag');
+app.use(express.static('build'));
+app.use(express.static('/apps/images/gorilla.lk'));
 
 //proxy from UI to service (only active in prod. to avoid CORS)
 app.use('/api', createProxyMiddleware({ target: 'https://gorilla.lk:444', changeOrigin: false }));
