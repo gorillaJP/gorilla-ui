@@ -35,8 +35,9 @@ app.use((request, response, next) => {
 
     if (process.env.NODE_ENV != 'development' && !request.secure) {
         return response.redirect('https://' + request.headers.host + request.url);
+    } else {
+        next();
     }
-    next();
 });
 
 //enable gzip for prod env
@@ -60,10 +61,14 @@ app.use('/health', (req, res) => {
 });
 
 if (process.env.NODE_ENV === 'production') {
+    //prod listen for both http and https. Anyway express redirect http to https
     https.createServer(options, app).listen(443);
     https.globalAgent.keepAlive = true;
-
     console.log('HTTPS Server listening on %s:%s', 'HOST', 443);
+
+    http.createServer(app).listen(80);
+    http.globalAgent.keepAlive = true;
+    console.log('HTTP Server listening on %s:%s', 'HOST', 80);
 } else {
     http.createServer(app).listen(8080);
     http.globalAgent.keepAlive = true;
