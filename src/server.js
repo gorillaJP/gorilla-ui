@@ -29,7 +29,7 @@ const app = express();
 app.use(express.static('build'));
 app.use(express.static('/apps/images/gorilla.lk'));
 
-//http to https redirect
+//middleware for http to https redirect
 app.use((request, response, next) => {
     logger.info('received http :', request.secure);
 
