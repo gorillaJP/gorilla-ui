@@ -4,6 +4,7 @@ services:
         build: .
         ports:
             - "443:443"
+            - "80:80"
         volumes:
             - /apps/logs/web:/app/log:rw
             - /apps/certs/gorilla.lk:/apps/certs/gorilla.lk
