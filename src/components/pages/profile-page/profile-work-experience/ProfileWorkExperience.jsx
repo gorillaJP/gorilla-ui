@@ -101,13 +101,15 @@ const ProfileWorkExperience = props => {
 
     const onSave = async id => {
         props.startLoad();
-        const experience = experiences.find(item => {
+        const experienceObj = experiences.find(item => {
             return item._id === id;
         });
 
-        if (!experience) {
+        if (!experienceObj) {
             return;
         }
+
+        const experience = { ...experienceObj };
 
         const hasErrors = checkExperienceObject(experience);
 
@@ -121,6 +123,7 @@ const ProfileWorkExperience = props => {
             }
 
             const response = await saveExperience([experience], props.token);
+
             props.endLoad();
             if (response && response.data) {
                 updateAttributeOfExperienceObj(id, "edit", false);
@@ -134,7 +137,7 @@ const ProfileWorkExperience = props => {
                         setExperiences(newExperiencesArray);
                     }
                 }
-                console.log(response.data);
+
                 props.updateProfile(response.data);
             } else {
                 // Show error
@@ -142,7 +145,6 @@ const ProfileWorkExperience = props => {
         } else {
             props.endLoad();
             updateAttributeOfExperienceObj(id, "showError", true);
-            console.log(experiences);
         }
     };
 
