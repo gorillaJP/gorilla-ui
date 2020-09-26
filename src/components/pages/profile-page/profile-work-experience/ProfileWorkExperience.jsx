@@ -1,97 +1,256 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
 import * as styles from "./ProfileWorkExperience.module.css";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
-import { Button, Divider, Input } from "antd";
-import FormLabel from "../../../common/form-label/FormLabel";
-import TextArea from "antd/lib/input/TextArea";
+import { Button, Divider } from "antd";
+import moment from "moment";
 
-const NewWorkExperience = props => {
-    return (
-        <div className={commonStyles.addNew}>
-            <div className={commonStyles.addFormLabel}>
-                <FormLabel name="Designation" required={true} />
-                <Input />
-            </div>
-            <div className={commonStyles.addFormLabel}>
-                <FormLabel name="Company Name" required={true} />
-                <Input />
-            </div>
-            <div className={commonStyles.addFormLabel}>
-                <FormLabel name="Monthly Salary" />
-                <Input />
-            </div>
-            <div className={commonStyles.addFormLabel}>
-                <div>
-                    <FormLabel name="Work From" />
-                    <Input />
-                </div>
-                <div>
-                    <FormLabel name="Work End" />
-                    <Input />
-                </div>
-            </div>
-            <div className={commonStyles.addFormLabel}>
-                <FormLabel name="Description" />
-                <TextArea rows={5} />
-            </div>
-            <div className={commonStyles.buttonContainer}>
-                <Button size="large">Delete</Button>
-                <Button size="large">Save</Button>
-            </div>
-        </div>
-    );
-};
+import { saveExperience, deleteExperience } from "../../../../api/ProfileApi";
+import NewWorkExperience from "./NewWorkExperience";
+import { currencyFormatter } from "../../../../util/Util";
 
 const ProfileWorkExperience = props => {
-    const [newExperiences, addNewExperiences] = useState([]);
+    const [experiences, setExperiences] = useState([]);
+
+    useEffect(() => {
+        const newExperiencesStateArray = [];
+        for (const experience of props.experiences) {
+            const experienceInCurrentExperiencesArray = experiences.find(item => {
+                return item._id === experience._id;
+            });
+
+            if (experienceInCurrentExperiencesArray) {
+                newExperiencesStateArray.push(experienceInCurrentExperiencesArray);
+            } else {
+                newExperiencesStateArray.push(experience);
+            }
+        }
+
+        // sort based on order value
+        newExperiencesStateArray.sort((a, b) => a.order - b.order);
+
+        const newExperiencesArray = experiences.filter(item => {
+            return item._id.includes("temp-");
+        });
+
+        setExperiences([...newExperiencesStateArray, ...newExperiencesArray]);
+    }, [props.experiences]);
 
     const addNewExperience = () => {
         const newExperience = {
-            jobTitle: "",
+            _id: `temp-${new Date().getTime()}`,
+            jobtitle: "",
             organization: "",
             location: "",
-            detail: ""
+            details: "",
+            monthlySalary: "",
+            salaryCurrency: "LKR",
+            startDate: "",
+            endDate: "",
+            order: experiences.length + 1,
+            edit: true
         };
 
-        addNewExperiences([...newExperiences, newExperience]);
+        setExperiences([...experiences, newExperience]);
+    };
+
+    const enableEdit = id => {
+        updateAttributeOfExperienceObj(id, "edit", true);
+    };
+
+    const onChange = experience => {
+        const currentIndex = getArrayIndexInExperiencesArray(experience._id);
+
+        if (currentIndex > -1) {
+            const newExperiencesArray = [...experiences];
+            newExperiencesArray[currentIndex] = experience;
+            setExperiences(newExperiencesArray);
+        }
+    };
+
+    const onCancel = experience => {
+        const currentIndex = getArrayIndexInExperiencesArray(experience._id);
+
+        if (currentIndex > -1) {
+            const newExperiencesArray = [...experiences];
+            if (experience._id.includes("temp-")) {
+                newExperiencesArray.splice(currentIndex, 1);
+            } else {
+                newExperiencesArray[currentIndex] = experience;
+            }
+
+            setExperiences([...newExperiencesArray]);
+        }
+    };
+
+    const onDelete = async id => {
+        props.startLoad();
+        const response = await deleteExperience(id, props.token);
+        props.endLoad();
+        if (response && response.data) {
+            const currentIndex = getArrayIndexInExperiencesArray(id);
+            if (currentIndex > -1) {
+                const newExperiencesArray = [...experiences];
+                newExperiencesArray.splice(currentIndex, 1);
+                setExperiences(newExperiencesArray);
+            }
+        } else {
+            // Show error
+        }
+    };
+
+    const onSave = async id => {
+        props.startLoad();
+        const experience = experiences.find(item => {
+            return item._id === id;
+        });
+
+        if (!experience) {
+            return;
+        }
+
+        const hasErrors = checkExperienceObject(experience);
+
+        if (!hasErrors) {
+            // Remove temp attributes
+            delete experience.showError;
+            delete experience.edit;
+
+            if (id.includes("temp-")) {
+                delete experience._id;
+            }
+
+            const response = await saveExperience([experience], props.token);
+            props.endLoad();
+            if (response && response.data) {
+                updateAttributeOfExperienceObj(id, "edit", false);
+                updateAttributeOfExperienceObj(id, "showError", false);
+
+                if (id.includes("temp-")) {
+                    const currentIndex = getArrayIndexInExperiencesArray(id);
+                    if (currentIndex > -1) {
+                        const newExperiencesArray = [...experiences];
+                        newExperiencesArray.splice(currentIndex, 1);
+                        setExperiences(newExperiencesArray);
+                    }
+                }
+                console.log(response.data);
+                props.updateProfile(response.data);
+            } else {
+                // Show error
+            }
+        } else {
+            props.endLoad();
+            updateAttributeOfExperienceObj(id, "showError", true);
+            console.log(experiences);
+        }
+    };
+
+    const updateAttributeOfExperienceObj = (id, key, value) => {
+        const newExperiencesArray = [...experiences];
+        const currentIndex = getArrayIndexInExperiencesArray(id);
+
+        if (currentIndex > -1) {
+            newExperiencesArray[currentIndex][key] = value;
+            setExperiences(newExperiencesArray);
+        }
+    };
+
+    const getArrayIndexInExperiencesArray = id => {
+        return experiences.findIndex(item => {
+            return item._id === id;
+        });
+    };
+
+    const checkExperienceObject = experience => {
+        const dateError = moment(experience.startDate, "YYYY/MM/DD").isAfter(moment(experiences.endDate, "YYYY/MM/DD"))
+            ? true
+            : false;
+
+        if (!experience.endDate && experience.startDate) {
+            dateError = false;
+        }
+
+        if (!experience.jobtitle || !experience.organization || dateError) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const getFormattedDate = date => {
+        if (date) {
+            return moment(date).format("DD MMM, YYYY");
+        }
+
+        return "";
     };
 
     return (
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Work Experience</span>
-                {props.experiences && props.experiences.length && (
-                    <span className={commonStyles.editorIcon}>
-                        <FormOutlined />
-                    </span>
-                )}
             </div>
-            {props.experiences &&
-                props.experiences.map((experience, i) => {
+            {experiences &&
+                experiences.map((experience, i) => {
                     return (
                         <>
-                            <div className={commonStyles.detailBlock}>
-                                <span className={styles.jobTitle}>{experience.jobtitle}</span>
-                                <span className={styles.company}>{experience.organization}</span>
-                                <span className={styles.location}>{experience.location}</span>
-                                <span className={styles.descriptionHead}>Description</span>
-                                <div className={styles.description}>{experience.details}</div>
-                            </div>
-                            {props.experiences.length > i + 1 && <Divider />}
+                            {!experience.edit ? (
+                                <>
+                                    <div className={commonStyles.detailBlock}>
+                                        <div>
+                                            <span className={styles.jobTitle}>{experience.jobtitle}</span>
+                                            <span
+                                                className={commonStyles.editorIcon}
+                                                onClick={() => {
+                                                    enableEdit(experience._id);
+                                                }}
+                                            >
+                                                <FormOutlined />
+                                            </span>
+                                        </div>
+
+                                        <span className={styles.company}>{experience.organization}</span>
+                                        <span className={styles.location}>{experience.location}</span>
+                                        {experience.monthlySalary && (
+                                            <span className={styles.salary}>
+                                                <span className={styles.currency}>{experience.salaryCurrency}</span>
+                                                <span className={styles.amount}>
+                                                    {currencyFormatter(
+                                                        experience.monthlySalary,
+                                                        experience.salaryCurrency
+                                                    )}
+                                                </span>
+                                            </span>
+                                        )}
+                                        <span className={styles.period}>
+                                            {`${getFormattedDate(experience.startDate)}${
+                                                experience.endDate ? " to " : " to present"
+                                            }
+                                            ${getFormattedDate(experience.endDate)}`}
+                                        </span>
+                                        <span className={styles.descriptionHead}>Description</span>
+                                        <div className={styles.description}>{experience.details}</div>
+                                    </div>
+                                    {props.experiences.length > i + 1 && <Divider />}
+                                </>
+                            ) : (
+                                <>
+                                    {props.experiences.length === i && i !== 0 && <Divider />}
+                                    <NewWorkExperience
+                                        experience={experience}
+                                        onChange={onChange}
+                                        onDelete={onDelete}
+                                        onSave={onSave}
+                                        onCancel={onCancel}
+                                    />
+                                    {props.experiences.length > i + 1 && <Divider />}
+                                </>
+                            )}
                         </>
                     );
                 })}
-            {newExperiences &&
-                newExperiences.map((experience, i) => {
-                    return (
-                        <>
-                            {(props.experiences && props.experiences.length > 0) || i > 0 ? <Divider /> : ""}
-                            <NewWorkExperience experience={experience} />
-                        </>
-                    );
-                })}
-            <div className={props.experiences && props.experiences.length ? commonStyles.addMore : ""}>
+            <div className={experiences && experiences.length ? commonStyles.addMore : ""}>
                 <Button
                     type="primary"
                     shape="circle"
@@ -107,7 +266,7 @@ const ProfileWorkExperience = props => {
                         onClick={() => {
                             addNewExperience();
                         }}
-                    >{`Add ${props.experiences && props.experiences.length ? "More " : ""}Work Experience`}</Button>
+                    >{`Add ${experiences && experiences.length ? "More " : ""}Work Experience`}</Button>
                 </span>
             </div>
         </div>

@@ -66,3 +66,7 @@ export const validatePassword = password => {
 
     return validationMessage;
 };
+
+export const currencyFormatter = (amount, currency) => {
+    return new Intl.NumberFormat({ style: 'currency', currency }).format(amount);
+};

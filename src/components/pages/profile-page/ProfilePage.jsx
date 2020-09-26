@@ -11,22 +11,41 @@ import ProfileWorkExperience from "./profile-work-experience/ProfileWorkExperien
 import ProfileResumeSection from "./profile-resume-section/ProfileResumeSection";
 import ProfilePersonalDetails from "./profile-personal-details/ProfilePersonalDetails";
 import ProfileJobPreference from "./profile-job-preference/ProfileJobPreference";
-import { getUserProfile } from "../../../actions/UserAction";
+import { getUserProfile, setUserProfile } from "../../../actions/UserAction";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getSessionStorage } from "../../../api/SessionStorage";
 import { getLocalStorage } from "../../../api/LocalStorage";
 import ProfileLanguages from "./profile-languages/ProfileLanguages";
+import { loadingStarted, loadingFinished } from "../../../actions/CommonActions";
 
 class ProfilePage extends Component {
-    componentDidMount() {
+    constructor(props) {
+        super(props);
         let token = getSessionStorage("token");
 
         if (!token) {
             token = getLocalStorage("token");
         }
-        this.props.actions.getUserProfile(token);
+        this.state = {
+            token
+        };
     }
+    componentDidMount() {
+        this.props.actions.getUserProfile(this.state.token);
+    }
+
+    startLoad = () => {
+        this.props.actions.loadingStarted();
+    };
+
+    endLoad = () => {
+        this.props.actions.loadingFinished();
+    };
+
+    updateProfile = profile => {
+        this.props.actions.setUserProfile(profile);
+    };
 
     render() {
         const { profile } = this.props;
@@ -56,16 +75,34 @@ class ProfilePage extends Component {
                                 <ProfileResumeSection />
                             </div>
                             <div>
-                                <ProfileWorkExperience experiences={profile.experiences} />
+                                <ProfileWorkExperience
+                                    experiences={profile.experiences || []}
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
+                                    token={this.state.token}
+                                />
                             </div>
                             <div>
-                                <ProfileEducation educations={profile.educations} />
+                                <ProfileEducation
+                                    educations={profile.educations}
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
+                                    token={this.state.token}
+                                />
                             </div>
                             <div>
                                 <ProfileLanguages languages={profile.languages} />
                             </div>
                             <div>
-                                <ProfileSkills skills={profile.skills} />
+                                <ProfileSkills
+                                    skills={profile.skills}
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
+                                    token={this.state.token}
+                                />
                             </div>
                             <div>
                                 <ProfileAwards />
@@ -94,7 +131,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         actions: {
-            getUserProfile: bindActionCreators(getUserProfile, dispatch)
+            getUserProfile: bindActionCreators(getUserProfile, dispatch),
+            setUserProfile: bindActionCreators(setUserProfile, dispatch),
+            loadingStarted: bindActionCreators(loadingStarted, dispatch),
+            loadingFinished: bindActionCreators(loadingFinished, dispatch)
         }
     };
 };
