@@ -2,7 +2,6 @@
 .company,
 .location,
 .descriptionHead {
-    display: block;
     font-weight: bold;
 }
 
@@ -28,4 +27,24 @@
 .description {
     color: #3f3f3f;
     font-size: 16px;
+}
+
+.salary {
+    color: #3f3f3f;
+    font-size: 18px;
+    display: block;
+}
+
+.salary .currency {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.salary .amount {
+}
+
+.period {
+    display: block;
+    font-size: 16px;
+    color: #3f3f3f;
 }

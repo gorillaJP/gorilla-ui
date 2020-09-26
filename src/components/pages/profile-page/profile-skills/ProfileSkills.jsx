@@ -4,6 +4,7 @@ import * as styles from "./ProfileSkills.module.css";
 import { Button, Select } from "antd";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
 import SkillList from "../../../common/skill-list/SkillList";
+import { saveSkills } from "../../../../api/ProfileApi";
 const { Option } = Select;
 
 const ProfileSkills = props => {
@@ -12,6 +13,18 @@ const ProfileSkills = props => {
 
     const addNewSkills = () => {
         setEditMode(true);
+    };
+
+    const triggerApiCall = async () => {
+        props.startLoad();
+        const response = await saveSkills(skills, props.token);
+        props.endLoad();
+        if (response && response.data) {
+            props.updateProfile(response.data);
+            setEditMode(false);
+        } else {
+            // TODO : show error
+        }
     };
 
     useEffect(() => {
@@ -45,7 +58,7 @@ const ProfileSkills = props => {
                             mode="multiple"
                             size="large"
                             placeholder="Required Skills"
-                            value={props.skills}
+                            value={skills}
                             onChange={value => {
                                 setSkills([...value]);
                             }}
@@ -59,7 +72,14 @@ const ProfileSkills = props => {
                         </Select>
                     </div>
                     <div className={commonStyles.buttonContainer}>
-                        <Button size="large">Save</Button>
+                        <Button
+                            size="large"
+                            onClick={() => {
+                                triggerApiCall();
+                            }}
+                        >
+                            Save
+                        </Button>
                     </div>
                 </div>
             )}

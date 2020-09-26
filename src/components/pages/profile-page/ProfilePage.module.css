@@ -104,9 +104,14 @@
 }
 
 .addNew .buttonContainer button {
-    min-width: 40%;
+    min-width: 20%;
 }
 
+.addNew .buttonContainer .deleteBtn {
+    color: #0073b1;
+    border-color: #0073b1;
+    background-color: transparent;
+}
 .addFormLabel {
     margin-top: 10px;
 }
