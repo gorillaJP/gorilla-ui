@@ -64,6 +64,13 @@
     line-height: 40px;
 }
 
+.editorIconSmall {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    float: right;
+}
+
 .editorIcon {
     cursor: pointer;
     font-size: 25px;
