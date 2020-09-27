@@ -64,7 +64,7 @@ class ProfilePage extends Component {
                             </div>
                             <div>
                                 <ProfileMeta
-                                    imageUrl="http://159.89.161.233:443//upload_ba5949bfcb985f0c482b5e9036466ace1.jpeg"
+                                    imageUrl="https://159.89.161.233:443//upload_ba5949bfcb985f0c482b5e9036466ace1.jpeg"
                                     name={`${profile.firstName} ${profile.lastName}`}
                                     email={profile.email}
                                 />
