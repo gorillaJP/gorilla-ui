@@ -7,7 +7,7 @@ WORKDIR /app
 
 ADD . /app
 
-RUN npm install --max-old-space-size=400
+RUN npm install --max-old-space-size=3200
 
 #create react app prod build
 RUN npm run build
