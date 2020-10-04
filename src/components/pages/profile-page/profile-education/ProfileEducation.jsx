@@ -1,240 +1,244 @@
 import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
 import * as styles from "./ProfileEducation.module.css";
-import { Button, Divider, Input } from "antd";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
-import FormLabel from "../../../common/form-label/FormLabel";
-import { saveEducations } from "../../../../api/ProfileApi";
-import TextArea from "antd/lib/input/TextArea";
+import { Button, Divider } from "antd";
+import moment from "moment";
 
-const NewEducation = props => {
-    const updateEducation = education => {
-        props.onChange(education);
-    };
-    return (
-        <div className={commonStyles.addNew}>
-            <div className={commonStyles.addFormLabel}>
-                <FormLabel
-                    name="Highest Qualification"
-                    required={true}
-                    error={props.showError && !props.educations.qualification}
-                />
-                <Input
-                    value={props.education.qualification}
-                    onChange={e => {
-                        updateEducation({ ...props.education, qualification: e.target.value });
-                    }}
-                />
-            </div>
-            <div className={commonStyles.addFormLabel}>
-                <FormLabel name="Institute" required={true} error={props.showError && !props.educations.institute} />
-                <Input value={props.education.institute} />
-            </div>
-            <div className={commonStyles.addFormLabel}>
-                <div>
-                    <FormLabel name="Start Date" />
-                    <Input />
-                </div>
-                <div>
-                    <FormLabel name="End Date" />
-                    <Input />
-                </div>
-            </div>
-            <div className={commonStyles.addFormLabel}>
-                <FormLabel name="Description" />
-                <TextArea rows={5} value={props.education.details} />
-            </div>
-            <div className={commonStyles.buttonContainer}>
-                <Button size="large" onClick={() => props.onDelete(props.education)}>
-                    Delete
-                </Button>
-                <Button size="large">Save</Button>
-            </div>
-        </div>
-    );
-};
+import { saveEducation, deleteEducation } from "../../../../api/ProfileApi";
+import NewEducation from "./NewEducation";
+import { currencyFormatter } from "../../../../util/Util";
 
 const ProfileEducation = props => {
-    const [editMode, setEditMode] = useState(false); // Keep flag of edit mode
-    const [edited, setEdited] = useState(false); // Used for checking unsaved changes
-    const [hasValidationErrors, setValidationErrors] = useState(false); // Used for showing validation errors
-    const [newEducations, addNewEducations] = useState([]);
-    const [allEducations, setAllEducations] = useState([]);
+    const [educations, setEducations] = useState([]);
 
     useEffect(() => {
-        const educationArray = [];
-        if (props.educations && props.educations.length) {
-            educationArray.push(...props.educations);
+        const newEducationsStateArray = [];
+        for (const education of props.educations) {
+            const educationInCurrentEducationsArray = educations.find(item => {
+                return item._id === education._id;
+            });
+
+            if (educationInCurrentEducationsArray) {
+                newEducationsStateArray.push(educationInCurrentEducationsArray);
+            } else {
+                newEducationsStateArray.push(education);
+            }
         }
 
-        educationArray.push(...newEducations);
-        setAllEducations(educationArray);
+        // sort based on order value
+        newEducationsStateArray.sort((a, b) => a.order - b.order);
+
+        const newEducationsArray = educations.filter(item => {
+            return item._id.includes("temp-");
+        });
+
+        setEducations([...newEducationsStateArray, ...newEducationsArray]);
     }, [props.educations]);
 
     const addNewEducation = () => {
         const newEducation = {
-            order: props.educations.length + newEducations.length,
+            _id: `temp-${new Date().getTime()}`,
             qualification: "",
             institute: "",
             marks: "",
             details: "",
-            id: new Date().getTime(),
-            new: true,
-            deleted: false
+            startDate: "",
+            endDate: "",
+            order: educations.length + 1,
+            edit: true
         };
 
-        addNewEducations([...newEducations, newEducation]);
-        setAllEducations([...allEducations, newEducation]);
+        setEducations([...educations, newEducation]);
     };
 
-    const onChangeNewEducation = changedEducation => {
-        const updatedNewEducations = [...newEducations];
-        const educationIndexInNew = updatedNewEducations.findIndex(newEducation => {
-            return newEducation.id === changedEducation.id;
-        });
-
-        updatedNewEducations.splice(educationIndexInNew, 1, changedEducation);
-        addNewEducations([...updatedNewEducations]);
-        onChangeAllEducation(changedEducation);
+    const enableEdit = id => {
+        updateAttributeOfEducationObj(id, "edit", true);
     };
 
-    const onChangeAllEducation = changedEducation => {
-        const updatedAllEducations = [...allEducations];
-        const educationIndexInAll = updatedAllEducations.findIndex(newEducation => {
-            return newEducation.id === changedEducation.id;
-        });
+    const onChange = education => {
+        const currentIndex = getArrayIndexInEducationsArray(education._id);
 
-        updatedAllEducations.splice(educationIndexInAll, 1, changedEducation);
-        setAllEducations([...updatedAllEducations]);
-        setEdited(true);
-    };
-
-    const deleteEducation = deletedEducation => {
-        const updatedNewEducations = [...newEducations];
-        const educationIndexInNew = updatedNewEducations.findIndex(newEducation => {
-            return newEducation.id === deletedEducation.id;
-        });
-
-        updatedNewEducations.splice(educationIndexInNew, 1);
-        addNewEducations([...updatedNewEducations]);
-
-        const updatedAllEducations = [...allEducations];
-        const educationIndexInAll = updatedAllEducations.findIndex(newEducation => {
-            return newEducation.id === deletedEducation.id;
-        });
-
-        updatedAllEducations.splice(educationIndexInAll, 1);
-        setAllEducations([...updatedAllEducations]);
-        setEdited(true);
-
-        // TODO: If all educations are deleted prompt and save after confirmation
-    };
-
-    const triggerApiCall = async () => {
-        props.startLoad();
-        // Validate input
-        let hasErrors = false;
-        for (const education of allEducations) {
-            hasErrors = checkEducationObject(education) ? true : hasErrors;
-            if (hasErrors) {
-                break;
-            }
+        if (currentIndex > -1) {
+            const newEducationsArray = [...educations];
+            newEducationsArray[currentIndex] = education;
+            setEducations(newEducationsArray);
         }
+    };
 
-        if (!hasErrors) {
-            const response = await saveEducations([], props.token);
-            props.endLoad();
-            if (response && response.data) {
-                props.updateProfile(response.data);
-                setEditMode(false);
+    const onCancel = education => {
+        const currentIndex = getArrayIndexInEducationsArray(education._id);
+
+        if (currentIndex > -1) {
+            const newEducationsArray = [...educations];
+            if (education._id.includes("temp-")) {
+                newEducationsArray.splice(currentIndex, 1);
             } else {
-                // TODO : show error
+                newEducationsArray[currentIndex] = education;
+            }
+
+            setEducations([...newEducationsArray]);
+        }
+    };
+
+    const onDelete = async id => {
+        props.startLoad();
+        const response = await deleteEducation(id, props.token);
+        props.endLoad();
+        if (response && response.data) {
+            const currentIndex = getArrayIndexInEducationsArray(id);
+            if (currentIndex > -1) {
+                const newEducationsArray = [...educations];
+                newEducationsArray.splice(currentIndex, 1);
+                setEducations(newEducationsArray);
             }
         } else {
-            setValidationErrors(true);
+            // Show error
         }
+    };
+
+    const onSave = async id => {
+        props.startLoad();
+        const educationObj = educations.find(item => {
+            return item._id === id;
+        });
+
+        if (!educationObj) {
+            return;
+        }
+
+        const education = { ...educationObj };
+
+        const hasErrors = checkEducationObject(education);
+
+        if (!hasErrors) {
+            // Remove temp attributes
+            delete education.showError;
+            delete education.edit;
+
+            if (id.includes("temp-")) {
+                delete education._id;
+            }
+
+            const response = await saveEducation([education], props.token);
+
+            props.endLoad();
+            if (response && response.data) {
+                updateAttributeOfEducationObj(id, "edit", false);
+                updateAttributeOfEducationObj(id, "showError", false);
+
+                if (id.includes("temp-")) {
+                    const currentIndex = getArrayIndexInEducationsArray(id);
+                    if (currentIndex > -1) {
+                        const newEducationsArray = [...educations];
+                        newEducationsArray.splice(currentIndex, 1);
+                        setEducations(newEducationsArray);
+                    }
+                }
+
+                props.updateProfile(response.data);
+            } else {
+                // Show error
+            }
+        } else {
+            props.endLoad();
+            updateAttributeOfEducationObj(id, "showError", true);
+        }
+    };
+
+    const updateAttributeOfEducationObj = (id, key, value) => {
+        const newEducationsArray = [...educations];
+        const currentIndex = getArrayIndexInEducationsArray(id);
+
+        if (currentIndex > -1) {
+            newEducationsArray[currentIndex][key] = value;
+            setEducations(newEducationsArray);
+        }
+    };
+
+    const getArrayIndexInEducationsArray = id => {
+        return educations.findIndex(item => {
+            return item._id === id;
+        });
     };
 
     const checkEducationObject = education => {
-        if (!education.qualification || !education.institute) {
+        const dateError = moment(education.startDate, "YYYY/MM/DD").isAfter(moment(education.endDate, "YYYY/MM/DD"))
+            ? true
+            : false;
+
+        if (!education.endDate && education.startDate) {
+            dateError = false;
+        }
+
+        if (!education.qualification || !education.institute || dateError) {
             return true;
         } else {
             return false;
         }
     };
 
+    const getFormattedDate = date => {
+        if (date) {
+            return moment(date).format("DD MMM, YYYY");
+        }
+
+        return "";
+    };
+
     return (
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
-                <span className={commonStyles.headerText}>Education</span>
-                {props.educations && props.educations.length && (
-                    <span
-                        className={commonStyles.editorIcon}
-                        onClick={() => {
-                            if (!edited || !editMode) {
-                                setEditMode(!editMode);
-                            } else {
-                                console.log("have unsaved changes");
-                            }
-                        }}
-                    >
-                        <FormOutlined />
-                    </span>
-                )}
+                <span className={commonStyles.headerText}>Work Education</span>
             </div>
-            {!editMode &&
-                props.educations &&
-                props.educations.map((education, i) => {
+            {educations &&
+                educations.map((education, i) => {
                     return (
                         <>
-                            <div className={commonStyles.detailBlock} key={education.order}>
-                                <span className={styles.qualification}>{education.qualification}</span>
-                                <span className={styles.institute}>{education.institite}</span>
-                                <span className={styles.marks}>{education.marks}</span>
-                                <span className={styles.description}>{education.details}</span>
-                            </div>
-                            {props.educations.length > i + 1 && <Divider />}
+                            {!education.edit ? (
+                                <>
+                                    <div className={commonStyles.detailBlock}>
+                                        <div>
+                                            <span className={styles.qualification}>{education.qualification}</span>
+                                            <span
+                                                className={commonStyles.editorIcon}
+                                                onClick={() => {
+                                                    enableEdit(education._id);
+                                                }}
+                                            >
+                                                <FormOutlined />
+                                            </span>
+                                        </div>
+
+                                        <span className={styles.institute}>{education.institute}</span>
+                                        <span className={styles.marks}>{education.marks}</span>
+                                        <span className={styles.period}>
+                                            {`${getFormattedDate(education.startDate)}${
+                                                education.endDate ? " to " : " to present"
+                                            }
+                                            ${getFormattedDate(education.endDate)}`}
+                                        </span>
+                                        <div className={styles.description}>{education.details}</div>
+                                    </div>
+                                    {props.educations.length > i + 1 && <Divider />}
+                                </>
+                            ) : (
+                                <>
+                                    {props.educations.length === i && i !== 0 && <Divider />}
+                                    <NewEducation
+                                        education={education}
+                                        onChange={onChange}
+                                        onDelete={onDelete}
+                                        onSave={onSave}
+                                        onCancel={onCancel}
+                                    />
+                                    {props.educations.length > i + 1 && <Divider />}
+                                </>
+                            )}
                         </>
                     );
                 })}
-
-            {!editMode &&
-                newEducations &&
-                newEducations.map((education, i) => {
-                    return (
-                        <>
-                            {(props.educations && props.educations.length > 0) || i > 0 ? <Divider /> : ""}
-                            <NewEducation
-                                education={education}
-                                onSave={() => triggerApiCall()}
-                                onChange={changedEducation => onChangeNewEducation(changedEducation)}
-                                onDelete={deletedEducation => deleteEducation(deletedEducation)}
-                                showError={hasValidationErrors}
-                                key={education.order}
-                            />
-                        </>
-                    );
-                })}
-
-            {editMode &&
-                allEducations &&
-                allEducations.map((education, i) => {
-                    return (
-                        <>
-                            {i > 0 ? <Divider /> : ""}
-                            <NewEducation
-                                education={education}
-                                onSave={() => triggerApiCall()}
-                                onChange={changedEducation => onChangeAllEducation(changedEducation)}
-                                onDelete={deletedEducation => deleteEducation(deletedEducation)}
-                                showError={hasValidationErrors}
-                                key={education.order}
-                            />
-                        </>
-                    );
-                })}
-
-            <div className={props.educations && props.educations.length ? commonStyles.addMore : ""}>
+            <div className={educations && educations.length ? commonStyles.addMore : ""}>
                 <Button
                     type="primary"
                     shape="circle"
@@ -250,7 +254,7 @@ const ProfileEducation = props => {
                         onClick={() => {
                             addNewEducation();
                         }}
-                    >{`Add ${props.educations && props.educations.length ? "More " : ""}Education Details`}</Button>
+                    >{`Add ${educations && educations.length ? "More " : ""}Work Education`}</Button>
                 </span>
             </div>
         </div>

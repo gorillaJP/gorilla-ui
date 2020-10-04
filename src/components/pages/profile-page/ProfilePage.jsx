@@ -85,7 +85,7 @@ class ProfilePage extends Component {
                             </div>
                             <div>
                                 <ProfileEducation
-                                    educations={profile.educations}
+                                    educations={profile.educations || []}
                                     startLoad={() => this.startLoad()}
                                     endLoad={() => this.endLoad()}
                                     updateProfile={profile => this.updateProfile(profile)}

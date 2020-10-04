@@ -22,7 +22,7 @@ export const saveSkills = async (skills, token) => {
         });
 };
 
-export const saveEducations = async (education, token) => {
+export const saveEducation = async (education, token) => {
     const ReqConfig = {
         headers: {
             'Content-Type': 'application/json',
@@ -66,6 +66,10 @@ export const saveExperience = async (experience, token) => {
 
 export const deleteExperience = async (id, token) => {
     return deleteData(id, token, 'experience');
+};
+
+export const deleteEducation = async (id, token) => {
+    return deleteData(id, token, 'education');
 };
 
 const deleteData = async (id, token, property) => {

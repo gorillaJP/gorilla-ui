@@ -1,0 +1,9 @@
+.datePickerContainer > div {
+    display: inline-block;
+    width: 50%;
+}
+
+.datePickerContainer .datePicker {
+    display: block;
+    width: 100%;
+}
