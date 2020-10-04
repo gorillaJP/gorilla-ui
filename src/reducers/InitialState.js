@@ -23,6 +23,9 @@ export default {
         metaJobTypes: [],
         metaRoles: [],
         metaCreatedAtDates: [],
+        metaSkills: [],
+        metaLanguages: [],
+        metaCurrencies: [],
         domain: EMPLOYEE
     },
     commonData: {

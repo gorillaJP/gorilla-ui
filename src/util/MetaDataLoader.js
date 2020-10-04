@@ -13,7 +13,10 @@ import {
     META_EXPERIENCE,
     META_CREATEDDATES,
     META_ROLES,
-    META_JOBTYPES
+    META_JOBTYPES,
+    META_SKILLS,
+    META_LANGUAGES,
+    META_CURRENCIES
 } from '../actions/ActionTypes';
 
 /* locations/citis meta data */
@@ -24,7 +27,10 @@ const loadMeta = store => {
         metaroles: META_ROLES,
         metaexperiences: META_EXPERIENCE,
         metacreatedatdates: META_CREATEDDATES,
-        metajobtypes: META_JOBTYPES
+        metajobtypes: META_JOBTYPES,
+        metaskills: META_SKILLS,
+        metalanguages: META_LANGUAGES,
+        metacurrencies: META_CURRENCIES
     };
 
     for (const metaKey in metaMap) {

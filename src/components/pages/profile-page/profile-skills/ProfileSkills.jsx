@@ -27,18 +27,22 @@ const ProfileSkills = props => {
         }
     };
 
+    const onCancel = () => {
+        setEditMode(false);
+        setSkills(props.skills);
+    };
+
     useEffect(() => {
-        const uniqueSet = new Set();
-        const newSkillArray = props.skills && props.skills.length ? [...skills, ...props.skills] : [...skills];
-        newSkillArray.forEach(item => uniqueSet.add(item));
-        setSkills([...uniqueSet]);
+        if (!editMode) {
+            setSkills(props.skills);
+        }
     }, [props.skills]);
 
     return (
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Skills</span>
-                {props.skills && props.skills.length && (
+                {!editMode && props.skills && props.skills.length && (
                     <span
                         className={commonStyles.editorIcon}
                         onClick={() => {
@@ -63,15 +67,19 @@ const ProfileSkills = props => {
                                 setSkills([...value]);
                             }}
                         >
-                            <Option value="react">React</Option>
-                            <Option value="angular">Angular</Option>
-                            <Option value="redux">Redux</Option>
-                            <Option value="word">Word</Option>
-                            <Option value="photoshop">Photoshop</Option>
-                            <Option value="php">Php</Option>
+                            {props.metaSkills.map(skill => {
+                                return (
+                                    <Option key={skill.name} value={skill.name}>
+                                        {skill.name}
+                                    </Option>
+                                );
+                            })}
                         </Select>
                     </div>
                     <div className={commonStyles.buttonContainer}>
+                        <Button size="large" onClick={() => onCancel()}>
+                            Cancel
+                        </Button>
                         <Button
                             size="large"
                             onClick={() => {

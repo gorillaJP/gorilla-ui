@@ -7,8 +7,6 @@ import * as styles from "./NewEducation.module.css";
 import FormLabel from "../../../common/form-label/FormLabel";
 import TextArea from "antd/lib/input/TextArea";
 
-const InputGroup = Input.Group;
-const { Option } = Select;
 const dateFormat = "YYYY/MM/DD";
 
 const NewEducation = props => {

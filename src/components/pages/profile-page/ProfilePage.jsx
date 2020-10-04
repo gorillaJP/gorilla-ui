@@ -81,6 +81,7 @@ class ProfilePage extends Component {
                                     endLoad={() => this.endLoad()}
                                     updateProfile={profile => this.updateProfile(profile)}
                                     token={this.state.token}
+                                    metaCurrencies={this.props.metaCurrencies || []}
                                 />
                             </div>
                             <div>
@@ -93,11 +94,28 @@ class ProfilePage extends Component {
                                 />
                             </div>
                             <div>
-                                <ProfileLanguages languages={profile.languages} />
+                                <ProfileLanguages
+                                    languages={profile.languages || []}
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
+                                    token={this.state.token}
+                                    metaLanguages={this.props.metaLanguages || []}
+                                />
                             </div>
                             <div>
                                 <ProfileSkills
-                                    skills={profile.skills}
+                                    skills={profile.skills || []}
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
+                                    token={this.state.token}
+                                    metaSkills={this.props.metaSkills || []}
+                                />
+                            </div>
+                            <div>
+                                <ProfileAwards
+                                    awards={profile.awards || []}
                                     startLoad={() => this.startLoad()}
                                     endLoad={() => this.endLoad()}
                                     updateProfile={profile => this.updateProfile(profile)}
@@ -105,13 +123,24 @@ class ProfilePage extends Component {
                                 />
                             </div>
                             <div>
-                                <ProfileAwards />
+                                <ProfilePersonalDetails
+                                    personalDetails={profile.personalInfo}
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
+                                    token={this.state.token}
+                                />
                             </div>
                             <div>
-                                <ProfilePersonalDetails />
-                            </div>
-                            <div>
-                                <ProfileJobPreference />
+                                <ProfileJobPreference
+                                    jobPreference={profile.jobPreference}
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
+                                    token={this.state.token}
+                                    metaCurrencies={this.props.metaCurrencies || []}
+                                    metaCities={this.props.metaCities || []}
+                                />
                             </div>
                         </div>
                     </div>
@@ -124,7 +153,11 @@ class ProfilePage extends Component {
 const mapStateToProps = state => {
     return {
         domain: state.metaData.domain,
-        profile: state.authData.profile
+        profile: state.authData.profile,
+        metaCurrencies: state.metaData.metaCurrencies,
+        metaLanguages: state.metaData.metaLanguages,
+        metaSkills: state.metaData.metaSkills,
+        metaCities: state.metaData.metaCities
     };
 };
 

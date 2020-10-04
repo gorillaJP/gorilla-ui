@@ -91,9 +91,13 @@ const NewWorkExperience = props => {
                             onChange("salaryCurrency", value);
                         }}
                     >
-                        <Option value="LKR">LKR</Option>
-                        <Option value="INR">INR</Option>
-                        <Option value="USD">USD</Option>
+                        {props.currencies.map(currency => {
+                            return (
+                                <Option key={currency.name} value={currency.name}>
+                                    {currency.name}
+                                </Option>
+                            );
+                        })}
                     </Select>
                     <Input
                         value={props.experience.monthlySalary}

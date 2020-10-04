@@ -55,6 +55,7 @@ const ProfileWorkExperience = props => {
     };
 
     const enableEdit = id => {
+        console.log(props.metaCurrencies);
         updateAttributeOfExperienceObj(id, "edit", true);
     };
 
@@ -245,6 +246,7 @@ const ProfileWorkExperience = props => {
                                         onDelete={onDelete}
                                         onSave={onSave}
                                         onCancel={onCancel}
+                                        currencies={props.metaCurrencies}
                                     />
                                     {props.experiences.length > i + 1 && <Divider />}
                                 </>

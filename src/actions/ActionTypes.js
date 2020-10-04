@@ -15,6 +15,9 @@ export const META_JOBTYPES = 'META_GET_JOBTYPES';
 export const META_EXPERIENCE = 'META_GET_EXPERIENCE';
 export const META_CREATEDDATES = 'META_GET_CREATEDDATE';
 export const META_SET_USER_DOMAIN = 'META_SET_USER_DOMAIN';
+export const META_SKILLS = 'META_GET_SKILLS';
+export const META_LANGUAGES = 'META_GET_LANGUAGES';
+export const META_CURRENCIES = 'META_GET_CURRENCIES';
 
 //loading meta data - happens at the applicaiton startup
 export const SEARCH_PARAM_UPDATE = 'SEARCH_PARAM_UPDATE';

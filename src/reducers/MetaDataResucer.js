@@ -13,6 +13,12 @@ export default function metaDataResucer(state = initialState.metaData, action) {
             return { ...state, ...{ metaJobTypes: action.payload } };
         case actions.META_ROLES:
             return { ...state, ...{ metaRoles: action.payload } };
+        case actions.META_SKILLS:
+            return { ...state, ...{ metaSkills: action.payload } };
+        case actions.META_LANGUAGES:
+            return { ...state, ...{ metaLanguages: action.payload } };
+        case actions.META_CURRENCIES:
+            return { ...state, ...{ metaCurrencies: action.payload } };
         case actions.META_CREATEDDATES:
             return { ...state, ...{ metaCreatedAtDates: action.payload } };
         case actions.META_SET_USER_DOMAIN:
