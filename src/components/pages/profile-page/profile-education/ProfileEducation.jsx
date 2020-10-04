@@ -7,7 +7,6 @@ import moment from "moment";
 
 import { saveEducation, deleteEducation } from "../../../../api/ProfileApi";
 import NewEducation from "./NewEducation";
-import { currencyFormatter } from "../../../../util/Util";
 
 const ProfileEducation = props => {
     const [educations, setEducations] = useState([]);
@@ -254,7 +253,7 @@ const ProfileEducation = props => {
                         onClick={() => {
                             addNewEducation();
                         }}
-                    >{`Add ${educations && educations.length ? "More " : ""}Work Education`}</Button>
+                    >{`Add ${educations && educations.length ? "More " : ""} Education`}</Button>
                 </span>
             </div>
         </div>
