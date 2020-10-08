@@ -21,6 +21,10 @@ export const savePersonalDetails = async (personalDetails, token) => {
     return saveData('personalinfo', personalDetails, token);
 };
 
+export const saveJobPreference = async (jobPreference, token) => {
+    return saveData('jobPreference', jobPreference, token);
+};
+
 export const saveAward = async (award, token) => {
     return saveData('award', award, token);
 };

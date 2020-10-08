@@ -6,6 +6,7 @@ import * as styles from "./ProfileJobPreference.module.css";
 import FormLabel from "../../../common/form-label/FormLabel";
 import moment from "moment";
 import TextArea from "antd/lib/input/TextArea";
+import { saveJobPreference } from "../../../../api/ProfileApi";
 
 const InputGroup = Input.Group;
 const { Option } = Select;
@@ -39,7 +40,18 @@ const ProfileJobPreference = props => {
         setJobPreference({ ...previousJobPreference });
     };
 
-    const onSave = () => {};
+    const onSave = async () => {
+        props.startLoad();
+        const response = await saveJobPreference(jobPreference, props.token);
+        props.endLoad();
+        if (response && response.data) {
+            setJobPreference({ ...jobPreference, edit: false });
+            props.updateProfile(response.data);
+        } else {
+            // TODO : show error
+        }
+    };
+
     const onChange = (key, value) => {
         setJobPreference({ ...jobPreference, [key]: value });
     };
@@ -162,13 +174,34 @@ const ProfileJobPreference = props => {
                     </div>
                 </div>
             )}
-
-            <Button type="primary" shape="circle" icon={<PlusOutlined />} size="large" onClick={addJobPreference} />
-            <span className={commonStyles.textButton}>
-                <Button type="link" onClick={addJobPreference}>
-                    Add Personal Details
-                </Button>
-            </span>
+            {!jobPreference.edit && (
+                <div className={commonStyles.detailBlock}>
+                    <span className={styles.industry}>{jobPreference.industry}</span>
+                    <span className={styles.category}>{jobPreference.category}</span>
+                    <span className={styles.jobType}>{jobPreference.jobType}</span>
+                    <span className={styles.role}>{jobPreference.role}</span>
+                    <span className={styles.preferredLocation}>{jobPreference.jobPreference}</span>
+                    <span className={styles.salary}>
+                        {jobPreference.expectedSalary + " " + jobPreference.expectedSalaryCurrency}
+                    </span>
+                </div>
+            )}
+            {!jobPreference.edit && (
+                <div className={hasValues(jobPreference) ? commonStyles.addMore : ""}>
+                    <Button
+                        type="primary"
+                        shape="circle"
+                        icon={<PlusOutlined />}
+                        size="large"
+                        onClick={addJobPreference}
+                    />
+                    <span className={commonStyles.textButton}>
+                        <Button type="link" onClick={addJobPreference}>
+                            Add Personal Details
+                        </Button>
+                    </span>
+                </div>
+            )}
         </div>
     );
 };
