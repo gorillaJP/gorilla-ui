@@ -195,14 +195,22 @@ const ProfilePersonalDetails = props => {
             )}
             {!personalDetails.edit && (
                 <div className={commonStyles.detailBlock}>
-                    <span className={styles.homeTown}>{personalDetails.homeTown}</span>
-                    <span className={styles.address}>{personalDetails.address}</span>
-                    <span className={styles.mobilePhoneNumber}>{personalDetails.mobilePhoneNumber}</span>
-                    <span className={styles.homePhoneNumber}>{personalDetails.homePhoneNumber}</span>
-                    <span className={styles.gender}>{personalDetails.gender}</span>
-                    <span className={styles.martialStatus}>{personalDetails.martialStatus}</span>
-                    <span className={styles.period}>{getFormattedDate(personalDetails.dateOfBirth)}</span>
-                    <div className={styles.introduction}>{personalDetails.introduction}</div>
+                    <span className={styles.subHeader}>Home Town</span>
+                    <span className={styles.value}>{personalDetails.homeTown}</span>
+                    <span className={styles.subHeader}>Address</span>
+                    <span className={styles.value}>{personalDetails.address}</span>
+                    <span className={styles.subHeader}>Mobile Number</span>
+                    <span className={styles.value}>{personalDetails.mobilePhoneNumber}</span>
+                    <span className={styles.subHeader}>Telephone Number</span>
+                    <span className={styles.value}>{personalDetails.homePhoneNumber}</span>
+                    <span className={styles.subHeader}>Date Of Birth</span>
+                    <span className={styles.value}>{getFormattedDate(personalDetails.dateOfBirth)}</span>
+                    <span className={styles.subHeader}>Gender</span>
+                    <span className={styles.value}>{personalDetails.gender}</span>
+                    <span className={styles.subHeader}>Martial Status</span>
+                    <span className={styles.value}>{personalDetails.martialStatus}</span>
+                    <span className={styles.subHeader}>Introduce Yourself</span>
+                    <div className={styles.value}>{personalDetails.introduction}</div>
                 </div>
             )}
             {!personalDetails.edit && (

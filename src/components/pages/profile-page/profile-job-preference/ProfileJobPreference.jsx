@@ -42,13 +42,27 @@ const ProfileJobPreference = props => {
 
     const onSave = async () => {
         props.startLoad();
-        const response = await saveJobPreference(jobPreference, props.token);
-        props.endLoad();
-        if (response && response.data) {
-            setJobPreference({ ...jobPreference, edit: false });
-            props.updateProfile(response.data);
+        const hasErrors = checkJobPreference(jobPreference);
+        if (!hasErrors) {
+            const response = await saveJobPreference(jobPreference, props.token);
+            props.endLoad();
+            if (response && response.data) {
+                setJobPreference({ ...jobPreference, edit: false, showError: false });
+                props.updateProfile(response.data);
+            } else {
+                // TODO : show error
+            }
         } else {
-            // TODO : show error
+            props.endLoad();
+            setJobPreference({ ...jobPreference, showError: true });
+        }
+    };
+
+    const checkJobPreference = jobPreference => {
+        if (!jobPreference.industry || !jobPreference.preferredLocation) {
+            return true;
+        } else {
+            return false;
         }
     };
 
@@ -66,22 +80,27 @@ const ProfileJobPreference = props => {
                 break;
             }
         }
+        return hasValues;
     };
 
     return (
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Job Preference</span>
-                {hasValues(jobPreference) && (
+                {hasValues(jobPreference) && !jobPreference.edit && (
                     <span className={commonStyles.editorIcon}>
-                        <FormOutlined />
+                        <FormOutlined onClick={addJobPreference} />
                     </span>
                 )}
             </div>
             {jobPreference.edit && (
                 <div className={commonStyles.addNew}>
                     <div className={commonStyles.addFormLabel}>
-                        <FormLabel name="Industry" error={jobPreference.showError && !jobPreference.industry} />
+                        <FormLabel
+                            name="Industry"
+                            required
+                            error={jobPreference.showError && !jobPreference.industry}
+                        />
                         <Input
                             value={jobPreference.industry}
                             onChange={e => {
@@ -90,7 +109,7 @@ const ProfileJobPreference = props => {
                         />
                     </div>
                     <div className={commonStyles.addFormLabel}>
-                        <FormLabel name="Category" error={jobPreference.showError && !jobPreference.category} />
+                        <FormLabel name="Category" />
                         <Input
                             value={jobPreference.category}
                             onChange={e => {
@@ -99,7 +118,7 @@ const ProfileJobPreference = props => {
                         />
                     </div>
                     <div className={commonStyles.addFormLabel}>
-                        <FormLabel name="Job Type" error={jobPreference.showError && !jobPreference.jobType} />
+                        <FormLabel name="Job Type" />
                         <Input
                             value={jobPreference.jobType}
                             onChange={e => {
@@ -108,7 +127,7 @@ const ProfileJobPreference = props => {
                         />
                     </div>
                     <div className={commonStyles.addFormLabel}>
-                        <FormLabel name="Role" error={jobPreference.showError && !jobPreference.role} />
+                        <FormLabel name="Role" />
                         <Input
                             value={jobPreference.role}
                             onChange={e => {
@@ -117,7 +136,11 @@ const ProfileJobPreference = props => {
                         />
                     </div>
                     <div className={commonStyles.addFormLabel}>
-                        <FormLabel name="Preferred Location" />
+                        <FormLabel
+                            name="Preferred Location"
+                            required
+                            error={jobPreference.showError && !jobPreference.preferredLocation}
+                        />
                         <Select
                             value={jobPreference.preferredLocation}
                             onChange={value => {
@@ -176,13 +199,21 @@ const ProfileJobPreference = props => {
             )}
             {!jobPreference.edit && (
                 <div className={commonStyles.detailBlock}>
-                    <span className={styles.industry}>{jobPreference.industry}</span>
-                    <span className={styles.category}>{jobPreference.category}</span>
-                    <span className={styles.jobType}>{jobPreference.jobType}</span>
-                    <span className={styles.role}>{jobPreference.role}</span>
-                    <span className={styles.preferredLocation}>{jobPreference.jobPreference}</span>
-                    <span className={styles.salary}>
-                        {jobPreference.expectedSalary + " " + jobPreference.expectedSalaryCurrency}
+                    <span className={styles.subHeader}>Industry</span>
+                    <span className={styles.value}>{jobPreference.industry}</span>
+                    <span className={styles.subHeader}>Category</span>
+                    <span className={styles.value}>{jobPreference.category}</span>
+                    <span className={styles.subHeader}>Job Type</span>
+                    <span className={styles.value}>{jobPreference.jobType}</span>
+                    <span className={styles.subHeader}>Role</span>
+                    <span className={styles.value}>{jobPreference.role}</span>
+                    <span className={styles.subHeader}>Preferred Location</span>
+                    <span className={styles.value}>{jobPreference.jobPreference}</span>
+                    <span className={styles.subHeader}>Salary</span>
+                    <span className={styles.value}>
+                        {`${jobPreference.expectedSalaryCurrency ? jobPreference.expectedSalaryCurrency + " " : ""}${
+                            jobPreference.expectedSalary
+                        }`}
                     </span>
                 </div>
             )}
