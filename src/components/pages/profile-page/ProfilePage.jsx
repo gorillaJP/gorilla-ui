@@ -18,6 +18,7 @@ import { getSessionStorage } from "../../../api/SessionStorage";
 import { getLocalStorage } from "../../../api/LocalStorage";
 import ProfileLanguages from "./profile-languages/ProfileLanguages";
 import { loadingStarted, loadingFinished } from "../../../actions/CommonActions";
+import config from "../../../util/config";
 
 class ProfilePage extends Component {
     constructor(props) {
@@ -64,9 +65,12 @@ class ProfilePage extends Component {
                             </div>
                             <div>
                                 <ProfileMeta
-                                    imageUrl="https://159.89.161.233:443//upload_ba5949bfcb985f0c482b5e9036466ace1.jpeg"
-                                    name={`${profile.firstName} ${profile.lastName}`}
+                                    imageUrl={config.remote + profile.profileImage}
+                                    name={profile.name}
                                     email={profile.email}
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    token={this.state.token}
                                 />
                             </div>
                         </div>
