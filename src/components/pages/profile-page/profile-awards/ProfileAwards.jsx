@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
 import * as styles from "./ProfileAwards.module.css";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
-import { Button, Divider } from "antd";
+import { Button, Divider, message } from "antd";
 import moment from "moment";
 
 import { saveAward, deleteAward } from "../../../../api/ProfileApi";
@@ -88,8 +88,9 @@ const ProfileAward = props => {
                 newAwardsArray.splice(currentIndex, 1);
                 setAwards(newAwardsArray);
             }
+            message.success("Award deletion success");
         } else {
-            // Show error
+            message.error("Error deleting awards");
         }
     };
 
@@ -133,8 +134,9 @@ const ProfileAward = props => {
                 }
 
                 props.updateProfile(response.data);
+                message.success("Successfully updated");
             } else {
-                // Show error
+                message.error("Error updating awards");
             }
         } else {
             props.endLoad();

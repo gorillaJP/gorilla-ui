@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
 import * as styles from "./ProfileSkills.module.css";
-import { Button, Select } from "antd";
+import { Button, Select, message } from "antd";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
 import SkillList from "../../../common/skill-list/SkillList";
 import { saveSkills } from "../../../../api/ProfileApi";
@@ -22,8 +22,9 @@ const ProfileSkills = props => {
         if (response && response.data) {
             props.updateProfile(response.data);
             setEditMode(false);
+            message.success("Skills updated");
         } else {
-            // TODO : show error
+            message.error("Error updating skills");
         }
     };
 

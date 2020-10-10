@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
-import { Button, DatePicker, Input, Select } from "antd";
+import { Button, DatePicker, Input, Select, message } from "antd";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
 import * as styles from "./ProfilePersonalDetails.module.css";
 import FormLabel from "../../../common/form-label/FormLabel";
@@ -48,8 +48,9 @@ const ProfilePersonalDetails = props => {
         if (response && response.data) {
             setPersonalDetails({ ...personalDetails, edit: false });
             props.updateProfile(response.data);
+            message.success("Personal details updated");
         } else {
-            // TODO : show error
+            message.error("Error updating personal details");
         }
     };
     const onChange = (key, value) => {

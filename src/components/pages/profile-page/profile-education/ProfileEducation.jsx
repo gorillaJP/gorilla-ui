@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
 import * as styles from "./ProfileEducation.module.css";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
-import { Button, Divider } from "antd";
+import { Button, Divider, message } from "antd";
 import moment from "moment";
 
 import { saveEducation, deleteEducation } from "../../../../api/ProfileApi";
@@ -91,8 +91,9 @@ const ProfileEducation = props => {
                 newEducationsArray.splice(currentIndex, 1);
                 setEducations(newEducationsArray);
             }
+            message.success("Education deletion success");
         } else {
-            // Show error
+            message.error("Error deleting education");
         }
     };
 
@@ -136,8 +137,9 @@ const ProfileEducation = props => {
                 }
 
                 props.updateProfile(response.data);
+                message.success("Successfully updated education");
             } else {
-                // Show error
+                message.error("Error updating education");
             }
         } else {
             props.endLoad();
