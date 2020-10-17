@@ -26,7 +26,6 @@ const ProfilePersonalDetails = props => {
     const [previousPersonalDetails, setPreviousPersonalDetails] = useState({});
 
     useEffect(() => {
-        console.log(props.personalDetails);
         if (!personalDetails.edit && props.personalDetails) {
             setPersonalDetails(props.personalDetails);
             setPreviousPersonalDetails(props.personalDetails);
@@ -86,11 +85,11 @@ const ProfilePersonalDetails = props => {
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Personal Details</span>
-                {hasValues(personalDetails) && !personalDetails.edit && (
-                    <span className={commonStyles.editorIcon}>
+                {hasValues(personalDetails) && !personalDetails.edit ? (
+                    <span className={`${commonStyles.editorIcon} ${commonStyles.aligned}`}>
                         <FormOutlined onClick={enableEdit} />
                     </span>
-                )}
+                ) : null}
             </div>
             {personalDetails.edit && (
                 <div className={commonStyles.addNew}>
@@ -215,7 +214,7 @@ const ProfilePersonalDetails = props => {
                 </div>
             )}
             {!personalDetails.edit && (
-                <div className={hasValues(personalDetails) ? commonStyles.addMore : ""}>
+                <div className={hasValues(personalDetails) ? commonStyles.addMore : commonStyles.addNewRecord}>
                     <Button
                         type="primary"
                         shape="circle"

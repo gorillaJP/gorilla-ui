@@ -239,7 +239,7 @@ const ProfileEducation = props => {
                         </>
                     );
                 })}
-            <div className={educations && educations.length ? commonStyles.addMore : ""}>
+            <div className={educations && educations.length ? commonStyles.addMore : commonStyles.addNewRecord}>
                 <Button
                     type="primary"
                     shape="circle"

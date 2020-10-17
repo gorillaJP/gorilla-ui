@@ -43,16 +43,16 @@ const ProfileSkills = props => {
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Skills</span>
-                {!editMode && props.skills && props.skills.length && (
+                {!editMode && props.skills && props.skills.length ? (
                     <span
-                        className={commonStyles.editorIcon}
+                        className={`${commonStyles.editorIcon} ${commonStyles.aligned}`}
                         onClick={() => {
                             setEditMode(!editMode);
                         }}
                     >
                         <FormOutlined />
                     </span>
-                )}
+                ) : null}
             </div>
             {!editMode ? (
                 <div className={commonStyles.detailBlock}>{skills && <SkillList skills={skills} outLined />}</div>
@@ -93,7 +93,7 @@ const ProfileSkills = props => {
                 </div>
             )}
             {!editMode && (
-                <div className={props.languages && props.languages.length ? commonStyles.addMore : ""}>
+                <div className={props.skills && props.skills.length ? commonStyles.addMore : commonStyles.addNewRecord}>
                     <Button
                         type="primary"
                         shape="circle"

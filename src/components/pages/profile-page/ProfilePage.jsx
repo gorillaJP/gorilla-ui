@@ -70,6 +70,7 @@ class ProfilePage extends Component {
                                     email={profile.email}
                                     startLoad={() => this.startLoad()}
                                     endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
                                     token={this.state.token}
                                 />
                             </div>

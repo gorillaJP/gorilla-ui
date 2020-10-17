@@ -11,8 +11,14 @@
 .header {
     flex-grow: 1;
     display: flex;
-    flex-direction: row;
     justify-content: center;
+}
+
+.subMenuWrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -32,11 +38,16 @@
     flex-direction: row;
     font-size: 24px;
     line-height: 70px;
-    transition: opacity 0.4s;
+    transition: opacity 0.4s, width 0.4s ease-out 0.4s;
 }
 
 .forEmployers.hideText {
     opacity: 0;
+    width: 0;
+}
+
+.forEmployers.hideText .forEmployersText {
+    width: 0;
 }
 
 .forEmployers.showText {
@@ -62,7 +73,6 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    margin-right: 50px;
     box-sizing: border-box;
     height: 45px;
     line-height: 45px;
@@ -140,7 +150,7 @@
 
 .settingsIcon svg {
     color: #0073b1;
-    font-size: 40px;
+    font-size: 35px;
 }
 
 .menuBtn {
@@ -222,6 +232,13 @@
 .userName {
     color: #ffffff;
     margin-left: 20px;
+}
+
+@media only screen and (min-device-width: 1024px) {
+    .subMenuWrapper {
+        flex-grow: unset;
+        width: 90%;
+    }
 }
 
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait),
