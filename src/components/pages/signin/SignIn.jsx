@@ -73,9 +73,11 @@ const SignIn = props => {
         }
 
         let domain = queryString.get("domain");
-        domain = domain === "employer" ? EMPLOYER : EMPLOYEE;
         if (domain) {
-            props.actions.setUserDomain(domain);
+            domain = domain === "employer" ? EMPLOYER : EMPLOYEE;
+            if (domain) {
+                props.actions.setUserDomain(domain);
+            }
         }
     }, [props.actions, queryString]);
 

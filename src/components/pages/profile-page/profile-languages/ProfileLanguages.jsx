@@ -48,11 +48,11 @@ const ProfileLanguages = props => {
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Languages</span>
-                {!edit && props.languages && props.languages.length && (
-                    <span className={commonStyles.editorIcon}>
+                {!edit && props.languages && props.languages.length ? (
+                    <span className={`${commonStyles.editorIcon} ${commonStyles.aligned}`}>
                         <FormOutlined onClick={enableEdit} />
                     </span>
-                )}
+                ) : null}
             </div>
             {!edit && (
                 <div className={commonStyles.detailBlock}>
@@ -89,7 +89,11 @@ const ProfileLanguages = props => {
             )}
 
             {!edit && (
-                <div className={props.languages && props.languages.length ? commonStyles.addMore : ""}>
+                <div
+                    className={
+                        props.languages && props.languages.length ? commonStyles.addMore : commonStyles.addNewRecord
+                    }
+                >
                     <Button type="primary" shape="circle" icon={<PlusOutlined />} size="large" />
                     <span className={commonStyles.textButton}>
                         <Button type="link" onClick={enableEdit}>{`Add ${

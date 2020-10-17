@@ -88,11 +88,11 @@ const ProfileJobPreference = props => {
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Job Preference</span>
-                {hasValues(jobPreference) && !jobPreference.edit && (
-                    <span className={commonStyles.editorIcon}>
+                {hasValues(jobPreference) && !jobPreference.edit ? (
+                    <span className={`${commonStyles.editorIcon} ${commonStyles.aligned}`}>
                         <FormOutlined onClick={addJobPreference} />
                     </span>
-                )}
+                ) : null}
             </div>
             {jobPreference.edit && (
                 <div className={commonStyles.addNew}>
@@ -219,7 +219,7 @@ const ProfileJobPreference = props => {
                 </div>
             )}
             {!jobPreference.edit && (
-                <div className={hasValues(jobPreference) ? commonStyles.addMore : ""}>
+                <div className={hasValues(jobPreference) ? commonStyles.addMore : commonStyles.addNewRecord}>
                     <Button
                         type="primary"
                         shape="circle"

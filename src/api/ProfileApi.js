@@ -33,6 +33,10 @@ export const saveProfileImage = async (profileImage, token) => {
     return saveData('profileimage', profileImage, token);
 };
 
+export const saveProfileName = async (profileName, token) => {
+    return saveData('name', profileName, token);
+};
+
 const saveData = async (key, value, token) => {
     const ReqConfig = {
         headers: {

@@ -1,16 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as styles from "./ProfileMeta.module.css";
 import * as commonStyles from "../ProfilePage.module.css";
 import { PlusOutlined, FormOutlined, CameraFilled } from "@ant-design/icons";
-import { Upload, message, Button } from "antd";
+import { Upload, message, Button, Input } from "antd";
 import config from "../../../../util/config";
-import { saveProfileImage } from "../../../../api/ProfileApi";
+import { saveProfileImage, saveProfileName } from "../../../../api/ProfileApi";
 
 const ProfileMeta = props => {
-    const updateProfile = imageUrl => {
-        saveProfileImage({ profileImage: imageUrl }, props.token);
+    const [edit, setEditMode] = useState(false);
+    const [name, setName] = useState(props.name);
+    const [showNameError, setShowNameError] = useState(false);
+
+    useEffect(() => {
+        if (!edit) {
+            setName(props.name);
+        }
+    }, [props.name]);
+
+    const updateProfileImageUrl = async imageUrl => {
+        const response = await saveProfileImage({ profileImage: imageUrl }, props.token);
         props.endLoad();
-        message.success("Profile image updated");
+        if (response && response.data) {
+            props.updateProfile(response.data);
+            message.success("Profile image updated");
+        } else {
+            message.error("Error updating profile image");
+        }
+    };
+
+    const updateProfileName = async () => {
+        if (name) {
+            setShowNameError(false);
+            props.startLoad();
+            const response = await saveProfileName({ name }, props.token);
+            props.endLoad();
+            if (response && response.data) {
+                props.updateProfile(response.data);
+                message.success("Name updated");
+            } else {
+                message.error("Error updating name");
+            }
+        } else {
+            setShowNameError(true);
+        }
     };
 
     const fileUploadProps = {
@@ -25,7 +57,7 @@ const ProfileMeta = props => {
         onChange(info) {
             if (info.file.status === "done") {
                 const { response } = info.file;
-                updateProfile(response.payload.file);
+                updateProfileImageUrl(response.payload.file);
             } else if (info.file.status === "error") {
                 message.error("Error uploading the file");
                 props.endLoad();
@@ -64,11 +96,49 @@ const ProfileMeta = props => {
                     </Upload>
                 </div>
             </div>
-            <div>
-                <span className={styles.name}>{props.name} &nbsp; </span>
-                <span className={commonStyles.editorIconSmall}>
-                    <FormOutlined />
-                </span>
+            <div className={styles.name}>
+                {!edit ? (
+                    <>
+                        <span
+                            onDoubleClick={() => {
+                                setEditMode(true);
+                            }}
+                        >
+                            {props.name}
+                        </span>
+                        {/* <span className={commonStyles.editorIconSmall}>
+                            <FormOutlined
+                                onClick={() => {
+                                    setEditMode(true);
+                                }}
+                            />
+                        </span> */}
+                    </>
+                ) : (
+                    <Input
+                        value={name}
+                        onBlur={() => {
+                            setEditMode(false);
+                            updateProfileName();
+                        }}
+                        onKeyUp={event => {
+                            if (event.keyCode === 13 || event.keycode === 13) {
+                                event.preventDefault();
+                                updateProfileName();
+                                setEditMode(false);
+                            }
+                        }}
+                        onChange={event => {
+                            setName(event.target.value);
+                            if (event.target.value) {
+                                setShowNameError(false);
+                            } else {
+                                setShowNameError(true);
+                            }
+                        }}
+                        style={showNameError ? { border: "1px solid red" } : {}}
+                    ></Input>
+                )}
             </div>
             <span className={styles.email}>{props.email}</span>
         </div>

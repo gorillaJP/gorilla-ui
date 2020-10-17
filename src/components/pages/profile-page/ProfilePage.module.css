@@ -1,5 +1,6 @@
 .profilePage {
     background-color: #fff;
+    padding-bottom: 30px;
 }
 
 .profileFlex,
@@ -38,8 +39,9 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    border: 1px solid #3f3f3f;
-    padding: 15px;
+    border: 1px solid #d1d1d1;
+    padding: 15px 15px 30px 15px;
+    box-shadow: 2px 2px 5px 0px rgba(189, 189, 189, 1);
 }
 
 .sectionWrapper button {
@@ -69,6 +71,7 @@
     font-size: 16px;
     font-weight: 600;
     float: right;
+    margin-left: 10px;
 }
 
 .editorIcon {
@@ -76,6 +79,10 @@
     font-size: 25px;
     font-weight: 600;
     float: right;
+}
+
+.editorIcon.aligned {
+    margin-right: 20px;
 }
 
 .detailBlock {
@@ -95,7 +102,11 @@
     align-self: flex-end;
 }
 
-.addMore {
+.addMore,
+.addNewRecord {
+    flex-grow: 1;
+    width: 100%;
+    padding-left: 40%;
 }
 
 .addNew {
@@ -160,5 +171,12 @@
 @media only screen and (max-width: 1023px) {
     .profileFlex {
         flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .addNewRecord,
+    .addNew {
+        padding-left: 35%;
     }
 }

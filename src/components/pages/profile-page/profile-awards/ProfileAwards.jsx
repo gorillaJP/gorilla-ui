@@ -221,7 +221,7 @@ const ProfileAward = props => {
                         </>
                     );
                 })}
-            <div className={awards && awards.length ? commonStyles.addMore : ""}>
+            <div className={awards && awards.length ? commonStyles.addMore : commonStyles.addNewRecord}>
                 <Button
                     type="primary"
                     shape="circle"

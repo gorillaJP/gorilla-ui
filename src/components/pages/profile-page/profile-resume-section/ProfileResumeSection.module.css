@@ -5,6 +5,13 @@
     font-weight: bold;
 }
 
-.buildResume {
+.subHeader {
+    margin-bottom: 5px;
     text-align: center;
+}
+
+.button {
+    max-width: 300px;
+    width: -webkit-fill-available;
+    width: -moz-available;
 }

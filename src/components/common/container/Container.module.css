@@ -1,6 +1,16 @@
 .container {
-    padding-right: 100px;
-    padding-left: 100px;
+    padding-right: 130px;
+    padding-left: 130px;
+}
+
+@media only screen and (min-device-width: 1366px) {
+    .container {
+        padding-left: unset;
+        padding-right: unset;
+        width: 1250px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape) {

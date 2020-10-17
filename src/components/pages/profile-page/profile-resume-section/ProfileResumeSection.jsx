@@ -9,23 +9,26 @@ const ProfileResumeSection = props => {
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Resume</span>
-                {props.resumes && props.resumes.length && (
-                    <span className={commonStyles.editorIcon}>
+                {props.resumes && props.resumes.length ? (
+                    <span className={`${commonStyles.editorIcon} ${commonStyles.aligned}`}>
                         <FormOutlined />
                     </span>
-                )}
+                ) : null}
             </div>
-            <span>Upload your resume</span>
-            <Button type="primary" block>
-                Upload Resume
-            </Button>
+            <span className={styles.subHeader}>Upload your resume</span>
+            <div className={styles.button}>
+                <Button type="primary" block>
+                    Upload Resume
+                </Button>
+            </div>
+
             <Divider>Text</Divider>
-            <div className={styles.buildResume}>
-                Don't have a resume ? We are here to help you. Build one in 3 steps
+            <div className={styles.subHeader}>Don't have a resume ? We are here to help you. Build one in 3 steps</div>
+            <div className={styles.button}>
+                <Button type="primary" block>
+                    Build my resume
+                </Button>
             </div>
-            <Button type="primary" block>
-                Build my resume
-            </Button>
         </div>
     );
 };

@@ -255,7 +255,7 @@ const ProfileWorkExperience = props => {
                         </>
                     );
                 })}
-            <div className={experiences && experiences.length ? commonStyles.addMore : ""}>
+            <div className={experiences && experiences.length ? commonStyles.addMore : commonStyles.addNewRecord}>
                 <Button
                     type="primary"
                     shape="circle"
