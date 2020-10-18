@@ -13,7 +13,7 @@ const SuccessLogin = props => {
     });
 
     if (props.token) {
-        return <RedirectTo to="/" />;
+        return <RedirectTo to="" />;
     } else {
         return null;
     }
