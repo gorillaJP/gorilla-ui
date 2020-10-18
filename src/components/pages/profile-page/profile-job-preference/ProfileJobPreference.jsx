@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
-import { Button, DatePicker, Input, Select } from "antd";
+import { Button, DatePicker, Input, Select, message } from "antd";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
 import * as styles from "./ProfileJobPreference.module.css";
 import FormLabel from "../../../common/form-label/FormLabel";
@@ -49,8 +49,9 @@ const ProfileJobPreference = props => {
             if (response && response.data) {
                 setJobPreference({ ...jobPreference, edit: false, showError: false });
                 props.updateProfile(response.data);
+                message.success("Successfully updated job preferences");
             } else {
-                // TODO : show error
+                message.error("Error updating job preferences");
             }
         } else {
             props.endLoad();
@@ -87,11 +88,11 @@ const ProfileJobPreference = props => {
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Job Preference</span>
-                {hasValues(jobPreference) && !jobPreference.edit && (
-                    <span className={commonStyles.editorIcon}>
+                {hasValues(jobPreference) && !jobPreference.edit ? (
+                    <span className={`${commonStyles.editorIcon} ${commonStyles.aligned}`}>
                         <FormOutlined onClick={addJobPreference} />
                     </span>
-                )}
+                ) : null}
             </div>
             {jobPreference.edit && (
                 <div className={commonStyles.addNew}>
@@ -218,7 +219,7 @@ const ProfileJobPreference = props => {
                 </div>
             )}
             {!jobPreference.edit && (
-                <div className={hasValues(jobPreference) ? commonStyles.addMore : ""}>
+                <div className={hasValues(jobPreference) ? commonStyles.addMore : commonStyles.addNewRecord}>
                     <Button
                         type="primary"
                         shape="circle"

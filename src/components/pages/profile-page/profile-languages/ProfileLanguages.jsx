@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
 import * as styles from "./ProfileLanguages.module.css";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Row, Col } from "antd";
+import { Button, Checkbox, Row, Col, message } from "antd";
 import { saveLanguages } from "../../../../api/ProfileApi";
 
 const ProfileLanguages = props => {
@@ -38,8 +38,9 @@ const ProfileLanguages = props => {
         if (response && response.data) {
             props.updateProfile(response.data);
             setEdit(false);
+            message.success("Languages updated");
         } else {
-            // TODO : show error
+            message.error("Error updating languages");
         }
     };
 
@@ -47,11 +48,11 @@ const ProfileLanguages = props => {
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Languages</span>
-                {!edit && props.languages && props.languages.length && (
-                    <span className={commonStyles.editorIcon}>
+                {!edit && props.languages && props.languages.length ? (
+                    <span className={`${commonStyles.editorIcon} ${commonStyles.aligned}`}>
                         <FormOutlined onClick={enableEdit} />
                     </span>
-                )}
+                ) : null}
             </div>
             {!edit && (
                 <div className={commonStyles.detailBlock}>
@@ -88,7 +89,11 @@ const ProfileLanguages = props => {
             )}
 
             {!edit && (
-                <div className={props.languages && props.languages.length ? commonStyles.addMore : ""}>
+                <div
+                    className={
+                        props.languages && props.languages.length ? commonStyles.addMore : commonStyles.addNewRecord
+                    }
+                >
                     <Button type="primary" shape="circle" icon={<PlusOutlined />} size="large" />
                     <span className={commonStyles.textButton}>
                         <Button type="link" onClick={enableEdit}>{`Add ${

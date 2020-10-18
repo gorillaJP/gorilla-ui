@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
 import * as styles from "./ProfileWorkExperience.module.css";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
-import { Button, Divider } from "antd";
+import { Button, Divider, message } from "antd";
 import moment from "moment";
 
 import { saveExperience, deleteExperience } from "../../../../api/ProfileApi";
@@ -95,8 +95,9 @@ const ProfileWorkExperience = props => {
                 newExperiencesArray.splice(currentIndex, 1);
                 setExperiences(newExperiencesArray);
             }
+            message.success("Work experience deleted");
         } else {
-            // Show error
+            message.error("Error deleting work experience");
         }
     };
 
@@ -254,7 +255,7 @@ const ProfileWorkExperience = props => {
                         </>
                     );
                 })}
-            <div className={experiences && experiences.length ? commonStyles.addMore : ""}>
+            <div className={experiences && experiences.length ? commonStyles.addMore : commonStyles.addNewRecord}>
                 <Button
                     type="primary"
                     shape="circle"

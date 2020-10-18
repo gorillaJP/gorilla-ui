@@ -22,11 +22,19 @@ export const savePersonalDetails = async (personalDetails, token) => {
 };
 
 export const saveJobPreference = async (jobPreference, token) => {
-    return saveData('jobPreference', jobPreference, token);
+    return saveData('jobpreference', jobPreference, token);
 };
 
 export const saveAward = async (award, token) => {
     return saveData('award', award, token);
+};
+
+export const saveProfileImage = async (profileImage, token) => {
+    return saveData('profileimage', profileImage, token);
+};
+
+export const saveProfileName = async (profileName, token) => {
+    return saveData('name', profileName, token);
 };
 
 const saveData = async (key, value, token) => {

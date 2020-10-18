@@ -149,13 +149,15 @@ const HeaderComp = props => {
                             </div>
                         </div>
                         <div className={styles.header}>
-                            <span className={styles.submenu}>Search Jobs</span>
-                            <span className={styles.submenu}>Industries</span>
-                            <span className={styles.submenu}>Locations</span>
-                            <span className={styles.submenu}>Companies</span>
-                            <Dropdown overlay={LinkDropDownContent(moreJobs, this)}>
-                                <span className={styles.submenu}>More</span>
-                            </Dropdown>
+                            <div className={styles.subMenuWrapper}>
+                                <span className={styles.submenu}>Search Jobs</span>
+                                <span className={styles.submenu}>Industries</span>
+                                <span className={styles.submenu}>Locations</span>
+                                <span className={styles.submenu}>Companies</span>
+                                <Dropdown overlay={LinkDropDownContent(moreJobs, this)}>
+                                    <span className={styles.submenu}>More</span>
+                                </Dropdown>
+                            </div>
                         </div>
                         {!props.userLoggeIn && (
                             <div className={styles.actionButtons}>
@@ -188,7 +190,7 @@ const HeaderComp = props => {
                         {props.userLoggeIn && (
                             <div className={styles.actionButtons}>
                                 <SettingOutlined className={styles.settingsIcon} />
-                                <Avatar size={60} icon={<UserOutlined />} />
+                                <Avatar size={50} icon={<UserOutlined />} />
                                 <Dropdown
                                     overlay={UserProfileDropDownContent({ logOut: props.actions.logOut })}
                                     className={styles.userMenu}

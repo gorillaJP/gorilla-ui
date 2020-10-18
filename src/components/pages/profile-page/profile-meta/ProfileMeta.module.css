@@ -3,14 +3,42 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 70px;
+    margin-top: 30px;
+}
+
+.profileImageContainer {
+    width: 188px;
+    height: 188px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #1e1e1e6e;
+    z-index: 1000;
+    padding: 3px;
 }
 
 .profileImage {
-    width: 180px;
-    height: 180px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 50%;
+}
+
+.uploadBtn {
+    display: block;
+    position: relative;
+}
+
+.uploadBtn button {
+    border: none;
+    border-radius: 50%;
+    box-shadow: none;
+    background-color: #dbdbdb;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: -50px;
+    right: 0;
+    z-index: 900;
 }
 
 .name,
@@ -18,4 +46,5 @@
     color: #0073b1;
     font-size: 16px;
     margin-top: 10px;
+    height: 32px;
 }

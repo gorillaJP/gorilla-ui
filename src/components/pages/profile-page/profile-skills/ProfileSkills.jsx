@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as commonStyles from "../ProfilePage.module.css";
 import * as styles from "./ProfileSkills.module.css";
-import { Button, Select } from "antd";
+import { Button, Select, message } from "antd";
 import { PlusOutlined, FormOutlined } from "@ant-design/icons";
 import SkillList from "../../../common/skill-list/SkillList";
 import { saveSkills } from "../../../../api/ProfileApi";
@@ -22,8 +22,9 @@ const ProfileSkills = props => {
         if (response && response.data) {
             props.updateProfile(response.data);
             setEditMode(false);
+            message.success("Skills updated");
         } else {
-            // TODO : show error
+            message.error("Error updating skills");
         }
     };
 
@@ -42,16 +43,16 @@ const ProfileSkills = props => {
         <div className={commonStyles.sectionWrapper}>
             <div className={commonStyles.header}>
                 <span className={commonStyles.headerText}>Skills</span>
-                {!editMode && props.skills && props.skills.length && (
+                {!editMode && props.skills && props.skills.length ? (
                     <span
-                        className={commonStyles.editorIcon}
+                        className={`${commonStyles.editorIcon} ${commonStyles.aligned}`}
                         onClick={() => {
                             setEditMode(!editMode);
                         }}
                     >
                         <FormOutlined />
                     </span>
-                )}
+                ) : null}
             </div>
             {!editMode ? (
                 <div className={commonStyles.detailBlock}>{skills && <SkillList skills={skills} outLined />}</div>
@@ -92,7 +93,7 @@ const ProfileSkills = props => {
                 </div>
             )}
             {!editMode && (
-                <div className={props.languages && props.languages.length ? commonStyles.addMore : ""}>
+                <div className={props.skills && props.skills.length ? commonStyles.addMore : commonStyles.addNewRecord}>
                     <Button
                         type="primary"
                         shape="circle"
