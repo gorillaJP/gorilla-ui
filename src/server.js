@@ -37,7 +37,7 @@ app.use((request, response, next) => {
 });
 
 app.use(express.static('build'));
-app.use(express.static('/apps/images/gorilla.lk'));
+app.use(express.static('/apps/files/gorilla.lk'));
 
 app.disable('etag');
 
