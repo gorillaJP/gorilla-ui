@@ -189,6 +189,12 @@
     height: 80px !important;
 }
 
+.mobileMenuItem.userDetails i::after,
+.mobileMenuItem.userDetails i::before {
+    font-size: 16px;
+    background: white !important;
+}
+
 .mobileMenuItem div {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
@@ -231,7 +237,13 @@
 
 .userName {
     color: #ffffff;
+    font-size: 16px;
     margin-left: 20px;
+    line-height: 56px;
+}
+
+.disabledLink {
+    cursor: default !important;
 }
 
 @media only screen and (min-device-width: 1024px) {

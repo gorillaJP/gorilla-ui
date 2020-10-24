@@ -4,6 +4,7 @@ import { USERPROFILE, TOKEN } from '../constants/AppConstants';
 import { clearSessionStorage } from '../api/SessionStorage';
 import * as UserApi from '../api/UserApi';
 import { useLocation } from 'react-router-dom';
+import { loadingStarted, loadingFinished } from './CommonActions';
 
 export const setAccessToken = token => {
     return {
@@ -52,7 +53,9 @@ export const signInWithToken = token => {
 
 export const logOut = token => {
     return async dispatch => {
+        dispatch(loadingStarted());
         const response = await UserApi.logout(token);
+        dispatch(loadingFinished());
         if (response.data) {
             clearLocalStorage(TOKEN);
             clearSessionStorage(TOKEN);
