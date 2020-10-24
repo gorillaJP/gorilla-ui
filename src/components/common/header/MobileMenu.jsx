@@ -71,6 +71,17 @@ const MobileMenu = props => {
                             </Menu.Item>
                         );
                     })}
+
+                    <Menu.Item key="logout" className={styles.subMenuItem}>
+                        <Link
+                            onClick={e => {
+                                e.preventDefault();
+                                props.userLogout(props.token);
+                            }}
+                        >
+                            Log Out
+                        </Link>
+                    </Menu.Item>
                 </SubMenu>
             )}
             <Menu.Item key="job-search" className={styles.mobileMenuItem}>
