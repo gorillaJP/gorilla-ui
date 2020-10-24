@@ -38,6 +38,26 @@ export const signIn = async signInDetails => {
         });
 };
 
+export const logout = async token => {
+    const ReqConfig = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+    return await axios
+        .get(config.remote + 'api/logout', ReqConfig)
+        .then(res => {
+            return {
+                data: res
+            };
+        })
+        .catch(e => {
+            return {
+                error: e.response.data.payload
+            };
+        });
+};
+
 export const signInWithToken = async token => {
     const ReqConfig = {
         headers: {

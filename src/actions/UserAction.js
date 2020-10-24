@@ -50,14 +50,17 @@ export const signInWithToken = token => {
     };
 };
 
-export const logOut = () => {
-    return dispatch => {
-        clearLocalStorage(TOKEN);
-        clearSessionStorage(TOKEN);
-        clearLocalStorage(USERPROFILE);
-        clearSessionStorage(USERPROFILE);
-        dispatch(clearProfile());
-        dispatch(clearToken());
+export const logOut = token => {
+    return async dispatch => {
+        const response = await UserApi.logout(token);
+        if (response.data) {
+            clearLocalStorage(TOKEN);
+            clearSessionStorage(TOKEN);
+            clearLocalStorage(USERPROFILE);
+            clearSessionStorage(USERPROFILE);
+            dispatch(clearProfile());
+            dispatch(clearToken());
+        }
     };
 };
 

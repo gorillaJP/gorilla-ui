@@ -118,7 +118,7 @@ const HeaderComp = props => {
     const history = useHistory();
 
     const [previousPathName, setPreviousPathName] = useState("/");
-    const { domain, userProfile } = props;
+    const { domain, userProfile, token } = props;
 
     useEffect(() => {
         if (previousPathName !== location.pathname) {
@@ -192,7 +192,7 @@ const HeaderComp = props => {
                                 <SettingOutlined className={styles.settingsIcon} />
                                 <Avatar size={50} icon={<UserOutlined />} />
                                 <Dropdown
-                                    overlay={UserProfileDropDownContent({ logOut: props.actions.logOut })}
+                                    overlay={UserProfileDropDownContent({ logOut: props.actions.logOut(token) })}
                                     className={styles.userMenu}
                                 >
                                     <span className={styles.submenu}>{userProfile.firstname}</span>
@@ -225,6 +225,8 @@ const HeaderComp = props => {
                     <div className={`${styles.rightMenu} ${props.mobileMenuOpen ? styles.opened : ""}`}>
                         <MobileMenu
                             userLoggeIn={props.userLoggeIn}
+                            userLogout={props.actions.logOut}
+                            token={token}
                             moreJobs={moreJobs}
                             profileLinks={profileLinks}
                             userName={userProfile.firstname}
@@ -248,7 +250,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        domain: state.metaData.domain
+        domain: state.metaData.domain,
+        token: state.authData.token
     };
 };
 
