@@ -9,3 +9,4 @@ services:
             - /apps/logs/web:/app/log:rw
             - /apps/certs/gorilla.lk:/apps/certs/gorilla.lk
             - /apps/images/gorilla.lk:/apps/images/gorilla.lk:rw
+            - /apps/files/gorilla.lk:/apps/files/gorilla.lk:rw
