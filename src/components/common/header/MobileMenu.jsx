@@ -14,6 +14,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUserDomain } from "../../../actions/MetaActions";
 import { EMPLOYEE, EMPLOYER } from "../../../constants/AppConstants";
+import config from "../../../util/config";
+import { getInitials } from "../../../util/Util";
 
 const { SubMenu } = Menu;
 
@@ -27,6 +29,7 @@ const MobileMenu = props => {
             mode="inline"
             inlineCollapsed={props.collapsed}
             className={`${props.opened ? styles.opened : ""}`}
+            theme="light"
         >
             {!props.userLoggeIn && (
                 <Menu.Item
@@ -58,7 +61,11 @@ const MobileMenu = props => {
                     key="user-details"
                     title={
                         <span>
-                            <Avatar size={64} icon={<UserOutlined />} />
+                            {props.profile.profileImage ? (
+                                <Avatar size={50} src={config.remote + props.profile.profileImage} />
+                            ) : (
+                                <Avatar size={50}>{getInitials(props.profile.name)}</Avatar>
+                            )}
                             <span className={styles.userName}>{props.userName}</span>
                         </span>
                     }
@@ -71,6 +78,17 @@ const MobileMenu = props => {
                             </Menu.Item>
                         );
                     })}
+
+                    <Menu.Item key="logout" className={styles.subMenuItem}>
+                        <Link
+                            onClick={e => {
+                                e.preventDefault();
+                                props.userLogout(props.token);
+                            }}
+                        >
+                            Log Out
+                        </Link>
+                    </Menu.Item>
                 </SubMenu>
             )}
             <Menu.Item key="job-search" className={styles.mobileMenuItem}>

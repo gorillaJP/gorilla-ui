@@ -15,6 +15,8 @@ import { bindActionCreators } from "redux";
 import { setUserDomain } from "../../../actions/MetaActions";
 import { connect } from "react-redux";
 import { logOut } from "../../../actions/UserAction";
+import config from "../../../util/config";
+import { getInitials } from "../../../util/Util";
 
 const moreJobs = [
     {
@@ -71,9 +73,14 @@ const profileLinks = [
 ];
 
 const UserProfileDropDownContent = props => {
-    const { logOut } = props;
+    const { logOut, token, profile } = props;
     return (
         <Menu>
+            <Menu.Item key="username" className={styles.disabledLink}>
+                <Link className={styles.linkDropDown} disabled>
+                    {profile.name}
+                </Link>
+            </Menu.Item>
             {profileLinks.map((item, i) => {
                 return (
                     <Menu.Item key={i}>
@@ -87,7 +94,7 @@ const UserProfileDropDownContent = props => {
                 <Link
                     className={styles.linkDropDown}
                     onClick={() => {
-                        logOut();
+                        logOut(token);
                     }}
                 >
                     Log Out
@@ -118,7 +125,7 @@ const HeaderComp = props => {
     const history = useHistory();
 
     const [previousPathName, setPreviousPathName] = useState("/");
-    const { domain, userProfile } = props;
+    const { domain, profile, token } = props;
 
     useEffect(() => {
         if (previousPathName !== location.pathname) {
@@ -190,12 +197,19 @@ const HeaderComp = props => {
                         {props.userLoggeIn && (
                             <div className={styles.actionButtons}>
                                 <SettingOutlined className={styles.settingsIcon} />
-                                <Avatar size={50} icon={<UserOutlined />} />
                                 <Dropdown
-                                    overlay={UserProfileDropDownContent({ logOut: props.actions.logOut })}
+                                    overlay={UserProfileDropDownContent({
+                                        logOut: props.actions.logOut,
+                                        token,
+                                        profile
+                                    })}
                                     className={styles.userMenu}
                                 >
-                                    <span className={styles.submenu}>{userProfile.firstname}</span>
+                                    {props.profile.profileImage ? (
+                                        <Avatar size={50} src={config.remote + props.profile.profileImage} />
+                                    ) : (
+                                        <Avatar size={50}>{getInitials(props.profile.name)}</Avatar>
+                                    )}
                                 </Dropdown>
                             </div>
                         )}
@@ -225,9 +239,12 @@ const HeaderComp = props => {
                     <div className={`${styles.rightMenu} ${props.mobileMenuOpen ? styles.opened : ""}`}>
                         <MobileMenu
                             userLoggeIn={props.userLoggeIn}
+                            userLogout={props.actions.logOut}
+                            token={token}
+                            profile={props.profile}
                             moreJobs={moreJobs}
                             profileLinks={profileLinks}
-                            userName={userProfile.firstname}
+                            userName={profile.name}
                             opened={props.mobileMenuOpen}
                         />
                     </div>
@@ -248,7 +265,9 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        domain: state.metaData.domain
+        domain: state.metaData.domain,
+        token: state.authData.token,
+        profile: state.authData.profile
     };
 };
 
