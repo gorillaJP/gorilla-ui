@@ -18,7 +18,7 @@ import EmployeeSignup from "./components/pages/signup/employee/EmployeeSignup";
 import Signup from "./components/pages/signup/Signup";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUserProfile } from "./actions/UserAction";
+import { setAccessToken, setUserProfile } from "./actions/UserAction";
 import SuccessLogin from "./components/pages/signin/SuccessLogin";
 import ProfilePage from "./components/pages/profile-page/ProfilePage";
 
@@ -36,18 +36,28 @@ const App = props => {
     const { userProfile } = props;
     const [mobileMenuOpen, toggleMobileMenu] = useState(false);
     const [userLoggeIn, setUserLoggedIn] = useState(false);
+
     useEffect(() => {
         let userProfile = getSessionStorage("userprofile");
+        let token = getSessionStorage("token");
 
         if (!userProfile) {
             userProfile = getLocalStorage("userprofile");
+            token = getLocalStorage("token");
         }
 
-        if (userProfile) {
+        if (userProfile && token) {
             props.actions.setUserProfile(JSON.parse(userProfile));
+            props.actions.setAccessToken(token);
             setUserLoggedIn(true);
         }
     }, [props.actions]);
+
+    useEffect(() => {
+        if (!props.token) {
+            setUserLoggedIn(false);
+        }
+    }, [props.token]);
 
     return (
         <Layout className={styles.app}>
@@ -98,14 +108,16 @@ const App = props => {
 
 const mapStateToProps = state => {
     return {
-        userProfile: state.authData.profile
+        userProfile: state.authData.profile,
+        token: state.authData.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         actions: {
-            setUserProfile: bindActionCreators(setUserProfile, dispatch)
+            setUserProfile: bindActionCreators(setUserProfile, dispatch),
+            setAccessToken: bindActionCreators(setAccessToken, dispatch)
         }
     };
 };

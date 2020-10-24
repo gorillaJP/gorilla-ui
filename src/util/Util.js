@@ -38,6 +38,17 @@ export const isValidContactNumber = contactnumber => {
     return false;
 };
 
+export const getInitials = name => {
+    const nameArray = name.split(' ');
+    const initialsArray = nameArray.map(namePart => {
+        return namePart[0] ? namePart[0] : '';
+    });
+
+    const initials = initialsArray.join(initialsArray);
+    const returnString = initials.length >= 2 ? initials.substring(0, 2) : initials[0];
+    return returnString.toUpperCase();
+};
+
 export const validatePassword = password => {
     let validationMessage = [];
     if (/^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.{6,})/.test(password)) {
