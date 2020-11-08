@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Carousel, Col } from "antd";
 
 import SimpleJobSearch from "../../common/job-search/simple-search/SimpleJobSearch";
@@ -13,9 +13,13 @@ import config from "../../../util/config";
 import { setSelectedJobId, updateSearchParam } from "../../../actions/JobActions";
 import { useHistory } from "react-router-dom";
 import JobPostMessageCard from "../../common/cards/job-post-message-card/JobPostMessageCard";
+import { useWindowWidth } from "../../../custom-hooks/UseWindowWidth";
 
 const LandingPage = props => {
     const history = useHistory();
+    const windowWidth = useWindowWidth();
+
+    const [slidesToShow, setSlidesToShow] = useState(10);
 
     useEffect(() => {
         props.actions.getTopHiringCompanies();
@@ -23,6 +27,23 @@ const LandingPage = props => {
         props.actions.getJobsByCategory();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.actions]);
+
+    useEffect(() => {
+        if (windowWidth < 1200) {
+            if (windowWidth < 400) {
+                setSlidesToShow(2);
+            } else if (windowWidth < 490) {
+                setSlidesToShow(3);
+            } else if (windowWidth < 768) {
+                setSlidesToShow(4);
+            } else if (windowWidth < 1024) {
+                setSlidesToShow(6);
+            } else {
+                setSlidesToShow(8);
+            }
+        }
+    }, [windowWidth]);
+
     return (
         <div className={styles.homepageWrapper}>
             <div className={styles.searchBoxWrapper} style={{ backgroundImage: `url(${LandingPageCoverImage})` }}>
@@ -34,7 +55,16 @@ const LandingPage = props => {
             </div>
             <Container>
                 <div className={styles.carouselContainer}>
-                    <Carousel slidesToShow={10} swipeToSlide swipe infinite accessibility arrows autoplay>
+                    <Carousel
+                        slidesToShow={slidesToShow}
+                        swipeToSlide
+                        swipe
+                        infinite
+                        accessibility
+                        arrows
+                        autoplay
+                        frameOverflow="hidden"
+                    >
                         {props.topHiringCompanies &&
                             props.topHiringCompanies.map(company => {
                                 return (

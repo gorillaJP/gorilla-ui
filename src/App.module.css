@@ -40,3 +40,21 @@
         display: none;
     }
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #0073b126;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #0073b1;
+    border-radius: 10px;
+    cursor: pointer;
+}
