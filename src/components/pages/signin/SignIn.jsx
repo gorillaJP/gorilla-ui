@@ -213,7 +213,8 @@ const SignIn = props => {
                                         New to Gorilla? <Link to="/signup">Join now!</Link>
                                     </p>
                                     <p className={styles.footerMessage}>
-                                        Are you looking for jobs? <Link to="/job-details">Start finding now!</Link>
+                                        Are you looking for jobs ?
+                                        <Link to="/job-details/search">Start finding now!</Link>
                                     </p>
                                 </>
                             )}

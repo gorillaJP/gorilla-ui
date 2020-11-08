@@ -76,7 +76,7 @@ const LandingPage = props => {
                                                 };
                                                 props.actions.updateSearchParam(newSearchParam);
                                                 props.actions.setSelectedJobId(job._id);
-                                                history.push("/job-details");
+                                                history.push("/job-details/search");
                                             }}
                                         />
                                     );

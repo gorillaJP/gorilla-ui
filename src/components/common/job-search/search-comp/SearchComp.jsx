@@ -10,7 +10,7 @@ import { searchJobs, updateSearchParam } from "../../../../actions/JobActions";
 import HighLightedText from "../../highlighted-text/HighLightedText";
 import { sectorAutoComplete } from "../../../../api/AutoCompleteApi";
 import styles from "./SearchComp.module.css";
-import { debounce } from "../../../../util/Util";
+import { debounce, areEqualArrays } from "../../../../util/Util";
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -23,21 +23,49 @@ const SearchComp = props => {
 
     /** Keep temp typed values */
     const [tempData, setTempData] = useState({
-        location: "",
-        category: props.searchParams.q,
-        type: props.searchParams.type
+        location: props.searchParams.location || [],
+        category: props.searchParams.q || "",
+        type: props.searchParams.type || []
     });
+
+    /** Keep temp typed values */
+    const [openedState, setOpenedState] = useState(props.expand || false);
+
+    // Category contains the job titles, engineer, technician etc
+    const [categorySuggestion, setCategorySuggestion] = useState([]);
+
+    // update state in initial load
+    useEffect(() => {
+        setTempData({
+            location: props.searchParams.location,
+            category: props.searchParams.q || "",
+            type: props.searchParams.type
+        });
+    }, [props.searchParams]);
+
+    //The search API should be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a search button click is needed)
+    useEffect(() => {
+        searchJobs(props.searchParams);
+    }, [props.searchParams]); //search query should not be triggered auto for fuzzy search changers
 
     // OnChange handler to update states of the fields
     const onChangeSearchField = (field, value) => {
         const newSearchParam = { [field]: value };
-        props.actions.updateSearchParam(newSearchParam);
+        if (
+            field === "q" ||
+            (field === "type" && !areEqualArrays(value, tempData.type)) ||
+            (field === "location" && !areEqualArrays(value, tempData.location))
+        ) {
+            props.actions.updateSearchParam(newSearchParam);
+            if (field === "q") {
+                field = "category";
+            }
+
+            setTempData({ ...tempData, [field]: value });
+        }
     };
 
     const debounceSearchField = useCallback(debounce(onChangeSearchField, 400), []);
-
-    /** Keep temp typed values */
-    const [openedState, setOpenedState] = useState(props.expand || false);
 
     /** enter button  triggers, search actions. This is for fuzzy search*/
     const onKeyPress = event => {
@@ -45,15 +73,6 @@ const SearchComp = props => {
             searchJobs(props.searchParams);
         }
     };
-
-    //The search API sohuld be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a search button click is needed)
-
-    useEffect(() => {
-        searchJobs(props.searchParams);
-    }, [props.searchParams, searchJobs]); //search query should not be triggered auto for fuzzy search changers
-
-    // Category contains the job titles, engineer, technician etc
-    const [categorySuggestion, setCategorySuggestion] = useState([]);
 
     const metaCityOptions = [{ name: "All Cities" }, ...props.metaCities]
         .filter(e => e && e.name)
@@ -70,7 +89,12 @@ const SearchComp = props => {
     const searchBoxStyleObj = useCallback(
         componentNo => {
             if ((componentNo === 1 && fromHomePage) || (fromHomePage && openedState)) {
-                return { paddingTop: "2px", paddingBottom: "2px", width: "100%", borderRadius: "0" };
+                return {
+                    paddingTop: "2px",
+                    paddingBottom: "2px",
+                    width: "100%",
+                    borderRadius: "0"
+                };
             }
 
             if (componentNo !== 1 && !openedState) {
@@ -133,7 +157,9 @@ const SearchComp = props => {
                     //DUPLICATE CALL HERE. WHEN A VLAUE IS SELECED FROM LIST. SAGA CAN BE USED TO AVOID THIS ( but here call goes with the typed value. Not the selected vlaue)
                     onDropdownVisibleChange={isClosed => {
                         if (isClosed === false) {
-                            searchJobs(props.searchParams);
+                            if (props.searchParams.q !== tempData.category) {
+                                searchJobs(props.searchParams);
+                            }
                             //debounceSearchField("q", tempData.category, true);
                         }
                     }}
@@ -158,9 +184,7 @@ const SearchComp = props => {
                     }}
                     style={searchBoxStyleObj(2)}
                     size="large"
-                    onSearch={value => {
-                        setTempData({ ...tempData, location: value });
-                    }}
+                    value={tempData.location}
                 >
                     {[...metaCityOptions]}
                 </Select>
@@ -175,9 +199,7 @@ const SearchComp = props => {
                     onChange={val => {
                         onChangeSearchField("type", val);
                     }}
-                    onSearch={value => {
-                        setTempData({ ...tempData, type: value });
-                    }}
+                    value={tempData.type}
                     size="large"
                 >
                     <Option value="All Types">
@@ -203,8 +225,8 @@ const SearchComp = props => {
                         searchJobs(props.searchParams);
 
                         // If the page is not job-details/search navigate to search page
-                        if (location.pathname !== "/job-details") {
-                            history.push("/job-details");
+                        if (location.pathname !== "/job-details/search") {
+                            history.push("/job-details/search");
                         }
                     }}
                     size="large"

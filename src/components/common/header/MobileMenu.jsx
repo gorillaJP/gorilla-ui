@@ -63,8 +63,10 @@ const MobileMenu = props => {
                         <span>
                             {props.profile.profileImage ? (
                                 <Avatar size={50} src={config.remote + props.profile.profileImage} />
-                            ) : (
+                            ) : props.profile.name ? (
                                 <Avatar size={50}>{getInitials(props.profile.name)}</Avatar>
+                            ) : (
+                                <Avatar size={50} icon={<UserOutlined />} />
                             )}
                             <span className={styles.userName}>{props.userName}</span>
                         </span>

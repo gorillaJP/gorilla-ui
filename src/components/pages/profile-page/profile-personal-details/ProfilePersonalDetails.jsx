@@ -7,6 +7,7 @@ import FormLabel from "../../../common/form-label/FormLabel";
 import moment from "moment";
 import TextArea from "antd/lib/input/TextArea";
 import { savePersonalDetails } from "../../../../api/ProfileApi";
+import { hasValuesInObject } from "../../../../util/Util";
 
 const { Option } = Select;
 const dateFormat = "YYYY/MM/DD";
@@ -57,16 +58,7 @@ const ProfilePersonalDetails = props => {
     };
 
     const hasValues = personalDetails => {
-        let hasValues = false;
-        const values = Object.values(personalDetails);
-
-        for (const value of values) {
-            if (value) {
-                hasValues = true;
-                break;
-            }
-        }
-        return hasValues;
+        return hasValuesInObject(personalDetails);
     };
 
     const enableEdit = () => {
@@ -193,7 +185,7 @@ const ProfilePersonalDetails = props => {
                     </div>
                 </div>
             )}
-            {!personalDetails.edit && (
+            {!personalDetails.edit && hasValues(personalDetails) && (
                 <div className={commonStyles.detailBlock}>
                     <span className={styles.subHeader}>Home Town</span>
                     <span className={styles.value}>{personalDetails.homeTown}</span>

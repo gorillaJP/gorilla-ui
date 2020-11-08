@@ -7,6 +7,7 @@ import FormLabel from "../../../common/form-label/FormLabel";
 import moment from "moment";
 import TextArea from "antd/lib/input/TextArea";
 import { saveJobPreference } from "../../../../api/ProfileApi";
+import { hasValuesInObject } from "../../../../util/Util";
 
 const InputGroup = Input.Group;
 const { Option } = Select;
@@ -72,16 +73,7 @@ const ProfileJobPreference = props => {
     };
 
     const hasValues = jobPreference => {
-        let hasValues = false;
-        const values = Object.values(jobPreference);
-
-        for (const value of values) {
-            if (value) {
-                hasValues = true;
-                break;
-            }
-        }
-        return hasValues;
+        return hasValuesInObject(jobPreference);
     };
 
     return (
@@ -198,7 +190,7 @@ const ProfileJobPreference = props => {
                     </div>
                 </div>
             )}
-            {!jobPreference.edit && (
+            {!jobPreference.edit && hasValues(jobPreference) && (
                 <div className={commonStyles.detailBlock}>
                     <span className={styles.subHeader}>Industry</span>
                     <span className={styles.value}>{jobPreference.industry}</span>
