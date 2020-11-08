@@ -21,11 +21,11 @@ import { getInitials } from "../../../util/Util";
 const moreJobs = [
     {
         linkName: "Contract Jobs",
-        linkPath: "/contract-jobs"
+        linkPath: "/job-details/search?type=contract"
     },
     {
         linkName: "Part Time Jobs",
-        linkPath: "/part-time-jobs"
+        linkPath: "/job-details/search?type=part-time"
     },
     {
         linkName: "Fresher Jobs",
@@ -207,8 +207,10 @@ const HeaderComp = props => {
                                 >
                                     {props.profile.profileImage ? (
                                         <Avatar size={50} src={config.remote + props.profile.profileImage} />
-                                    ) : (
+                                    ) : props.profile.name ? (
                                         <Avatar size={50}>{getInitials(props.profile.name)}</Avatar>
+                                    ) : (
+                                        <Avatar size={50} icon={<UserOutlined />} />
                                     )}
                                 </Dropdown>
                             </div>

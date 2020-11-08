@@ -84,16 +84,18 @@ const AdvanceSearch = props => {
         );
     }, [props.actions, props.metaCreatedAtDates]);
 
-    useEffect(() => {
-        props.actions.searchJobs(props.searchParams);
-    }, [
-        props.searchParams.experiencemin,
-        props.searchParams.salarymax,
-        props.searchParams.type,
-        props.searchParams.createdat,
-        props.actions,
-        props.searchParams
-    ]);
+    // Commented due to search happening in search comp
+    // useEffect(() => {
+    //     console.log("searching in advance");
+    //     props.actions.searchJobs(props.searchParams);
+    // }, [
+    //     props.searchParams.experiencemin,
+    //     props.searchParams.salarymax,
+    //     props.searchParams.type,
+    //     props.searchParams.createdat,
+    //     props.actions,
+    //     props.searchParams
+    // ]);
 
     /** for below filters => if any value is selected => that should be the label */
 

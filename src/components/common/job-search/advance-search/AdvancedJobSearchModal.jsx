@@ -339,8 +339,8 @@ const AdvancedSerchModel = props => {
                                     props.actions.searchJobs(props.searchParams);
 
                                     // If the page is not job-details/search navigate to search page
-                                    if (location.pathname !== "/job-details") {
-                                        history.push("/job-details");
+                                    if (location.pathname !== "/job-details/search") {
+                                        history.push("/job-details/search");
                                     }
                                 }}
                                 size="large"

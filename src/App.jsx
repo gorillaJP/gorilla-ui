@@ -76,7 +76,7 @@ const App = props => {
 
                 <div className={`${styles.contentWrapper}`}>
                     <Switch>
-                        <Route exact path="/job-details" render={() => <JobDetails />} />
+                        <Route path="/job-details/search" render={() => <JobDetails />} />
 
                         <Route exact path="/job-post" render={() => <JobPost />} />
 

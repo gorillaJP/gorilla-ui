@@ -6,9 +6,46 @@ import { Empty, Row, Col, Pagination } from "antd";
 import AdvanceJobSearch from "../../common/job-search/advance-search/AdvanceJobSearch";
 import styles from "./JobDetails.module.css";
 import JobAddCard from "../../common/cards/job-add-card/JobAddCard";
-import { searchJobs } from "../../../actions/JobActions";
+import { searchJobs, updateSearchParam } from "../../../actions/JobActions";
 import JobDetailsCard from "../../common/job-details-card/JobDetailsCard";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useQuery } from "../../../custom-hooks/UseQuery";
+import { capitalizeFirstLetter, areEqualArrays } from "../../../util/Util";
+
+// Create the queryString based on the parameters
+const convertParamsToQueryString = params => {
+    const { type, q, location } = params;
+    const queryStringParts = [];
+
+    if (type.length) {
+        queryStringParts.push(
+            `type=${type
+                .join(",")
+                .toLowerCase()
+                .replace(" ", "-")}`
+        );
+    }
+
+    if (q) {
+        queryStringParts.push(`query=${q}`);
+    }
+
+    if (location.length) {
+        queryStringParts.push(
+            `location=${location
+                .join(",")
+                .toLowerCase()
+                .replace(" ", "-")}`
+        );
+    }
+
+    if (queryStringParts.length) {
+        return `?${queryStringParts.join("&")}`;
+    } else {
+        return "";
+    }
+};
 
 const JobDetails = props => {
     //selected job reference is at state. The selected Id is shared between multiple searches.
@@ -18,11 +55,68 @@ const JobDetails = props => {
     const [currentPage, setCurrentPage] = useState(1);
     const [leftPanelInitialHeight, setLeftPanelInitialHeight] = useState(0);
     const [leftPanelHeight, setLeftPanelHeight] = useState(0);
+    const [tempParams, setTempParams] = useState({
+        type: props.searchParams.type,
+        location: props.searchParams.location,
+        q: props.searchParams.q
+    });
+    const queryString = useQuery();
+    const history = useHistory();
 
     const leftPanel = useRef(null);
     const rightPanel = useRef(null);
 
     const { searchJobs } = props.actions;
+
+    // check the query string and update search params in initial load
+    useEffect(() => {
+        const type = queryString.get("type")
+            ? queryString
+                  .get("type")
+                  .replace("-", " ")
+                  .split(",")
+            : [];
+        const location = queryString.get("location")
+            ? queryString
+                  .get("location")
+                  .replace("-", " ")
+                  .split(",")
+            : [];
+        const q = queryString.get("query");
+
+        const updatedParams = { ...props.searchParams };
+        if (type) {
+            const typeSanitized = type.map(typeVal => {
+                return capitalizeFirstLetter(typeVal);
+            });
+            updatedParams.type = typeSanitized;
+        }
+        if (location) {
+            const locationSanitized = location.map(locVal => {
+                return capitalizeFirstLetter(locVal);
+            });
+            updatedParams.location = locationSanitized;
+        }
+        if (q) {
+            updatedParams.q = q;
+        } else {
+            updatedParams.q = "";
+        }
+
+        if (
+            !areEqualArrays(updatedParams.type, tempParams.type) ||
+            !areEqualArrays(updatedParams.location, tempParams.location) ||
+            updatedParams.q != tempParams.q
+        ) {
+            // update the search params if the new params and the old params are different
+            setTempParams({
+                type: updatedParams.type,
+                location: updatedParams.location,
+                q: updatedParams.q
+            });
+            props.actions.updateSearchParam(updatedParams);
+        }
+    }, [queryString]);
 
     // If the job list contains the selected jobId => show that job
     //otehrwise show first job
@@ -48,11 +142,31 @@ const JobDetails = props => {
     }, [props.selectedJobId]);
 
     useEffect(() => {
-        const params = { ...props.searchParams };
-        params.offset = (currentPage - 1) * params.limit;
-        searchJobs(params);
+        if (currentPage !== 1) {
+            const params = { ...props.searchParams };
+            params.offset = (currentPage - 1) * params.limit;
+            searchJobs(params);
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
+
+    useEffect(() => {
+        // change browser url if the new params and previous params are different
+        if (
+            !areEqualArrays(tempParams.type, props.searchParams.type) ||
+            !areEqualArrays(tempParams.location, props.searchParams.location) ||
+            tempParams.q !== props.searchParams.q
+        ) {
+            setTempParams({
+                type: props.searchParams.type,
+                location: props.searchParams.location,
+                q: props.searchParams.q
+            });
+            const queryString = convertParamsToQueryString(props.searchParams);
+            history.replace(history.location.pathname + queryString);
+        }
+    }, [props.searchParams]);
 
     useEffect(() => {
         if (rightPanel.current && leftPanel.current) {
@@ -143,7 +257,8 @@ const JobDetails = props => {
 const mapDispatchToProps = dispatch => {
     return {
         actions: {
-            searchJobs: bindActionCreators(searchJobs, dispatch)
+            searchJobs: bindActionCreators(searchJobs, dispatch),
+            updateSearchParam: bindActionCreators(updateSearchParam, dispatch)
         }
     };
 };
