@@ -24,6 +24,28 @@ export const getJobsByCategory = async () => {
         });
 };
 
+export const getJobsByLocation = async () => {
+    return await axios
+        .get(config.remote + 'api/jobsummary/location')
+        .then(res => {
+            return res.data.payload;
+        })
+        .catch(e => {
+            return [];
+        });
+};
+
+export const getJobsByIndustry = async () => {
+    return await axios
+        .get(config.remote + 'api/jobsummary/industry')
+        .then(res => {
+            return res.data.payload;
+        })
+        .catch(e => {
+            return [];
+        });
+};
+
 export const getFeaturedJobs = async filter => {
     // return await axios
     //     .get(config.remote + 'api/matrix/featuredjobs')

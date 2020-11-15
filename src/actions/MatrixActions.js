@@ -1,5 +1,6 @@
 import * as actions from './ActionTypes';
 import * as matrixApi from '../api/MatrixApi';
+import { loadingStarted, loadingFinished } from './CommonActions';
 
 export const getTopHiringCompaniesSuccess = payload => {
     return {
@@ -22,6 +23,20 @@ export const getJobsByCategorySuccess = payload => {
     };
 };
 
+export const getJobsByLocationSuccess = payload => {
+    return {
+        type: actions.JOBS_BY_LOCATION,
+        payload: payload
+    };
+};
+
+export const getJobsByIndustrySuccess = payload => {
+    return {
+        type: actions.JOBS_BY_INDUSTRY,
+        payload: payload
+    };
+};
+
 export const getTopHiringCompanies = () => {
     return async dispatch => {
         const response = await matrixApi.getTopHiringCompanies();
@@ -40,5 +55,23 @@ export const getJobsByCategory = () => {
     return async dispatch => {
         const response = await matrixApi.getJobsByCategory();
         dispatch(getJobsByCategorySuccess(response));
+    };
+};
+
+export const getJobsByLocation = () => {
+    return async dispatch => {
+        dispatch(loadingStarted());
+        const response = await matrixApi.getJobsByLocation();
+        dispatch(loadingFinished());
+        dispatch(getJobsByLocationSuccess(response));
+    };
+};
+
+export const getJobsByIndustry = () => {
+    return async dispatch => {
+        dispatch(loadingStarted());
+        const response = await matrixApi.getJobsByIndustry();
+        dispatch(loadingFinished());
+        dispatch(getJobsByIndustrySuccess(response));
     };
 };

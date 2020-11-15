@@ -68,7 +68,8 @@
     border-color: #707070 !important;
 }
 
-.submenu {
+.submenu,
+.submenu > a {
     color: #889196;
     cursor: pointer;
     font-size: 16px;
@@ -79,7 +80,8 @@
     display: inline-block;
 }
 
-.submenu:hover {
+.submenu:hover,
+.submenu > a:hover {
     color: #000000;
 }
 
