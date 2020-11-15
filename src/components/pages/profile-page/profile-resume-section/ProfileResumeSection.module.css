@@ -10,6 +10,11 @@
     text-align: center;
 }
 
+.uploadButton > div {
+    display: block;
+    width: 100%;
+}
+
 .button {
     max-width: 300px;
     width: -webkit-fill-available;

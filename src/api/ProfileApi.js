@@ -37,6 +37,10 @@ export const saveProfileName = async (profileName, token) => {
     return saveData('name', profileName, token);
 };
 
+export const saveResume = async (resumeData, token) => {
+    return saveData('resumes', resumeData, token);
+};
+
 const saveData = async (key, value, token) => {
     const ReqConfig = {
         headers: {

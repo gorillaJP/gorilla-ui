@@ -77,7 +77,12 @@ class ProfilePage extends Component {
                         </div>
                         <div className={styles.profileDetails}>
                             <div>
-                                <ProfileResumeSection />
+                                <ProfileResumeSection
+                                    startLoad={() => this.startLoad()}
+                                    endLoad={() => this.endLoad()}
+                                    updateProfile={profile => this.updateProfile(profile)}
+                                    token={this.state.token}
+                                />
                             </div>
                             <div>
                                 <ProfileWorkExperience
