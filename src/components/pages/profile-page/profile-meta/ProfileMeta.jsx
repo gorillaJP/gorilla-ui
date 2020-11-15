@@ -47,7 +47,7 @@ const ProfileMeta = props => {
 
     const fileUploadProps = {
         name: "file",
-        action: config.remote + "api/file",
+        action: config.remote + "api/file/image",
         method: "POST",
         showUploadList: false,
         headers: {
