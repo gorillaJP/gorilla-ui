@@ -158,8 +158,12 @@ const HeaderComp = props => {
                         <div className={styles.header}>
                             <div className={styles.subMenuWrapper}>
                                 <span className={styles.submenu}>Search Jobs</span>
-                                <span className={styles.submenu}>Industries</span>
-                                <span className={styles.submenu}>Locations</span>
+                                <span className={styles.submenu}>
+                                    <Link to="/jobs-by-industry">Industries</Link>
+                                </span>
+                                <span className={styles.submenu}>
+                                    <Link to="/jobs-by-location">Location</Link>
+                                </span>
                                 <span className={styles.submenu}>Companies</span>
                                 <Dropdown overlay={LinkDropDownContent(moreJobs, this)}>
                                     <span className={styles.submenu}>More</span>

@@ -1,0 +1,69 @@
+.jobsByCategoryWrapper {
+    background-color: #e4e4e4;
+}
+
+.pageHeader {
+    color: #707070;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 50px 0;
+}
+
+.sectionWrapper {
+    background-color: #ffffff;
+    padding: 40px;
+    margin-bottom: 50px;
+}
+
+.sectionHeader {
+    color: #000000;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-transform: capitalize;
+}
+
+.link {
+    color: #0073b1;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 30px;
+    width: 25%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media only screen and (max-device-width: 1024px) {
+    .link {
+        width: 33%;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) {
+    .link {
+        width: 50%;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+    .link {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+    .link {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-device-width: 320px) {
+    .link {
+        width: 100%;
+    }
+}

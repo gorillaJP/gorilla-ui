@@ -9,6 +9,10 @@ export default function matrixDataReducer(state = initialState.matrixData, actio
             return { ...state, ...{ featuredJobs: action.payload } };
         case actions.JOBS_BY_CATEGORY:
             return { ...state, ...{ jobsByCategory: action.payload } };
+        case actions.JOBS_BY_LOCATION:
+            return { ...state, ...{ jobsByLocation: action.payload } };
+        case actions.JOBS_BY_INDUSTRY:
+            return { ...state, ...{ jobsByIndustry: action.payload } };
         default:
             return state;
     }

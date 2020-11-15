@@ -34,7 +34,9 @@ export default {
     matrixData: {
         topHiringCompanies: [],
         featuredJobs: [],
-        jobsByCategory: []
+        jobsByCategory: [],
+        jobsByLocation: [],
+        jobsByIndustry: []
     },
     authData: {
         token: '',

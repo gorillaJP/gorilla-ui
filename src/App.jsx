@@ -21,6 +21,8 @@ import { bindActionCreators } from "redux";
 import { setAccessToken, setUserProfile } from "./actions/UserAction";
 import SuccessLogin from "./components/pages/signin/SuccessLogin";
 import ProfilePage from "./components/pages/profile-page/ProfilePage";
+import JobsByIndustry from "./components/pages/jobs-by-industry/JobsByIndustry";
+import JobsByLocation from "./components/pages/jobs-by-location/JobsByLocation";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -81,6 +83,10 @@ const App = props => {
                         <Route exact path="/job-post" render={() => <JobPost />} />
 
                         <Route exact path="/job-post/preview" render={() => <JobPost />} />
+
+                        <Route exact path="/jobs-by-industry" render={() => <JobsByIndustry />} />
+
+                        <Route exact path="/jobs-by-location" render={() => <JobsByLocation />} />
 
                         <Route path="/signin" render={() => <SignIn />} />
 
