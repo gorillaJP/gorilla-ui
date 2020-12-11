@@ -23,6 +23,7 @@ import SuccessLogin from "./components/pages/signin/SuccessLogin";
 import ProfilePage from "./components/pages/profile-page/ProfilePage";
 import JobsByIndustry from "./components/pages/jobs-by-industry/JobsByIndustry";
 import JobsByLocation from "./components/pages/jobs-by-location/JobsByLocation";
+import CandidateApply from "./components/pages/candidate-apply/CandidateApply";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -53,7 +54,7 @@ const App = props => {
             props.actions.setAccessToken(token);
             setUserLoggedIn(true);
         }
-    }, [props.actions]);
+    }, []);
 
     useEffect(() => {
         if (!props.token) {
@@ -87,6 +88,8 @@ const App = props => {
                         <Route exact path="/jobs-by-industry" render={() => <JobsByIndustry />} />
 
                         <Route exact path="/jobs-by-location" render={() => <JobsByLocation />} />
+
+                        <Route path="/candidate/apply/:jobId" render={() => <CandidateApply />} />
 
                         <Route path="/signin" render={() => <SignIn />} />
 

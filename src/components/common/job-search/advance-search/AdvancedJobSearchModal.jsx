@@ -69,7 +69,7 @@ const AdvancedSerchModel = props => {
     });
 
     useEffect(() => {
-        props.actions.searchJobs(props.searchParams);
+        props.actions.searchJobs(props.searchParams, props.token);
     }, [props.searchParams, searchJobs]); //search query should not be triggered auto for fuzzy search changers
 
     // Category contains the job titles, engineer, technician etc
@@ -80,7 +80,7 @@ const AdvancedSerchModel = props => {
     /** enter button  triggers, search actions. This is for fuzzy search*/
     const onKeyPress = event => {
         if (event.key === "Enter") {
-            props.actions.searchJobs(props.searchParams);
+            props.actions.searchJobs(props.searchParams, props.token);
         }
     };
 
@@ -152,7 +152,7 @@ const AdvancedSerchModel = props => {
                                     //DUPLICATE CALL HERE. WHEN A VLAUE IS SELECED FROM LIST. SAGA CAN BE USED TO AVOID THIS ( but here call goes with the typed value. Not the selected vlaue)
                                     onDropdownVisibleChange={isClosed => {
                                         if (isClosed === false) {
-                                            props.actions.searchJobs(props.searchParams);
+                                            props.actions.searchJobs(props.searchParams, props.token);
                                             //debounceSearchField("q", tempData.category, true);
                                         }
                                     }}
@@ -336,7 +336,7 @@ const AdvancedSerchModel = props => {
                                 type="primary"
                                 loading={false}
                                 onClick={() => {
-                                    props.actions.searchJobs(props.searchParams);
+                                    props.actions.searchJobs(props.searchParams, props.token);
 
                                     // If the page is not job-details/search navigate to search page
                                     if (location.pathname !== "/job-details/search") {
@@ -374,7 +374,8 @@ const mapStateToProps = state => {
         metaSalaries: state.metaData.metaSalaries,
         metaJobTypes: state.metaData.metaJobTypes,
         metaRoles: state.metaData.metaRoles,
-        metaCreatedAtDates: state.metaData.metaCreatedAtDates
+        metaCreatedAtDates: state.metaData.metaCreatedAtDates,
+        token: state.authData.token
     };
 };
 

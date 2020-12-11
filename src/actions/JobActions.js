@@ -9,6 +9,13 @@ export const jobSearchSuccess = payload => {
     };
 };
 
+export const getSingleJobSuccess = payload => {
+    return {
+        type: actions.GET_SINGLE_JOB_SUCCESSFUL,
+        payload: { job: payload }
+    };
+};
+
 export const setSelectedJobId = jobId => {
     return {
         type: actions.SET_SELECTED_JOB_ID,
@@ -22,10 +29,18 @@ export const updateSearchParam = filterOptions => {
     };
 };
 
-export const searchJobs = filterOptions => {
+export const searchJobs = (filterOptions, token) => {
     return dispatch => {
-        JobApi.searchJobs(filterOptions).then(data => {
+        JobApi.searchJobs(filterOptions, token).then(data => {
             dispatch(jobSearchSuccess(data.payload));
+        });
+    };
+};
+
+export const getSingleJob = (jobId, token) => {
+    return dispatch => {
+        JobApi.getSingleJob(jobId, token).then(data => {
+            dispatch(getSingleJobSuccess(data.payload));
         });
     };
 };
@@ -41,3 +56,10 @@ export const getJobInCache = () => {
 export const clearJobInCache = () => {
     Cache.clearLocalStorage('draftJob');
 };
+
+export const jobApplySuccess = (jobId) => {
+    return {
+        type: actions.JOB_APPLY_SUCCESS,
+        payload: { jobId: jobId }
+    };
+}

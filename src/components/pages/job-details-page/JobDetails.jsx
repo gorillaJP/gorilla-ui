@@ -145,7 +145,7 @@ const JobDetails = props => {
         if (currentPage !== 1) {
             const params = { ...props.searchParams };
             params.offset = (currentPage - 1) * params.limit;
-            searchJobs(params);
+            searchJobs(params, props.token);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -200,18 +200,12 @@ const JobDetails = props => {
                         {props.jobAdds.map(job => {
                             return (
                                 <JobAddCard
-                                    jobTitle={job.title}
-                                    company={job.company}
-                                    location={job.location}
+                                    job={job}
                                     key={job._id}
                                     onSelect={key => {
                                         setSelectedJobId(key);
                                     }}
-                                    skills={job.skills}
-                                    salaryMin={job.salaryMin}
-                                    salarymax={job.salarymax}
                                     selected={jobToShow && jobToShow._id === job._id} //highlight the tile, for the job which is displayed
-                                    jobId={job._id}
                                 />
                             );
                         })}
@@ -269,7 +263,8 @@ const mapStateToProps = state => {
         totalAdds: state.jobData.total,
         jobLimitPerPage: state.searchParams.limit,
         searchParams: state.searchParams,
-        selectedJobId: state.jobData.selectedJobId
+        selectedJobId: state.jobData.selectedJobId,
+        token: state.authData.token
     };
 };
 

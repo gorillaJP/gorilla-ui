@@ -1,7 +1,7 @@
 import { SET_AUTH_TOKEN, SET_USER_PROFILE, UNSET_USER_PROFILE } from './ActionTypes';
-import { clearLocalStorage, setLocalStorage } from '../api/LocalStorage';
+import { clearLocalStorage, getLocalStorage, setLocalStorage } from '../api/LocalStorage';
 import { USERPROFILE, TOKEN } from '../constants/AppConstants';
-import { clearSessionStorage } from '../api/SessionStorage';
+import { clearSessionStorage, setSessionStorage } from '../api/SessionStorage';
 import * as UserApi from '../api/UserApi';
 import { useLocation } from 'react-router-dom';
 import { loadingStarted, loadingFinished } from './CommonActions';
@@ -14,6 +14,11 @@ export const setAccessToken = token => {
 };
 
 export const setUserProfile = profile => {
+    if (getLocalStorage(TOKEN)) {
+        setLocalStorage(USERPROFILE, profile);
+    } else {
+        setSessionStorage(USERPROFILE, profile);
+    }
     return {
         type: SET_USER_PROFILE,
         payload: profile

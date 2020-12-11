@@ -45,7 +45,7 @@ const SearchComp = props => {
 
     //The search API should be called only if the area is changed. (Not for fuzzy string. With fuzy string an Enter key press or, a search button click is needed)
     useEffect(() => {
-        searchJobs(props.searchParams);
+        searchJobs(props.searchParams, props.token);
     }, [props.searchParams]); //search query should not be triggered auto for fuzzy search changers
 
     // OnChange handler to update states of the fields
@@ -70,7 +70,7 @@ const SearchComp = props => {
     /** enter button  triggers, search actions. This is for fuzzy search*/
     const onKeyPress = event => {
         if (event.key === "Enter") {
-            searchJobs(props.searchParams);
+            searchJobs(props.searchParams, props.token);
         }
     };
 
@@ -158,7 +158,7 @@ const SearchComp = props => {
                     onDropdownVisibleChange={isClosed => {
                         if (isClosed === false) {
                             if (props.searchParams.q !== tempData.category) {
-                                searchJobs(props.searchParams);
+                                searchJobs(props.searchParams, props.token);
                             }
                             //debounceSearchField("q", tempData.category, true);
                         }
@@ -222,7 +222,7 @@ const SearchComp = props => {
                     loading={false}
                     style={{ width: "100%" }}
                     onClick={() => {
-                        searchJobs(props.searchParams);
+                        searchJobs(props.searchParams, props.token);
 
                         // If the page is not job-details/search navigate to search page
                         if (location.pathname !== "/job-details/search") {
@@ -253,7 +253,8 @@ const mapStateToProps = state => {
         jobAdds: state.jobData.jobList,
         metaCities: state.metaData.metaCities,
         jobData: state.jobData,
-        searchParams: state.searchParams
+        searchParams: state.searchParams,
+        token: state.authData.token
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchComp);

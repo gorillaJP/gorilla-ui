@@ -1,0 +1,77 @@
+.name {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.userDetails {
+    display: flex;
+    height: 35px;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.userDetails > div:first-child {
+    text-align: left;
+}
+
+.expectedSalary {
+    text-align: right;
+    width: 300px;
+}
+
+.resumes {
+    font-size: 16px !important;
+}
+
+.resumes div {
+    display: block;
+    margin-left: 30px;
+}
+
+.resumes label {
+    display: block;
+    margin-top: 10px;
+}
+
+.uploadNew {
+    color: #0073b1;
+    border-color: #0073b1;
+    background-color: transparent;
+}
+
+.uploadNew button {
+}
+.withPitch {
+    font-size: 16px;
+}
+.withPitch span {
+    margin: 10px auto;
+    display: block;
+}
+
+.withPitch textarea {
+    width: 90%;
+    margin: auto;
+    display: block;
+}
+
+.sendToEmployerBtn {
+    margin: 10px auto;
+}
+.sendToEmployerBtn > button {
+    background-color: #ff6600;
+    color: #ffffff;
+    display: block;
+    margin: 0 auto;
+}
+
+.addNew > span {
+    text-align: left;
+}
+
+.questionnaire {
+    background-color: #DDEBF9;
+    margin-top: 15px;
+    padding-bottom: 15px;
+}

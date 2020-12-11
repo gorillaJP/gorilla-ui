@@ -90,14 +90,8 @@ const LandingPage = props => {
                                 props.featuredJobs.map(job => {
                                     return (
                                         <JobAddCard
-                                            jobTitle={job.title}
-                                            company={job.company}
-                                            location={job.location}
+                                            job={job}
                                             key={job._id}
-                                            skills={job.skills}
-                                            salaryMin={job.salaryMin}
-                                            salarymax={job.salarymax}
-                                            jobId={job._id}
                                             onSelect={() => {
                                                 const newSearchParam = {
                                                     q: job.title,
