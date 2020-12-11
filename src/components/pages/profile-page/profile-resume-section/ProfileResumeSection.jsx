@@ -14,7 +14,7 @@ const ProfileResumeSection = props => {
         method: "POST",
         showUploadList: false,
         headers: {
-            authorization: "authorization-text",
+            authorization: `Bearer ${props.token}`,
             contentType: "multipart/form-data"
         },
         onChange(info) {

@@ -2,7 +2,7 @@ import React from "react";
 
 const styles = {
     otherDetails: {
-        margin: "5pxpx auto"
+        margin: "5px auto"
     }
 };
 

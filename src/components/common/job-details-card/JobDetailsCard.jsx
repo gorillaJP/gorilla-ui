@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./JobDetailsCard.module.css";
 import { Button } from "antd";
 
 import SkillList from "../skill-list/SkillList";
 import MinMax from "../min-max/MinMax";
 import { createMarkUp } from "../../../util/Util";
+import EasyApply from "../../pages/candidate-apply/easy-apply/EasyApply";
 
 const JobDetailsCard = props => {
     const { job } = props;
 
+    const [showEasyApply, setShowEasyApply] = useState(false);
+
     return (
         <div className={styles.jobDetailsCardWrapper}>
+            <EasyApply
+                onCancel={() => {
+                    setShowEasyApply(false);
+                }}
+                onOk={() => {
+                    setShowEasyApply(false);
+                }}
+                job={job}
+                show={showEasyApply}
+            />
             <div className={styles.meta}>
                 {job.title && (
                     <div className={styles.title}>
@@ -40,7 +53,24 @@ const JobDetailsCard = props => {
             <div className={styles.buttonContainer}>
                 {job.notifyEmail && (
                     <div className={styles.actionButtons}>
-                        <Button type="primary">Easy Apply</Button>
+                        {!props.job.hasApplied ? (
+                            props.job.isPitchRequired ? (
+                                <a href={`/candidate/apply/${job._id}`} target="blank">
+                                    <Button type="primary">Apply</Button>
+                                </a>
+                            ) : (
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        setShowEasyApply(true);
+                                    }}
+                                >
+                                    Easy Apply
+                                </Button>
+                            )
+                        ) : (
+                            <span>Already Applied</span>
+                        )}
                     </div>
                 )}
                 {job.redirectURL && (

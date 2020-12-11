@@ -2,7 +2,17 @@ import axios from 'axios';
 import config from '../util/config';
 import queryString from 'query-string';
 
-export const searchJobs = async filter => {
+export const searchJobs = async (filter, token) => {  
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    if (token) {
+        ReqConfig.headers["Authorization"] = `Bearer ${token}`;
+    }
+
     //do not mutate the original filter object
     filter = filter ? { ...filter } : {};
 
@@ -33,10 +43,27 @@ export const searchJobs = async filter => {
 
     queryText = queryText ? queryText.toLowerCase() : '';
 
-    return await axios.get(config.remote + 'api/jobadds?' + queryText).then(res => {
+    return await axios.get(config.remote + 'api/jobadds?' + queryText, ReqConfig).then(res => {
         return res.data;
     });
 };
+
+export const getSingleJob = async (jobId, token) => {
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':  `Bearer ${token}`
+        }
+    };
+
+    return await axios.get(config.remote + 'api/jobadds/' + jobId, ReqConfig)
+        .then(res => {
+            return res.data;
+        })
+        .catch(e => {
+            return [];
+        });
+}
 
 export const postJob = async jobPost => {
     return await axios
@@ -46,5 +73,40 @@ export const postJob = async jobPost => {
         })
         .catch(e => {
             return false;
+        });
+};
+
+export const easyApply = async (candidateDetails, token) => {
+    const ReqConfig = {
+        headers: {
+             'Content-Type': 'application/json',
+            'Authorization':  `Bearer ${token}`
+        }
+    };
+
+    return await axios.post(config.remote + 'api/application', candidateDetails, ReqConfig)
+        .then(res => {
+            return true;
+        })
+        .catch(e => {
+            return false;
+        });
+}
+
+export const getQuestionnaire = async (questionnaireId, token) => {
+    const ReqConfig = {
+        headers: {
+             'Content-Type': 'application/json',
+            'Authorization':  `Bearer ${token}`
+        }
+    };
+
+    return await axios
+        .get(config.remote + 'api/questionnaire/' + questionnaireId, ReqConfig)
+        .then(res => {
+            return res.data.payload;
+        })
+        .catch(e => {
+            return {};
         });
 };

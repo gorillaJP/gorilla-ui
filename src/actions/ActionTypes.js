@@ -4,8 +4,10 @@ export const LOADING = 'LOADING';
 /* Job Actions */
 export const SEARCH_JOBS = 'SEARCH_JOBS';
 export const SEARCH_JOB_SUCCESSFUL = 'SEARCH_JOB_SUCCESSFUL';
+export const GET_SINGLE_JOB_SUCCESSFUL = 'GET_SINGLE_JOB_SUCCESSFUL';
 export const SET_SELECTED_JOB_ID = 'SET_SELECTED_JOB_ID';
 export const JOB_POST_STATUS = 'JOB_POST_STATUS';
+export const JOB_APPLY_SUCCESS = 'JOB_APPLY_SUCCESS';
 
 //loading meta data - happens at the applicaiton startup
 export const META_CITIES = 'META_GET_CITIES';
