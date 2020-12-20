@@ -28,7 +28,10 @@
     background-color: #e6e6e6;
     max-height: 800px;
     overflow: auto;
-    padding: 5px;
+}
+
+.featuredJobContainer > div {
+    margin: 15px;
 }
 
 .featuredIndustries {

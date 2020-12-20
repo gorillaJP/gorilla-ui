@@ -93,12 +93,24 @@ const MobileMenu = props => {
                     </Menu.Item>
                 </SubMenu>
             )}
-            <Menu.Item key="job-search" className={styles.mobileMenuItem}>
-                <span>
-                    <SearchOutlined />
-                    <Link to={"/job-search"}>Job Search</Link>
-                </span>
-            </Menu.Item>
+            <SubMenu
+                key="searchJobs"
+                title={
+                    <span>
+                        <SearchOutlined />
+                        <span>Search Jobs</span>
+                    </span>
+                }
+                className={styles.mobileMenuItem}
+            >
+                {props.searchJobs.map((item, i) => {
+                    return (
+                        <Menu.Item key={i} className={styles.subMenuItem}>
+                            <Link to={item.linkPath}>{item.linkName}</Link>
+                        </Menu.Item>
+                    );
+                })}
+            </SubMenu>
             <Menu.Item key="job-industries" className={styles.mobileMenuItem}>
                 <span>
                     <DownloadOutlined />

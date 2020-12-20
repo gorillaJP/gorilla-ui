@@ -72,6 +72,17 @@ const profileLinks = [
     }
 ];
 
+const searchJobs = [
+    {
+        linkName: "Saved Jobs",
+        linkPath: "/jobs/savedJob"
+    },
+    {
+        linkName: "Applied Jobs",
+        linkPath: "/jobs/application"
+    }
+];
+
 const UserProfileDropDownContent = props => {
     const { logOut, token, profile } = props;
     return (
@@ -157,7 +168,9 @@ const HeaderComp = props => {
                         </div>
                         <div className={styles.header}>
                             <div className={styles.subMenuWrapper}>
-                                <span className={styles.submenu}>Search Jobs</span>
+                                <Dropdown overlay={LinkDropDownContent(searchJobs, this)}>
+                                    <span className={styles.submenu}>Search Jobs</span>
+                                </Dropdown>
                                 <span className={styles.submenu}>
                                     <Link to="/jobs-by-industry">Industries</Link>
                                 </span>
@@ -249,6 +262,7 @@ const HeaderComp = props => {
                             token={token}
                             profile={props.profile}
                             moreJobs={moreJobs}
+                            searchJobs={searchJobs}
                             profileLinks={profileLinks}
                             userName={profile.name}
                             opened={props.mobileMenuOpen}

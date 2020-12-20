@@ -9,6 +9,10 @@
     overflow: auto;
 }
 
+.leftPannel > div > div {
+    margin: 15px
+}
+
 .rightPanel {
     min-height: calc(100vh - 150px);
 }
