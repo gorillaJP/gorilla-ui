@@ -110,3 +110,38 @@ export const getQuestionnaire = async (questionnaireId, token) => {
             return {};
         });
 };
+
+
+export const getJobsByCategory = async (category, token) => {
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':  `Bearer ${token}`
+        }
+    };
+
+    return await axios.get(config.remote + `api/${category}/jobadd`, ReqConfig)
+        .then(res => {
+            return res.data.payload;
+        })
+        .catch(e => {
+            return [];
+        });
+}
+
+export const saveJob = async (jobId, token) => {
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':  `Bearer ${token}`
+        }
+    };
+
+    return await axios.post(config.remote + `api/savedjob`, {jobId}, ReqConfig)
+        .then(res => {
+            return true;
+        })
+        .catch(e => {
+            return false;
+        });
+}

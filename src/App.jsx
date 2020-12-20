@@ -24,6 +24,7 @@ import ProfilePage from "./components/pages/profile-page/ProfilePage";
 import JobsByIndustry from "./components/pages/jobs-by-industry/JobsByIndustry";
 import JobsByLocation from "./components/pages/jobs-by-location/JobsByLocation";
 import CandidateApply from "./components/pages/candidate-apply/CandidateApply";
+import Category from "./components/pages/category/Category";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -90,6 +91,8 @@ const App = props => {
                         <Route exact path="/jobs-by-location" render={() => <JobsByLocation />} />
 
                         <Route path="/candidate/apply/:jobId" render={() => <CandidateApply />} />
+
+                        <Route path="/jobs/:jobCategory" render={() => <Category />} />
 
                         <Route path="/signin" render={() => <SignIn />} />
 

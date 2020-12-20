@@ -21,13 +21,13 @@ const CategorySection = props => {
         </div>
     );
 };
+
 const JobsByCategory = props => {
     return (
         <div className={styles.jobsByIndustryWrapper}>
             <Container>
                 <div className={styles.pageHeader}>{props.header}</div>
                 {props.categoryData.map(category => {
-                    console.log(category);
                     return <CategorySection header={category.key} data={category.value}></CategorySection>;
                 })}
             </Container>

@@ -5,7 +5,8 @@
 
 .userDetails {
     display: flex;
-    height: 35px;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     font-size: 16px;
     margin-bottom: 10px;
@@ -21,6 +22,8 @@
 }
 
 .resumes {
+    display: block;
+    margin-top: 20px;
     font-size: 16px !important;
 }
 
@@ -40,8 +43,6 @@
     background-color: transparent;
 }
 
-.uploadNew button {
-}
 .withPitch {
     font-size: 16px;
 }
@@ -74,4 +75,21 @@
     background-color: #DDEBF9;
     margin-top: 15px;
     padding-bottom: 15px;
+}
+
+@media only screen and (max-width: 998px) {
+    .userDetails {
+        justify-content: space-between;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .userDetails {
+        display: block;
+    }
+    .userDetails > div {
+        margin: 10px auto;
+        display: block;
+        width: 100%;
+    }
 }

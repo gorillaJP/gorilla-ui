@@ -11,7 +11,7 @@ const MinMax = props => {
     if (minVal && maxVal) {
         return (
             <div style={styles.otherDetails}>
-                {label}: {minVal}
+                {!props.noText && <>{label} :</>} {minVal}
                 {unit} - {maxVal}
                 {unit}
             </div>
@@ -19,14 +19,14 @@ const MinMax = props => {
     } else if (minVal && !maxVal) {
         return (
             <div style={styles.otherDetails}>
-                {label}: Minimum {minVal}
+                {!props.noText && <>{label} : Minimum</>} {minVal}
                 {unit}
             </div>
         );
     } else if (!minVal && maxVal) {
         return (
             <div style={styles.otherDetails}>
-                {label}: Maximum {maxVal}
+                {!props.noText && <>{label} : Maximum</>} {maxVal}
                 {unit}
             </div>
         );

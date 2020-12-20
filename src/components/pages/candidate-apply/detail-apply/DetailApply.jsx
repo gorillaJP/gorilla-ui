@@ -37,7 +37,9 @@ const DetailApply = props => {
                 <Container>
                     <Row>
                         <Col xs={24} sm={24} md={24} lg={8}>
-                            <JobAddCard job={job} hideApply={true}></JobAddCard>
+                            <div className={styles.jobAdd}>
+                                <JobAddCard job={job} hideApply={true}></JobAddCard>
+                            </div>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={16}>
                             <div className={styles.applyWithPitchContainer}>

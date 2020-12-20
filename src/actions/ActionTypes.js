@@ -8,6 +8,7 @@ export const GET_SINGLE_JOB_SUCCESSFUL = 'GET_SINGLE_JOB_SUCCESSFUL';
 export const SET_SELECTED_JOB_ID = 'SET_SELECTED_JOB_ID';
 export const JOB_POST_STATUS = 'JOB_POST_STATUS';
 export const JOB_APPLY_SUCCESS = 'JOB_APPLY_SUCCESS';
+export const JOB_SAVE_SUCCESS = 'JOB_SAVE_SUCCESS';
 
 //loading meta data - happens at the applicaiton startup
 export const META_CITIES = 'META_GET_CITIES';

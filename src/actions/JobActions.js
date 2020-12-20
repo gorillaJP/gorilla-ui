@@ -1,6 +1,7 @@
 import * as actions from './ActionTypes';
 import * as JobApi from '../api/JobApi';
 import * as Cache from '../api/LocalStorage';
+import { loadingFinished, loadingStarted } from './CommonActions';
 
 export const jobSearchSuccess = payload => {
     return {
@@ -19,6 +20,13 @@ export const getSingleJobSuccess = payload => {
 export const setSelectedJobId = jobId => {
     return {
         type: actions.SET_SELECTED_JOB_ID,
+        payload: { jobId }
+    };
+};
+
+export const saveJobSuccess = jobId => {
+    return {
+        type: actions.JOB_SAVE_SUCCESS,
         payload: { jobId }
     };
 };
@@ -45,6 +53,17 @@ export const getSingleJob = (jobId, token) => {
     };
 };
 
+export const saveJob = (jobId, token) => {
+    return async dispatch => {
+        dispatch(loadingStarted());
+        const saved = await JobApi.saveJob(jobId, token);
+        if (saved) {
+            dispatch(saveJobSuccess(jobId));
+        }
+        dispatch(loadingFinished());
+    };
+};
+
 export const saveJobInCache = job => {
     Cache.setLocalStorage('draftJob', job);
 };
@@ -63,3 +82,5 @@ export const jobApplySuccess = (jobId) => {
         payload: { jobId: jobId }
     };
 }
+
+
