@@ -93,7 +93,7 @@ const MobileMenu = props => {
                     </Menu.Item>
                 </SubMenu>
             )}
-            <SubMenu
+            {/* <SubMenu
                 key="searchJobs"
                 title={
                     <span>
@@ -110,7 +110,13 @@ const MobileMenu = props => {
                         </Menu.Item>
                     );
                 })}
-            </SubMenu>
+            </SubMenu> */}
+            <Menu.Item key="job-search" className={styles.mobileMenuItem}>
+                <span>
+                    <SearchOutlined />
+                    <Link to={"/job-details/search"}>Search</Link>
+                </span>
+            </Menu.Item>
             <Menu.Item key="job-industries" className={styles.mobileMenuItem}>
                 <span>
                     <DownloadOutlined />

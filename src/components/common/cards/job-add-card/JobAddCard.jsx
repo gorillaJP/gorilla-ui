@@ -10,7 +10,7 @@ import SkillList from "../../skill-list/SkillList";
 import MinMax from "../../min-max/MinMax";
 import styles from "./JobAddCard.module.css";
 import EasyApply from "../../../pages/candidate-apply/easy-apply/EasyApply";
-import { saveJob } from "../../../../actions/JobActions";
+import { saveJob, unSaveJob } from "../../../../actions/JobActions";
 
 const JobAddCard = props => {
     const [showEasyApply, setShowEasyApply] = useState(false);
@@ -25,6 +25,10 @@ const JobAddCard = props => {
 
     const saveJob = jobId => {
         props.actions.saveJob(jobId, props.token);
+    };
+
+    const unSaveJob = jobId => {
+        props.actions.unSaveJob(jobId, props.token);
     };
 
     return (
@@ -72,7 +76,12 @@ const JobAddCard = props => {
                         <div className={styles.starIcon}>
                             <ShareAltOutlined style={{ fontSize: "25px", marginRight: "10px" }} />
                             {hasSaved ? (
-                                <HeartFilled style={{ fontSize: "25px", color: "#3280B3" }} />
+                                <HeartFilled
+                                    style={{ fontSize: "25px", color: "#3280B3" }}
+                                    onClick={() => {
+                                        unSaveJob(jobId);
+                                    }}
+                                />
                             ) : (
                                 <HeartTwoTone
                                     twoToneColor="#3280B3"
@@ -139,7 +148,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         actions: {
-            saveJob: bindActionCreators(saveJob, dispatch)
+            saveJob: bindActionCreators(saveJob, dispatch),
+            unSaveJob: bindActionCreators(unSaveJob, dispatch)
         }
     };
 };

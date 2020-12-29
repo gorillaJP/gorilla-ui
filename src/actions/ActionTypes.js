@@ -9,6 +9,7 @@ export const SET_SELECTED_JOB_ID = 'SET_SELECTED_JOB_ID';
 export const JOB_POST_STATUS = 'JOB_POST_STATUS';
 export const JOB_APPLY_SUCCESS = 'JOB_APPLY_SUCCESS';
 export const JOB_SAVE_SUCCESS = 'JOB_SAVE_SUCCESS';
+export const JOB_UN_SAVE_SUCCESS = 'JOB_UN_SAVE_SUCCESS';
 
 //loading meta data - happens at the applicaiton startup
 export const META_CITIES = 'META_GET_CITIES';
@@ -31,6 +32,7 @@ export const FEATURED_JOBS = 'FEATURED_JOBS';
 export const JOBS_BY_CATEGORY = 'JOBS_BY_CATEGORY';
 export const JOBS_BY_LOCATION = 'JOBS_BY_LOCATION';
 export const JOBS_BY_INDUSTRY = 'JOBS_BY_INDUSTRY';
+export const JOBS_MATRIX = 'JOBS_MATRIX';
 
 // Auth Data
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';

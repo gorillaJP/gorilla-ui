@@ -36,7 +36,8 @@ export default {
         featuredJobs: [],
         jobsByCategory: [],
         jobsByLocation: [],
-        jobsByIndustry: []
+        jobsByIndustry: [],
+        jobsMatrix: []
     },
     authData: {
         token: '',
