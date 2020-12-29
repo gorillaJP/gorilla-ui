@@ -145,3 +145,20 @@ export const saveJob = async (jobId, token) => {
             return false;
         });
 }
+
+export const unSaveJob = async (jobId, token) => {
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':  `Bearer ${token}`
+        }
+    };
+
+    return await axios.delete(config.remote + `api/savedjob/${jobId}`, ReqConfig)
+        .then(res => {
+            return true;
+        })
+        .catch(e => {
+            return false;
+        });
+}

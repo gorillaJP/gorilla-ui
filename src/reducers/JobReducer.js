@@ -1,5 +1,5 @@
 import initialState from './InitialState';
-import { GET_SINGLE_JOB_SUCCESSFUL, JOB_APPLY_SUCCESS, JOB_SAVE_SUCCESS, SEARCH_JOB_SUCCESSFUL, SET_SELECTED_JOB_ID } from '../actions/ActionTypes';
+import { GET_SINGLE_JOB_SUCCESSFUL, JOB_APPLY_SUCCESS, JOB_SAVE_SUCCESS, JOB_UN_SAVE_SUCCESS, SEARCH_JOB_SUCCESSFUL, SET_SELECTED_JOB_ID } from '../actions/ActionTypes';
 
 // Below reducer to be changed when we have actual reducers
 export default function jobDataReducer(state = initialState.jobData, action) {
@@ -37,7 +37,23 @@ export default function jobDataReducer(state = initialState.jobData, action) {
             });
 
             updatedJobAdds = [...state.jobList];
-            updatedJobAdds[jobAddIndex].hasSaved = true;
+            if (jobAddIndex > -1) {
+                updatedJobAdds[jobAddIndex].hasSaved = true;
+            }
+            return {
+                ...state,
+                jobList: updatedJobAdds
+            };
+        case JOB_UN_SAVE_SUCCESS:
+            jobId = action.payload.jobId;
+            jobAddIndex = state.jobList.findIndex(job => {
+                return job._id === jobId;
+            });
+
+            updatedJobAdds = [...state.jobList];
+            if (jobAddIndex > -1) {
+                updatedJobAdds[jobAddIndex].hasSaved = false;
+            }
             return {
                 ...state,
                 jobList: updatedJobAdds

@@ -31,6 +31,13 @@ export const saveJobSuccess = jobId => {
     };
 };
 
+export const unSaveJobSuccess = jobId => {
+    return {
+        type: actions.JOB_UN_SAVE_SUCCESS,
+        payload: { jobId }
+    };
+};
+
 export const updateSearchParam = filterOptions => {
     return dispatch => {
         dispatch({ type: actions.SEARCH_PARAM_UPDATE, payload: filterOptions });
@@ -59,6 +66,17 @@ export const saveJob = (jobId, token) => {
         const saved = await JobApi.saveJob(jobId, token);
         if (saved) {
             dispatch(saveJobSuccess(jobId));
+        }
+        dispatch(loadingFinished());
+    };
+};
+
+export const unSaveJob = (jobId, token) => {
+    return async dispatch => {
+        dispatch(loadingStarted());
+        const saved = await JobApi.unSaveJob(jobId, token);
+        if (saved) {
+            dispatch(unSaveJobSuccess(jobId));
         }
         dispatch(loadingFinished());
     };

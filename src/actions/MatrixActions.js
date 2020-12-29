@@ -37,6 +37,13 @@ export const getJobsByIndustrySuccess = payload => {
     };
 };
 
+export const getJobMatrixSuccess = payload => {
+    return {
+        type: actions.JOBS_MATRIX,
+        payload: payload
+    };
+};
+
 export const getTopHiringCompanies = () => {
     return async dispatch => {
         const response = await matrixApi.getTopHiringCompanies();
@@ -75,3 +82,12 @@ export const getJobsByIndustry = () => {
         dispatch(getJobsByIndustrySuccess(response));
     };
 };
+
+export const getJobMatrix = (token) => {
+    return async dispatch => {
+        dispatch(loadingStarted());
+        const response = await matrixApi.getJobMatrix(token);
+        dispatch(loadingFinished());
+        dispatch(getJobMatrixSuccess(response));
+    };
+}
