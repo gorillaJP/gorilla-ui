@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "../../../custom-hooks/UseQuery";
 import { capitalizeFirstLetter, areEqualArrays } from "../../../util/Util";
+import { Container } from "../../common/container/Container";
 
 // Create the queryString based on the parameters
 const convertParamsToQueryString = params => {
@@ -191,59 +192,61 @@ const JobDetails = props => {
             <div>
                 <AdvanceJobSearch />
             </div>
-            <Row className={styles.jobDetailsWrapper}>
-                <Col xs={24} sm={24} md={24} lg={8} className={styles.leftPannel}>
-                    <div
-                        ref={leftPanel}
-                        style={{ height: leftPanelHeight ? `${leftPanelHeight}px` : `${leftPanelInitialHeight}px` }}
-                    >
-                        {props.jobAdds.map(job => {
-                            return (
-                                <JobAddCard
-                                    job={job}
-                                    key={job._id}
-                                    onSelect={key => {
-                                        setSelectedJobId(key);
-                                    }}
-                                    selected={jobToShow && jobToShow._id === job._id} //highlight the tile, for the job which is displayed
-                                />
-                            );
-                        })}
-                        {!props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
-                        {props.jobAdds.length ? (
-                            <div className={styles.paginationContainer}>
-                                <Pagination
-                                    defaultCurrent={1}
-                                    hideOnSinglePage
-                                    defaultPageSize={props.jobLimitPerPage}
-                                    total={props.totalAdds}
-                                    current={currentPage}
-                                    responsive
-                                    onChange={pageNumber => {
-                                        setCurrentPage(pageNumber);
-                                    }}
-                                />
-                            </div>
-                        ) : null}
-                    </div>
-                </Col>
-                <Col xs={24} sm={24} md={24} lg={16} className={styles.rightPanel}>
-                    {jobToShow ? (
-                        <div ref={rightPanel}>
-                            <JobDetailsCard job={jobToShow} ref={rightPanel} />
+            <Container>
+                <Row className={styles.jobDetailsWrapper}>
+                    <Col xs={24} sm={24} md={24} lg={8} className={styles.leftPannel}>
+                        <div
+                            ref={leftPanel}
+                            style={{ height: leftPanelHeight ? `${leftPanelHeight}px` : `${leftPanelInitialHeight}px` }}
+                        >
+                            {props.jobAdds.map(job => {
+                                return (
+                                    <JobAddCard
+                                        job={job}
+                                        key={job._id}
+                                        onSelect={key => {
+                                            setSelectedJobId(key);
+                                        }}
+                                        selected={jobToShow && jobToShow._id === job._id} //highlight the tile, for the job which is displayed
+                                    />
+                                );
+                            })}
+                            {!props.jobAdds.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+                            {props.jobAdds.length ? (
+                                <div className={styles.paginationContainer}>
+                                    <Pagination
+                                        defaultCurrent={1}
+                                        hideOnSinglePage
+                                        defaultPageSize={props.jobLimitPerPage}
+                                        total={props.totalAdds}
+                                        current={currentPage}
+                                        responsive
+                                        onChange={pageNumber => {
+                                            setCurrentPage(pageNumber);
+                                        }}
+                                    />
+                                </div>
+                            ) : null}
                         </div>
-                    ) : (
-                        <Empty
-                            image={Empty.PRESENTED_IMAGE_SIMPLE}
-                            description={
-                                <span>
-                                    We haven't found exactly you are looking for. Please change the query and try
-                                </span>
-                            }
-                        />
-                    )}
-                </Col>
-            </Row>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={16} className={styles.rightPanel}>
+                        {jobToShow ? (
+                            <div ref={rightPanel}>
+                                <JobDetailsCard job={jobToShow} ref={rightPanel} />
+                            </div>
+                        ) : (
+                            <Empty
+                                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                                description={
+                                    <span>
+                                        We haven't found exactly you are looking for. Please change the query and try
+                                    </span>
+                                }
+                            />
+                        )}
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 };

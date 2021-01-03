@@ -6,7 +6,8 @@ import {
     UserOutlined,
     DownloadOutlined,
     EnvironmentOutlined,
-    CheckCircleOutlined
+    CheckCircleOutlined,
+    SettingOutlined
 } from "@ant-design/icons";
 
 import styles from "./Header.module.css";
@@ -139,13 +140,40 @@ const MobileMenu = props => {
                 key="more"
                 title={
                     <span>
-                        <SearchOutlined />
+                        <SearchOutlined size={50} />
                         <span>More</span>
                     </span>
                 }
                 className={styles.mobileMenuItem}
             >
                 {props.moreJobs.map((item, i) => {
+                    return (
+                        <Menu.Item key={i} className={styles.subMenuItem}>
+                            <Link to={item.linkPath}>{item.linkName}</Link>
+                        </Menu.Item>
+                    );
+                })}
+            </SubMenu>
+            <SubMenu
+                key="dashboard"
+                title={
+                    <span className={styles.dashboardTitle}>
+                        <SettingOutlined
+                            size={50}
+                            style={{
+                                width: "50px",
+                                height: "50px",
+                                lineHeight: "50px",
+                                fontSize: "18px",
+                                marginRight: 0
+                            }}
+                        />
+                        <span className={styles.userName}>Dashboard</span>
+                    </span>
+                }
+                className={`${styles.mobileMenuItem} ${styles.dashboard}`}
+            >
+                {props.dashboard.map((item, i) => {
                     return (
                         <Menu.Item key={i} className={styles.subMenuItem}>
                             <Link to={item.linkPath}>{item.linkName}</Link>

@@ -103,16 +103,17 @@ const ProfileMeta = props => {
                             onDoubleClick={() => {
                                 setEditMode(true);
                             }}
+                            className={styles.nameVal}
                         >
                             {props.name}
                         </span>
-                        {/* <span className={commonStyles.editorIconSmall}>
+                        <span className={`${commonStyles.editorIconSmall} ${styles.editName}`}>
                             <FormOutlined
                                 onClick={() => {
                                     setEditMode(true);
                                 }}
                             />
-                        </span> */}
+                        </span>
                     </>
                 ) : (
                     <Input

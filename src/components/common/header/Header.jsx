@@ -72,7 +72,7 @@ const profileLinks = [
     }
 ];
 
-const searchJobs = [
+const dashboard = [
     {
         linkName: "Saved Jobs",
         linkPath: "/jobs/savedjob"
@@ -87,8 +87,8 @@ const UserProfileDropDownContent = props => {
     const { logOut, token, profile } = props;
     return (
         <Menu>
-            <Menu.Item key="username" className={styles.disabledLink}>
-                <Link className={styles.linkDropDown} disabled>
+            <Menu.Item key="username" className={styles.disabledLink} title={profile.name}>
+                <Link className={`${styles.linkDropDown} ${styles.truncate}`} disabled>
                     {profile.name}
                 </Link>
             </Menu.Item>
@@ -213,7 +213,7 @@ const HeaderComp = props => {
                         )}
                         {props.userLoggeIn && (
                             <div className={styles.actionButtons}>
-                                <Dropdown overlay={LinkDropDownContent(searchJobs, this)}>
+                                <Dropdown overlay={LinkDropDownContent(dashboard, this)}>
                                     <SettingOutlined className={styles.settingsIcon} />
                                 </Dropdown>
                                 <Dropdown
@@ -264,7 +264,7 @@ const HeaderComp = props => {
                             token={token}
                             profile={props.profile}
                             moreJobs={moreJobs}
-                            searchJobs={searchJobs}
+                            dashboard={dashboard}
                             profileLinks={profileLinks}
                             userName={profile.name}
                             opened={props.mobileMenuOpen}

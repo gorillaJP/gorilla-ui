@@ -5,6 +5,12 @@
     font-weight: bold;
 }
 
+.initialContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .subHeader {
     margin-bottom: 5px;
     text-align: center;
@@ -15,8 +21,24 @@
     width: 100%;
 }
 
+.uploadButton.textButton > div {
+    display: inline;
+}
+
 .button {
     max-width: 300px;
     width: -webkit-fill-available;
     width: -moz-available;
+}
+
+.resume {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.resume .remove {
+    margin-right: 0;
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fff;
 }

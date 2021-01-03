@@ -74,6 +74,10 @@ export const deleteAward = async (id, token) => {
     return deleteData(id, token, 'award');
 };
 
+export const deleteResume = async (id, token) => {
+    return deleteData(id, token, 'resume');
+};
+
 const deleteData = async (id, token, property) => {
     const ReqConfig = {
         headers: {
