@@ -1,7 +1,7 @@
 .searchSection {
     display: flex;
     flex-direction: row;
-    margin: 5px 15px !important;
+    margin: 5px 0 !important;
 }
 
 .searchSection.fromHome {
@@ -48,13 +48,13 @@
 
 @media (min-width: 481px) and (max-width: 767px) {
     .searchSection {
-        margin: 10px 15px !important;
+        margin: 10px 0 !important;
     }
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
     .searchSection {
-        margin: 10px 15px !important;
+        margin: 10px 0 !important;
     }
 }
 

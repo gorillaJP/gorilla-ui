@@ -118,7 +118,7 @@
 .employersButton,
 .employeeButton {
     display: inline;
-    margin: 0 5px;
+    margin: 0 0 0 5px;
 }
 
 .employersButton button,
@@ -186,13 +186,16 @@
     width: 0 !important;
 }
 
-.mobileMenuItem.userDetails > div:first-child {
+.mobileMenuItem.userDetails > div:first-child,
+.mobileMenuItem.dashboard > div:first-child {
     padding-top: 10px !important;
     height: 80px !important;
 }
 
 .mobileMenuItem.userDetails i::after,
-.mobileMenuItem.userDetails i::before {
+.mobileMenuItem.userDetails i::before,
+.mobileMenuItem.dashboard i::after,
+.mobileMenuItem.dashboard i::before {
     font-size: 16px;
     background: white !important;
 }
@@ -204,7 +207,8 @@
     padding-right: 0 !important;
 }
 
-.userDetails.mobileMenuItem div {
+.userDetails.mobileMenuItem div,
+.dashboard.mobileMenuItem div  {
     background-color: #329d9c !important;
 }
 
@@ -237,15 +241,34 @@
     padding-right: 0 !important;
 }
 
-.userName {
+.dashboardTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.userName, 
+.dashboard {
     color: #ffffff;
     font-size: 16px;
     margin-left: 20px;
     line-height: 56px;
 }
 
+.dashboard svg {
+    width: 100%;
+    height: 100%;
+}
+
 .disabledLink {
     cursor: default !important;
+}
+
+.truncate {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media only screen and (min-device-width: 1024px) {

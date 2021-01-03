@@ -13,6 +13,7 @@
     background-color: #ffffff;
     padding: 40px;
     margin-bottom: 50px;
+    box-shadow: 2px 2px 5px 0px rgba(189, 189, 189, 1);
 }
 
 .sectionHeader {

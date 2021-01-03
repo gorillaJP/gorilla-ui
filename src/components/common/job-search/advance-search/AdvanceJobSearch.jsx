@@ -8,6 +8,7 @@ import { Dropdown } from "antd";
 import { DownOutlined, FilterOutlined } from "@ant-design/icons";
 import ButtonGroup from "../../shared/ButtonGroup";
 import CheckBoxGroup from "../../shared/CheckBoxGroup";
+import { Container } from "../../container/Container";
 
 const subFilterStyle = { fontWeight: "bold", color: "white", fontSize: "15px" };
 
@@ -131,42 +132,49 @@ const AdvanceSearch = props => {
             <div>
                 <Row>
                     <div style={{ width: "100%", background: "#2c5486", paddingTop: "20px", paddingBottom: "10px" }}>
-                        <SearchComp expand={true} showSearchButton={true} />
-                        <div style={{ display: "flex", justifyContent: "space-around" }}>
-                            <div style={{ display: "flex", flexBasis: "50%", justifyContent: "space-around" }}>
-                                <Dropdown overlay={experinaceOptions}>
-                                    <div style={subFilterStyle}>
-                                        {expericeLable + "  "}
-                                        <sub>
-                                            {expericeLable === "Experience" ? (
-                                                <DownOutlined />
-                                            ) : (
-                                                <FilterOutlined style={{ fontSize: "12px" }} />
-                                            )}
-                                        </sub>
-                                    </div>
-                                </Dropdown>
-                                <Dropdown onChange={e => {}} overlay={salaryOptions}>
-                                    <div style={subFilterStyle}>
-                                        {salaryLable + " "}
-                                        <sub>{salaryLable === "Salary" ? <DownOutlined /> : <FilterOutlined />}</sub>
-                                    </div>
-                                </Dropdown>
-                                <Dropdown overlay={jobTypeOptions}>
-                                    <div style={subFilterStyle}>
-                                        {"Type "}
-                                        <sub>{isATypeSelected ? <FilterOutlined /> : <DownOutlined />}</sub>
-                                    </div>
-                                </Dropdown>
-                                <Dropdown overlay={createdAtOptions}>
-                                    <div style={subFilterStyle}>
-                                        {createdAtLable + " "}
-                                        <sub>
-                                            {createdAtLable === "Date Posted" ? <DownOutlined /> : <FilterOutlined />}
-                                        </sub>
-                                    </div>
-                                </Dropdown>
-                                {/*
+                        <Container>
+                            <SearchComp expand={true} showSearchButton={true} />
+                            <div style={{ display: "flex", justifyContent: "space-around" }}>
+                                <div style={{ display: "flex", flexBasis: "50%", justifyContent: "space-around" }}>
+                                    <Dropdown overlay={experinaceOptions}>
+                                        <div style={subFilterStyle}>
+                                            {expericeLable + "  "}
+                                            <sub>
+                                                {expericeLable === "Experience" ? (
+                                                    <DownOutlined />
+                                                ) : (
+                                                    <FilterOutlined style={{ fontSize: "12px" }} />
+                                                )}
+                                            </sub>
+                                        </div>
+                                    </Dropdown>
+                                    <Dropdown onChange={e => {}} overlay={salaryOptions}>
+                                        <div style={subFilterStyle}>
+                                            {salaryLable + " "}
+                                            <sub>
+                                                {salaryLable === "Salary" ? <DownOutlined /> : <FilterOutlined />}
+                                            </sub>
+                                        </div>
+                                    </Dropdown>
+                                    <Dropdown overlay={jobTypeOptions}>
+                                        <div style={subFilterStyle}>
+                                            {"Type "}
+                                            <sub>{isATypeSelected ? <FilterOutlined /> : <DownOutlined />}</sub>
+                                        </div>
+                                    </Dropdown>
+                                    <Dropdown overlay={createdAtOptions}>
+                                        <div style={subFilterStyle}>
+                                            {createdAtLable + " "}
+                                            <sub>
+                                                {createdAtLable === "Date Posted" ? (
+                                                    <DownOutlined />
+                                                ) : (
+                                                    <FilterOutlined />
+                                                )}
+                                            </sub>
+                                        </div>
+                                    </Dropdown>
+                                    {/*
                                 <Dropdown overlay={jobTypeOptions}>
                                     <div style={subFilterStyle}>
                                         {"Company "}
@@ -176,9 +184,10 @@ const AdvanceSearch = props => {
                                     </div>
                                 </Dropdown>
                                 */}
+                                </div>
+                                <div style={{ flexBasis: "100%" }} />
                             </div>
-                            <div style={{ flexBasis: "100%" }} />
-                        </div>
+                        </Container>
                     </div>
                 </Row>
             </div>

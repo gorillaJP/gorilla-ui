@@ -78,6 +78,7 @@ class ProfilePage extends Component {
                         <div className={styles.profileDetails}>
                             <div>
                                 <ProfileResumeSection
+                                    resumes={profile.resumes}
                                     startLoad={() => this.startLoad()}
                                     endLoad={() => this.endLoad()}
                                     updateProfile={profile => this.updateProfile(profile)}
