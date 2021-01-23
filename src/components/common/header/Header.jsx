@@ -88,7 +88,7 @@ const UserProfileDropDownContent = props => {
     return (
         <Menu>
             <Menu.Item key="username" className={styles.disabledLink} title={profile.name}>
-                <Link className={`${styles.linkDropDown} ${styles.truncate}`} disabled>
+                <Link to="" className={`${styles.linkDropDown} ${styles.truncate}`} disabled>
                     {profile.name}
                 </Link>
             </Menu.Item>
@@ -107,6 +107,7 @@ const UserProfileDropDownContent = props => {
                     onClick={() => {
                         logOut(token);
                     }}
+                    to=""
                 >
                     Log Out
                 </Link>

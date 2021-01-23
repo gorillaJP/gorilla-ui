@@ -88,6 +88,7 @@ const MobileMenu = props => {
                                 e.preventDefault();
                                 props.userLogout(props.token);
                             }}
+                            to=""
                         >
                             Log Out
                         </Link>

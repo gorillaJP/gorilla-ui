@@ -16,3 +16,6 @@ export const DESCRIPTIVE_ANSWER_QUESTION = 'descriptiveAnswerQuestion';
 // PLACEHOLDERS
 export const MOBILE_NUMBER = 'Mobile Number';
 export const QUESTIONNAIRE_TITLE = 'Please complete the below questions from the employer and show you are a relevant candidate.';
+
+export const VIEW_TYPE_GRID = 'GRID';
+export const VIEW_TYPE_LIST = 'LIST';

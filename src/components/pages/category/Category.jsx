@@ -9,13 +9,22 @@ import JobAddCard from "../../common/cards/job-add-card/JobAddCard";
 
 import { Container } from "../../common/container/Container";
 import * as styles from "./Category.module.css";
+import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { VIEW_TYPE_GRID, VIEW_TYPE_LIST } from "../../../constants/AppConstants";
+import { Collapse, Select } from "antd";
+import CompanyMessage from "../../common/company-message/CompanyMessage";
+const { Option } = Select;
+const { Panel } = Collapse;
 
 const Category = props => {
     let { jobCategory } = useParams();
     const history = useHistory();
     const [jobs, setJobs] = useState([]);
+    const [companies, setCompanies] = useState([]);
     const [categoryKey, setCategoryKey] = useState("");
     const [categoryType, setCategoryType] = useState("");
+    const [viewType, setViewType] = useState(VIEW_TYPE_GRID);
+    const [filter, setFilter] = useState("date");
 
     useEffect(() => {
         setCategoryKey(jobCategory);
@@ -41,12 +50,14 @@ const Category = props => {
     }, [categoryKey, props.actions, props.token]);
 
     useEffect(() => {
-        const category = props.jobsMatrix.find(matrix => {
-            return matrix.key === categoryKey;
-        });
-        if (category) {
-            console.log(category);
-            setCategoryType(category.type);
+        if (categoryKey) {
+            const category = props.jobsMatrix.find(matrix => {
+                return matrix.key === categoryKey;
+            });
+            if (category) {
+                setCategoryType(category.type);
+                setJobs([]);
+            }
         }
     }, [props.jobsMatrix, categoryKey]);
 
@@ -57,13 +68,14 @@ const Category = props => {
     return (
         <Container>
             <div className={styles.categories}>
-                {props.jobsMatrix.map(matrix => {
+                {props.jobsMatrix.map((matrix, i) => {
                     return (
                         <div
                             className={styles.category}
                             onClick={() => {
                                 setJobCategory(matrix.key);
                             }}
+                            key={i}
                         >
                             <span>{matrix.displayText}</span>
                             <span>{matrix.count}</span>
@@ -71,17 +83,128 @@ const Category = props => {
                     );
                 })}
             </div>
-            {categoryType === "jobadd" ? (
-                <div className={styles.jobAddContainer}>
-                    {jobs.map(job => {
-                        return (
-                            <div key={job.jobId}>
-                                <JobAddCard job={job} />
-                            </div>
-                        );
-                    })}
-                </div>
-            ) : null}
+            <div className={styles.options}>
+                <span
+                    className={styles.viewOption}
+                    onClick={() => {
+                        setViewType(VIEW_TYPE_GRID);
+                    }}
+                >
+                    <AppstoreOutlined />
+                </span>
+                <span
+                    className={styles.viewOption}
+                    onClick={() => {
+                        setViewType(VIEW_TYPE_LIST);
+                    }}
+                >
+                    <UnorderedListOutlined />
+                </span>
+                <Select
+                    defaultValue="date"
+                    style={{ width: 120 }}
+                    onChange={e => {
+                        console.log(e);
+                    }}
+                >
+                    <Option value="date">Posted Date</Option>
+                    <Option value="company">Company Name</Option>
+                </Select>
+            </div>
+            <div>
+                {viewType === VIEW_TYPE_GRID ? (
+                    <div className={styles.jobAddContainer}>
+                        {jobs.map((job, i) => {
+                            let item = job;
+                            let showMessage = false;
+                            let message = "";
+                            if (categoryType === "company") {
+                                item = job.jobAdd;
+                                showMessage = true;
+                                message = job.message;
+                            }
+                            return (
+                                <div key={i}>
+                                    <JobAddCard job={item} showMessage={showMessage} message={message} />
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : null}
+                {viewType === VIEW_TYPE_LIST ? (
+                    <div className={styles.listContainer}>
+                        {categoryType === "company" ? (
+                            <Collapse
+                                expandIconPosition="right"
+                                expandIcon={panelProps => {
+                                    return (
+                                        <span className={styles.listContainerIcon}>
+                                            {panelProps.isActive ? "Hide Message" : "View Message"}
+                                        </span>
+                                    );
+                                }}
+                            >
+                                {jobs.map((job, i) => {
+                                    let item = job;
+                                    if (categoryType === "company") {
+                                        item = job.jobAdd;
+                                    }
+                                    return (
+                                        <Panel key={i} header={item.company} className={styles.listItem}>
+                                            <CompanyMessage message={job.message} />
+                                        </Panel>
+                                    );
+                                })}
+                            </Collapse>
+                        ) : (
+                            <>
+                                {jobs.map((job, i) => {
+                                    return (
+                                        <div key={i}>
+                                            <JobAddCard job={job} />
+                                        </div>
+                                    );
+                                })}
+                            </>
+                        )}
+                    </div>
+                ) : null}
+                {/* {categoryType === "jobadd" ? (
+                    <div className={viewType === VIEW_TYPE_GRID ? styles.jobAddContainer : styles.listContainer}>
+                        {jobs.map(job => {
+                            return (
+                                <div key={job.jobId}>
+                                    <JobAddCard job={job} />
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : null}
+                {categoryType === "company" ? (
+                    <div className={viewType === VIEW_TYPE_GRID ? styles.jobAddContainer : styles.listContainer}>
+                        <Collapse
+                            expandIconPosition="right"
+                            expandIcon={panelProps => {
+                                return (
+                                    <span className={styles.listContainerIcon}>
+                                        {panelProps.isActive ? "Hide Message" : "View Message"}
+                                    </span>
+                                );
+                            }}
+                        >
+                            <Panel header="This is panel header 1" key="1" className={styles.listItem}>
+                                <CompanyMessage message="message" />
+                            </Panel>
+                            <Panel header="This is panel header 2" key="2">
+                                <p>Text</p>
+                            </Panel>
+                            <Panel header="This is panel header 3" key="3">
+                                <p>Text</p>
+                            </Panel>
+                        </Collapse>
+                    </div>
+                ) : null} */}
+            </div>
         </Container>
     );
 };
