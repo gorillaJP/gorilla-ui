@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Card, Button } from "antd";
+import { Button, Collapse } from "antd";
 import moment from "moment";
-import { HeartFilled, HeartTwoTone, ShareAltOutlined } from "@ant-design/icons";
+import { EyeInvisibleOutlined, EyeOutlined, HeartFilled, HeartTwoTone, ShareAltOutlined } from "@ant-design/icons";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -11,11 +11,13 @@ import MinMax from "../../min-max/MinMax";
 import styles from "./JobAddCard.module.css";
 import EasyApply from "../../../pages/candidate-apply/easy-apply/EasyApply";
 import { saveJob, unSaveJob } from "../../../../actions/JobActions";
-
+import CompanyMessage from "../../company-message/CompanyMessage";
+const { Panel } = Collapse;
 const JobAddCard = props => {
     const [showEasyApply, setShowEasyApply] = useState(false);
+    const [messageVisible, setMessageVisible] = useState(false);
 
-    const { skills, salaryMin, salaryMax, company, location, title, type, createdat, hasSaved, hasApplied } = props.job;
+    const { salaryMin, salaryMax, company, location, title, type, createdat, hasSaved, hasApplied } = props.job;
     const jobId = props.job._id;
     const createdAtDate = moment(createdat);
     const timeNow = moment();
@@ -32,7 +34,7 @@ const JobAddCard = props => {
     };
 
     return (
-        <>
+        <div>
             <EasyApply
                 onCancel={() => {
                     setShowEasyApply(false);
@@ -72,7 +74,6 @@ const JobAddCard = props => {
                         <div className={styles.salary}>
                             <MinMax minVal={salaryMin} maxVal={salaryMax} unit="LKR" noText />
                         </div>
-                        {/* <SkillList skills={skills} guideText={false}></SkillList> */}
                         <div className={styles.starIcon}>
                             <ShareAltOutlined style={{ fontSize: "25px", marginRight: "10px" }} />
                             {hasSaved ? (
@@ -117,7 +118,36 @@ const JobAddCard = props => {
                     </div>
                 </div>
             </div>
-        </>
+            {props.showMessage && props.message ? (
+                <div className={styles.cardFooter}>
+                    <Collapse
+                        expandIconPosition="right"
+                        expandIcon={panelProps => {
+                            return (
+                                <span className={styles.listContainerIcon}>
+                                    {panelProps.isActive ? (
+                                        <EyeInvisibleOutlined style={{ fontSize: "16px" }} />
+                                    ) : (
+                                        <EyeOutlined style={{ fontSize: "16px" }} />
+                                    )}
+                                </span>
+                            );
+                        }}
+                        onChange={() => {
+                            setMessageVisible(!messageVisible);
+                        }}
+                    >
+                        <Panel
+                            header={messageVisible ? "Hide Message" : "Show Message"}
+                            key={props.job._id}
+                            className={styles.listItem}
+                        >
+                            <CompanyMessage message={props.message} />
+                        </Panel>
+                    </Collapse>
+                </div>
+            ) : null}
+        </div>
     );
 };
 
@@ -132,7 +162,9 @@ JobAddCard.prototypes = {
     onSelect: PropTypes.func,
     selected: PropTypes.bool,
     onEasyApply: PropTypes.func,
-    hideApply: PropTypes.boolean
+    hideApply: PropTypes.boolean,
+    showMessage: PropTypes.boolean,
+    message: PropTypes.string
 };
 
 JobAddCard.defaultProps = {

@@ -122,12 +122,15 @@ export const getJobsByCategory = async (category, token) => {
 
     return await axios.get(config.remote + `api/${category}/jobadd`, ReqConfig)
         .then(res => {
-            return res.data.payload;
+            const payload = res.data.payload || [];
+            return payload;
+           //return res.data;
         })
         .catch(e => {
             return [];
         });
 }
+
 
 export const saveJob = async (jobId, token) => {
     const ReqConfig = {

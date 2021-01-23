@@ -1,0 +1,12 @@
+.message {
+    background-color: #C8E6F3;
+    color: #000000;
+    border-color: #C8E6F3;
+    padding: 16px;
+}
+
+.easyApplyBtn {
+    background-color: #FCCF00 !important;
+    color: #3280B3 !important;
+    border-color:#FCCF00 !important;;
+}
