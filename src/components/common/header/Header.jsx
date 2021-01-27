@@ -80,6 +80,10 @@ const dashboard = [
     {
         linkName: "Applied Jobs",
         linkPath: "/jobs/application"
+    },
+    {
+        linkName: "Contacted You",
+        linkPath: "/jobs/candidatecontacted"
     }
 ];
 

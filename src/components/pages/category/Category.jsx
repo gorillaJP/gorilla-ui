@@ -115,17 +115,15 @@ const Category = props => {
                 {viewType === VIEW_TYPE_GRID ? (
                     <div className={styles.jobAddContainer}>
                         {jobs.map((job, i) => {
-                            let item = job;
                             let showMessage = false;
                             let message = "";
-                            if (categoryType === "company") {
-                                item = job.jobAdd;
+                            if (categoryKey === "candidatecontacted") {
                                 showMessage = true;
                                 message = job.message;
                             }
                             return (
                                 <div key={i}>
-                                    <JobAddCard job={item} showMessage={showMessage} message={message} />
+                                    <JobAddCard job={job} showMessage={showMessage} message={message} />
                                 </div>
                             );
                         })}
@@ -133,7 +131,7 @@ const Category = props => {
                 ) : null}
                 {viewType === VIEW_TYPE_LIST ? (
                     <div className={styles.listContainer}>
-                        {categoryType === "company" ? (
+                        {categoryKey === "candidatecontacted" ? (
                             <Collapse
                                 expandIconPosition="right"
                                 expandIcon={panelProps => {
@@ -145,12 +143,8 @@ const Category = props => {
                                 }}
                             >
                                 {jobs.map((job, i) => {
-                                    let item = job;
-                                    if (categoryType === "company") {
-                                        item = job.jobAdd;
-                                    }
                                     return (
-                                        <Panel key={i} header={item.company} className={styles.listItem}>
+                                        <Panel key={i} header={job.company} className={styles.listItem}>
                                             <CompanyMessage message={job.message} />
                                         </Panel>
                                     );
