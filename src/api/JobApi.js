@@ -124,7 +124,6 @@ export const getJobsByCategory = async (category, token) => {
         .then(res => {
             const payload = res.data.payload || [];
             return payload;
-           //return res.data;
         })
         .catch(e => {
             return [];
