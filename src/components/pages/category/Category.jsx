@@ -13,6 +13,7 @@ import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { VIEW_TYPE_GRID, VIEW_TYPE_LIST } from "../../../constants/AppConstants";
 import { Collapse, Select } from "antd";
 import CompanyMessage from "../../common/company-message/CompanyMessage";
+import CategoryMatrix from "../../common/category-matrix/CategoryMatrix";
 const { Option } = Select;
 const { Panel } = Collapse;
 
@@ -67,22 +68,13 @@ const Category = props => {
 
     return (
         <Container>
-            <div className={styles.categories}>
-                {props.jobsMatrix.map((matrix, i) => {
-                    return (
-                        <div
-                            className={styles.category}
-                            onClick={() => {
-                                setJobCategory(matrix.key);
-                            }}
-                            key={i}
-                        >
-                            <span>{matrix.displayText}</span>
-                            <span>{matrix.count}</span>
-                        </div>
-                    );
-                })}
-            </div>
+            <CategoryMatrix
+                categories={props.jobsMatrix}
+                onClick={matrix => {
+                    setJobCategory(matrix.key);
+                }}
+            />
+
             <div className={styles.options}>
                 <span
                     className={styles.viewOption}

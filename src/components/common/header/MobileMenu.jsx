@@ -113,48 +113,70 @@ const MobileMenu = props => {
                     );
                 })}
             </SubMenu> */}
-            <Menu.Item key="job-search" className={styles.mobileMenuItem}>
-                <span>
-                    <SearchOutlined />
-                    <Link to={"/job-details/search"}>Search</Link>
-                </span>
-            </Menu.Item>
-            <Menu.Item key="job-industries" className={styles.mobileMenuItem}>
-                <span>
-                    <DownloadOutlined />
-                    <Link to={"/job-search"}>Industries</Link>
-                </span>
-            </Menu.Item>
-            <Menu.Item key="job-locations" className={styles.mobileMenuItem}>
-                <span>
-                    <EnvironmentOutlined />
-                    <Link to={"/job-search"}>Locations</Link>
-                </span>
-            </Menu.Item>
-            <Menu.Item key="job-companies" className={styles.mobileMenuItem}>
-                <span>
-                    <CheckCircleOutlined />
-                    <Link to={"/job-search"}>Companies</Link>
-                </span>
-            </Menu.Item>
-            <SubMenu
-                key="more"
-                title={
-                    <span>
-                        <SearchOutlined size={50} />
-                        <span>More</span>
-                    </span>
-                }
-                className={styles.mobileMenuItem}
-            >
-                {props.moreJobs.map((item, i) => {
-                    return (
-                        <Menu.Item key={i} className={styles.subMenuItem}>
-                            <Link to={item.linkPath}>{item.linkName}</Link>
-                        </Menu.Item>
-                    );
-                })}
-            </SubMenu>
+            {props.domain === EMPLOYEE ? (
+                <>
+                    <Menu.Item key="job-search" className={styles.mobileMenuItem}>
+                        <span>
+                            <SearchOutlined />
+                            <Link to={"/job-details/search"}>Search</Link>
+                        </span>
+                    </Menu.Item>
+                    <Menu.Item key="job-industries" className={styles.mobileMenuItem}>
+                        <span>
+                            <DownloadOutlined />
+                            <Link to={"/job-search"}>Industries</Link>
+                        </span>
+                    </Menu.Item>
+                    <Menu.Item key="job-locations" className={styles.mobileMenuItem}>
+                        <span>
+                            <EnvironmentOutlined />
+                            <Link to={"/job-search"}>Locations</Link>
+                        </span>
+                    </Menu.Item>
+                    <Menu.Item key="job-companies" className={styles.mobileMenuItem}>
+                        <span>
+                            <CheckCircleOutlined />
+                            <Link to={"/job-search"}>Companies</Link>
+                        </span>
+                    </Menu.Item>
+                </>
+            ) : (
+                <>
+                    <Menu.Item key="job-post" className={styles.mobileMenuItem}>
+                        <span>
+                            <SearchOutlined />
+                            <Link to={"/job-post"}>Job Post</Link>
+                        </span>
+                    </Menu.Item>
+                    <Menu.Item key="candidates" className={styles.mobileMenuItem}>
+                        <span>
+                            <DownloadOutlined />
+                            <Link to={"/candidates"}>Candidates</Link>
+                        </span>
+                    </Menu.Item>
+                </>
+            )}
+            {props.domain === EMPLOYEE && (
+                <SubMenu
+                    key="more"
+                    title={
+                        <span>
+                            <SearchOutlined size={50} />
+                            <span>More</span>
+                        </span>
+                    }
+                    className={styles.mobileMenuItem}
+                >
+                    {props.moreJobs.map((item, i) => {
+                        return (
+                            <Menu.Item key={i} className={styles.subMenuItem}>
+                                <Link to={item.linkPath}>{item.linkName}</Link>
+                            </Menu.Item>
+                        );
+                    })}
+                </SubMenu>
+            )}
+
             <SubMenu
                 key="dashboard"
                 title={

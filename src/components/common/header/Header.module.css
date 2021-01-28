@@ -23,6 +23,10 @@
     flex-wrap: wrap;
 }
 
+.employerMenu {
+    justify-content: center;
+}
+
 .brand {
     color: #0073b1;
     margin-top: 15px;
@@ -90,6 +94,10 @@
     border-bottom: 3px solid #56c596;
 }
 
+.employerMenu .submenu {
+    margin-right: 30px;
+}
+
 .linkDropDown {
     border-left: 4px solid #fff;
     font-weight: 550;
@@ -142,6 +150,7 @@
     border-color: transparent;
 }
 
+.changeViewButton,
 .settingsIcon {
     margin-right: 20px;
 }

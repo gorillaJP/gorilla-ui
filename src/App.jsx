@@ -8,13 +8,11 @@ import JobDetails from "./components/pages/job-details-page/JobDetails";
 import JobPost from "./components/pages/job-post-page/JobPost";
 import Footer from "./components/common/footer/Footer";
 import Loader from "./components/common/overlays/Loader";
-import EmployerSignup from "./components/pages/signup/employer/EmployerSignup";
 import SignIn from "./components/pages/signin/SignIn";
 import { Layout } from "antd";
 import { getSessionStorage } from "./api/SessionStorage";
 import { getLocalStorage } from "./api/LocalStorage";
 import Overlay from "./components/common/overlays/Overlay";
-import EmployeeSignup from "./components/pages/signup/employee/EmployeeSignup";
 import Signup from "./components/pages/signup/Signup";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -26,6 +24,10 @@ import JobsByLocation from "./components/pages/jobs-by-location/JobsByLocation";
 import CandidateApply from "./components/pages/candidate-apply/CandidateApply";
 import Category from "./components/pages/category/Category";
 import ContactedYou from "./components/pages/candidate-apply/contacted-you/ContactedYou";
+import EmployerLandingPage from "./components/pages/landing-page/EmployerLandingPage";
+import { EMPLOYEE } from "./constants/AppConstants";
+import EmployerDashboard from "./components/pages/dashboard/EmployerDashboard";
+import { EMPLOYER_HOME_ROUTE } from "./constants/RouteConstant";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -61,8 +63,10 @@ const App = props => {
     useEffect(() => {
         if (!props.token) {
             setUserLoggedIn(false);
+        } else if (props.token && props.userProfile) {
+            setUserLoggedIn(true);
         }
-    }, [props.token]);
+    }, [props.token, props.userProfile]);
 
     return (
         <Layout className={styles.app}>
@@ -105,6 +109,10 @@ const App = props => {
 
                         <Route exact path="/profile" render={() => <ProfilePage />} />
 
+                        <Route exact path={EMPLOYER_HOME_ROUTE} render={() => <EmployerLandingPage />} />
+
+                        <Route exact path="/employer/dashboard" render={() => <EmployerDashboard />} />
+
                         <Route path="/" render={() => <LandingPage />} />
                     </Switch>
                     <div className={styles.overlayContainer}>
@@ -124,7 +132,8 @@ const App = props => {
 const mapStateToProps = state => {
     return {
         userProfile: state.authData.profile,
-        token: state.authData.token
+        token: state.authData.token,
+        domain: state.metaData.domain
     };
 };
 
