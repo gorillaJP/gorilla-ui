@@ -1,0 +1,9 @@
+.categoryContainer {
+    margin: 15px 0;
+}
+
+.searchContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}

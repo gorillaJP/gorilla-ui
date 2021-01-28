@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import { logOut } from "../../../actions/UserAction";
 import config from "../../../util/config";
 import { getInitials } from "../../../util/Util";
+import { EMPLOYER_HOME_ROUTE } from "../../../constants/RouteConstant";
 
 const moreJobs = [
     {
@@ -137,7 +138,7 @@ const LinkDropDownContent = items => {
 };
 
 const HeaderComp = props => {
-    let location = useLocation();
+    const location = useLocation();
     const history = useHistory();
 
     const [previousPathName, setPreviousPathName] = useState("/");
@@ -172,20 +173,37 @@ const HeaderComp = props => {
                             </div>
                         </div>
                         <div className={styles.header}>
-                            <div className={styles.subMenuWrapper}>
-                                <span className={styles.submenu}>
-                                    <Link to="/job-details/search">Search</Link>
-                                </span>
-                                <span className={styles.submenu}>
-                                    <Link to="/jobs-by-industry">Industries</Link>
-                                </span>
-                                <span className={styles.submenu}>
-                                    <Link to="/jobs-by-location">Location</Link>
-                                </span>
-                                <span className={styles.submenu}>Companies</span>
-                                <Dropdown overlay={LinkDropDownContent(moreJobs, this)}>
-                                    <span className={styles.submenu}>More</span>
-                                </Dropdown>
+                            <div
+                                className={`${styles.subMenuWrapper} ${
+                                    location.pathname === EMPLOYER_HOME_ROUTE ? styles.employerMenu : ""
+                                }`}
+                            >
+                                {location.pathname !== EMPLOYER_HOME_ROUTE ? (
+                                    <>
+                                        <span className={styles.submenu}>
+                                            <Link to="/job-details/search">Search</Link>
+                                        </span>
+                                        <span className={styles.submenu}>
+                                            <Link to="/jobs-by-industry">Industries</Link>
+                                        </span>
+                                        <span className={styles.submenu}>
+                                            <Link to="/jobs-by-location">Location</Link>
+                                        </span>
+                                        <span className={styles.submenu}>Companies</span>
+                                        <Dropdown overlay={LinkDropDownContent(moreJobs, this)}>
+                                            <span className={styles.submenu}>More</span>
+                                        </Dropdown>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className={styles.submenu}>
+                                            <Link to="/job-post">Post Jobs</Link>
+                                        </span>
+                                        <span className={styles.submenu}>
+                                            <Link to="/candidates">Candidates</Link>
+                                        </span>
+                                    </>
+                                )}
                             </div>
                         </div>
                         {!props.userLoggeIn && (
@@ -218,9 +236,26 @@ const HeaderComp = props => {
                         )}
                         {props.userLoggeIn && (
                             <div className={styles.actionButtons}>
-                                <Dropdown overlay={LinkDropDownContent(dashboard, this)}>
-                                    <SettingOutlined className={styles.settingsIcon} />
-                                </Dropdown>
+                                {domain === EMPLOYER && location.pathname !== EMPLOYER_HOME_ROUTE && (
+                                    <div className={styles.actionButtons}>
+                                        <div className={`${styles.employersButton} ${styles.changeViewButton}`}>
+                                            <Button
+                                                type="primary"
+                                                size="large"
+                                                onClick={() => {
+                                                    history.push(EMPLOYER_HOME_ROUTE);
+                                                }}
+                                            >
+                                                <span>Employer View</span>
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
+                                {domain === EMPLOYEE && (
+                                    <Dropdown overlay={LinkDropDownContent(dashboard, this)}>
+                                        <SettingOutlined className={styles.settingsIcon} />
+                                    </Dropdown>
+                                )}
                                 <Dropdown
                                     overlay={UserProfileDropDownContent({
                                         logOut: props.actions.logOut,
