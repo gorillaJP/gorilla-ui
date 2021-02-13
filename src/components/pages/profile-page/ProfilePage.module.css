@@ -172,11 +172,23 @@
     .profileFlex {
         flex-direction: column;
     }
+
+    .addMore {
+        padding-left: unset;
+        display: flex;
+        justify-content: center;
+    }
 }
 
 @media only screen and (max-width: 500px) {
     .addNewRecord,
     .addNew {
         padding-left: 35%;
+    }
+
+    .addMore {
+        padding-left: unset;
+        display: flex;
+        justify-content: center;
     }
 }

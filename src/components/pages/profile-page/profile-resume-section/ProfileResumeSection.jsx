@@ -79,9 +79,12 @@ const ProfileResumeSection = props => {
                 <>
                     <div className={commonStyles.detailBlock}>
                         {props.resumes.map(resume => {
+                            console.log(resume);
                             return (
                                 <div className={styles.resume}>
-                                    <span>{resume.label}</span>
+                                    <a href={resume.file} download={resume.label}>
+                                        {resume.label}
+                                    </a>
                                     <Button
                                         className={styles.remove}
                                         icon={<DeleteOutlined />}

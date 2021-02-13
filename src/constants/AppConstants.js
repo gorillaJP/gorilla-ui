@@ -19,3 +19,13 @@ export const QUESTIONNAIRE_TITLE = 'Please complete the below questions from the
 
 export const VIEW_TYPE_GRID = 'GRID';
 export const VIEW_TYPE_LIST = 'LIST';
+
+// Job matrix category keys 
+export const RECOMMENDED_JOBS = 'recommended';
+export const APPLIED_JOBS = 'application';
+export const SAVED_JOBS = 'savedjob';
+export const CONTACTED_JOBS = 'candidatecontacted';
+export const FOLLOWED_JOBS = 'followed';
+export const VIEWED_JOBS = 'profileviewed';
+
+

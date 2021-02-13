@@ -186,29 +186,28 @@ const ApplyJob = props => {
                                 setSelectedResume(e.target.value);
                             }}
                             value={selectedResume}
+                            size="middle"
                         >
                             {userProfile.resumes.map(resume => {
                                 return (
                                     <Radio key={resume._id} value={resume._id}>
-                                        {resume.label}
+                                        <span className={commonStyles.resumeRadioLabel}>{resume.label}</span>
                                     </Radio>
                                 );
                             })}
                         </Radio.Group>
                     </>
                 ) : null}
-                <Upload {...fileUploadProps} className={commonStyles.uploadNew}>
+                <Upload {...fileUploadProps} className={`${commonStyles.uploadNew} ${commonStyles.resumeUpload}`}>
                     <Button
                         type="primary"
                         shape="circle"
-                        icon={<PlusOutlined style={{ fontSize: "12px" }} />}
+                        icon={<PlusOutlined style={{ fontSize: "14px" }} />}
                         size="small"
                     />
-                    <span>
-                        <Button type="link">
-                            {userProfile.resumes.length ? "Or Upload New Resume" : "Please upload your resume"}
-                        </Button>
-                    </span>
+                    <Button type="link">
+                        {userProfile.resumes.length ? "Or Upload New Resume" : "Please upload your resume"}
+                    </Button>
                 </Upload>
             </div>
             {props.withQuestions && (

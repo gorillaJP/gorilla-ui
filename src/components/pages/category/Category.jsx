@@ -10,8 +10,17 @@ import JobAddCard from "../../common/cards/job-add-card/JobAddCard";
 import { Container } from "../../common/container/Container";
 import * as styles from "./Category.module.css";
 import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons";
-import { VIEW_TYPE_GRID, VIEW_TYPE_LIST } from "../../../constants/AppConstants";
-import { Collapse, Select } from "antd";
+import {
+    CONTACTED_JOBS,
+    FOLLOWED_JOBS,
+    RECOMMENDED_JOBS,
+    SAVED_JOBS,
+    VIEWED_JOBS,
+    VIEW_TYPE_GRID,
+    VIEW_TYPE_LIST,
+    APPLIED_JOBS
+} from "../../../constants/AppConstants";
+import { Collapse, Select, List, Typography } from "antd";
 import CompanyMessage from "../../common/company-message/CompanyMessage";
 import CategoryMatrix from "../../common/category-matrix/CategoryMatrix";
 const { Option } = Select;
@@ -66,6 +75,18 @@ const Category = props => {
         history.push(`/jobs/${key}`);
     };
 
+    const getMessage = job => {
+        if (categoryKey === RECOMMENDED_JOBS || categoryKey === APPLIED_JOBS || categoryKey === SAVED_JOBS) {
+            return `${job.title}  |  ${job.company}`;
+        } else if (categoryKey === FOLLOWED_JOBS) {
+            return job.company;
+        } else if (categoryKey === VIEWED_JOBS) {
+            return `${job.company} Viewed your profile`;
+        } else if (categoryKey === CONTACTED_JOBS) {
+            return `${job.company} Contacted you`;
+        }
+    };
+
     return (
         <Container>
             <CategoryMatrix
@@ -109,7 +130,7 @@ const Category = props => {
                         {jobs.map((job, i) => {
                             let showMessage = false;
                             let message = "";
-                            if (categoryKey === "candidatecontacted") {
+                            if (categoryKey === CONTACTED_JOBS) {
                                 showMessage = true;
                                 message = job.message;
                             }
@@ -123,7 +144,7 @@ const Category = props => {
                 ) : null}
                 {viewType === VIEW_TYPE_LIST ? (
                     <div className={styles.listContainer}>
-                        {categoryKey === "candidatecontacted" ? (
+                        {categoryKey === CONTACTED_JOBS ? (
                             <Collapse
                                 expandIconPosition="right"
                                 expandIcon={panelProps => {
@@ -136,22 +157,21 @@ const Category = props => {
                             >
                                 {jobs.map((job, i) => {
                                     return (
-                                        <Panel key={i} header={job.company} className={styles.listItem}>
+                                        <Panel key={i} header={getMessage(job)} className={styles.listItem}>
                                             <CompanyMessage message={job.message} />
                                         </Panel>
                                     );
                                 })}
                             </Collapse>
                         ) : (
-                            <>
-                                {jobs.map((job, i) => {
-                                    return (
-                                        <div key={i}>
-                                            <JobAddCard job={job} />
-                                        </div>
-                                    );
-                                })}
-                            </>
+                            <List
+                                style={{ backgroundColor: "#fff" }}
+                                bordered
+                                dataSource={jobs}
+                                renderItem={item => {
+                                    return <List.Item>{getMessage(item)}</List.Item>;
+                                }}
+                            />
                         )}
                     </div>
                 ) : null}

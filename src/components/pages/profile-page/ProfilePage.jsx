@@ -72,6 +72,7 @@ class ProfilePage extends Component {
                                     endLoad={() => this.endLoad()}
                                     updateProfile={profile => this.updateProfile(profile)}
                                     token={this.state.token}
+                                    visibleToEmployers={profile.visibleToEmployers}
                                 />
                             </div>
                         </div>

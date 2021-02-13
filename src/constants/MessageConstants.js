@@ -17,3 +17,7 @@ export const INITIAL_SIGN_IN_MSG_EMPLOYER = 'SAMPLE MESSAGE - Login to find thou
 // Footer Section
 export const FOOTER_MESSAGE_SECTION_TITLE = 'Looking To Post a Job ?';
 export const FOOTER_MESSAGE_SECTION_MESSAGE = 'We are here to find you best candidate to fill up.';
+
+// Profile
+export const VISIBLE_TO_EMPLOYER_HEADER = 'Make your profile visible to employers';
+export const VISIBLE_TO_EMPLOYER_MESSAGE = 'Your profile and Career Goals will appear when employers search our database';

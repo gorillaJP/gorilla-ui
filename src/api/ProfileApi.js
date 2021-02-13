@@ -37,6 +37,10 @@ export const saveProfileName = async (profileName, token) => {
     return saveData('name', profileName, token);
 };
 
+export const saveProfileVisibilityToEmployer = async (visibleToEmployers, token) => {
+    return saveData('visibletoemployers', visibleToEmployers, token);
+};
+
 export const saveResume = async (resumeData, token) => {
     return saveData('resumes', resumeData, token);
 };
