@@ -4,7 +4,9 @@ import * as commonStyles from "../ProfilePage.module.css";
 import { PlusOutlined, FormOutlined, CameraFilled } from "@ant-design/icons";
 import { Upload, message, Button, Input } from "antd";
 import config from "../../../../util/config";
-import { saveProfileImage, saveProfileName } from "../../../../api/ProfileApi";
+import { saveProfileImage, saveProfileName, saveProfileVisibilityToEmployer } from "../../../../api/ProfileApi";
+import VisibleToEmployerCard from "../../../common/cards/visible-to-employer-card/VisibleToEmployerCard";
+import { check } from "prettier";
 
 const ProfileMeta = props => {
     const [edit, setEditMode] = useState(false);
@@ -42,6 +44,17 @@ const ProfileMeta = props => {
             }
         } else {
             setShowNameError(true);
+        }
+    };
+
+    const updateVisibleToEmployer = async checked => {
+        const response = await saveProfileVisibilityToEmployer({ visibleToEmployers: checked }, props.token);
+        props.endLoad();
+        if (response && response.data) {
+            props.updateProfile(response.data);
+            message.success("Profile visibility updated");
+        } else {
+            message.error("Error updating profile visibility");
         }
     };
 
@@ -142,6 +155,12 @@ const ProfileMeta = props => {
                 )}
             </div>
             <span className={styles.email}>{props.email}</span>
+            <div className={styles.profileVisibilityContainer}>
+                <VisibleToEmployerCard
+                    onChange={checked => updateVisibleToEmployer(checked)}
+                    checked={props.visibleToEmployers}
+                />
+            </div>
         </div>
     );
 };

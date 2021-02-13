@@ -301,6 +301,12 @@
     }
 }
 
+@media screen and (min-width: 1023px) and (max-width: 1200px) {  
+    .forEmployers {
+        display: none;
+    }
+}
+
 @media only screen and (max-width: 1023px) {
     .headerComp {
         background-color: #0073b1;

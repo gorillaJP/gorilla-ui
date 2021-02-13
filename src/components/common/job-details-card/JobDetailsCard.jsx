@@ -9,7 +9,7 @@ import EasyApply from "../../pages/candidate-apply/easy-apply/EasyApply";
 
 const JobDetailsCard = props => {
     const { job } = props;
-
+    console.log(job);
     const [showEasyApply, setShowEasyApply] = useState(false);
 
     return (
@@ -51,7 +51,7 @@ const JobDetailsCard = props => {
             {job.level && <div className={styles.otherDetails}>Level - {job.level}</div>}
             {job.industry && <div className={styles.otherDetails}>Industry - {job.industry}</div>}
             <div className={styles.buttonContainer}>
-                {job.notifyEmail && (
+                {
                     <div className={styles.actionButtons}>
                         {!props.job.hasApplied ? (
                             props.job.isPitchRequired ? (
@@ -72,7 +72,7 @@ const JobDetailsCard = props => {
                             <span>Already Applied</span>
                         )}
                     </div>
-                )}
+                }
                 {job.redirectURL && (
                     <div className={styles.actionButtons}>
                         <Button type="primary" className={styles.actionButtons}>

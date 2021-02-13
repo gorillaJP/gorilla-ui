@@ -73,20 +73,14 @@ const profileLinks = [
     }
 ];
 
-const dashboard = [
-    {
-        linkName: "Saved Jobs",
-        linkPath: "/jobs/savedjob"
-    },
-    {
-        linkName: "Applied Jobs",
-        linkPath: "/jobs/application"
-    },
-    {
-        linkName: "Contacted You",
-        linkPath: "/jobs/candidatecontacted"
-    }
-];
+const dashboardLinks = jobMatrix => {
+    return jobMatrix.map(matrix => {
+        return {
+            linkName: matrix.displayText,
+            linkPath: `/jobs/${matrix.key}`
+        };
+    });
+};
 
 const UserProfileDropDownContent = props => {
     const { logOut, token, profile } = props;
@@ -252,7 +246,7 @@ const HeaderComp = props => {
                                     </div>
                                 )}
                                 {domain === EMPLOYEE && (
-                                    <Dropdown overlay={LinkDropDownContent(dashboard, this)}>
+                                    <Dropdown overlay={LinkDropDownContent(dashboardLinks(props.jobsMatrix), this)}>
                                         <SettingOutlined className={styles.settingsIcon} />
                                     </Dropdown>
                                 )}
@@ -304,7 +298,7 @@ const HeaderComp = props => {
                             token={token}
                             profile={props.profile}
                             moreJobs={moreJobs}
-                            dashboard={dashboard}
+                            dashboard={dashboardLinks(props.jobsMatrix)}
                             profileLinks={profileLinks}
                             userName={profile.name}
                             opened={props.mobileMenuOpen}
@@ -329,7 +323,8 @@ const mapStateToProps = state => {
     return {
         domain: state.metaData.domain,
         token: state.authData.token,
-        profile: state.authData.profile
+        profile: state.authData.profile,
+        jobsMatrix: state.matrixData.jobsMatrix
     };
 };
 
