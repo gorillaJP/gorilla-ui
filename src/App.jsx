@@ -28,6 +28,7 @@ import EmployerLandingPage from "./components/pages/landing-page/EmployerLanding
 import { EMPLOYEE } from "./constants/AppConstants";
 import EmployerDashboard from "./components/pages/dashboard/EmployerDashboard";
 import { EMPLOYER_HOME_ROUTE } from "./constants/RouteConstant";
+import { getJobMatrix } from "./actions/MatrixActions";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -57,6 +58,7 @@ const App = props => {
             props.actions.setUserProfile(JSON.parse(userProfile));
             props.actions.setAccessToken(token);
             setUserLoggedIn(true);
+            props.actions.getJobMatrix(token);
         }
     }, []);
 
@@ -111,7 +113,7 @@ const App = props => {
 
                         <Route exact path={EMPLOYER_HOME_ROUTE} render={() => <EmployerLandingPage />} />
 
-                        <Route exact path="/employer/dashboard" render={() => <EmployerDashboard />} />
+                        <Route exact path="/employer/dashboard/:jobCategory" render={() => <EmployerDashboard />} />
 
                         <Route path="/" render={() => <LandingPage />} />
                     </Switch>
@@ -141,7 +143,8 @@ const mapDispatchToProps = dispatch => {
     return {
         actions: {
             setUserProfile: bindActionCreators(setUserProfile, dispatch),
-            setAccessToken: bindActionCreators(setAccessToken, dispatch)
+            setAccessToken: bindActionCreators(setAccessToken, dispatch),
+            getJobMatrix: bindActionCreators(getJobMatrix, dispatch)
         }
     };
 };
