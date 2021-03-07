@@ -1,12 +1,25 @@
 import { Space, Table, Input } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import moment from "moment";
+import { loadingFinished, loadingStarted } from "../../../actions/CommonActions";
+import { getEmployerJobAdds } from "../../../api/JobApi";
+import { getJobMatrix } from "../../../api/MatrixApi";
 import CategoryMatrix from "../../common/category-matrix/CategoryMatrix";
 import { Container } from "../../common/container/Container";
 import * as styles from "./Dashboard.module.css";
 
 const { Search } = Input;
 
-const EmployerDashboard = () => {
+const EmployerDashboard = props => {
+    let { jobCategory } = useParams();
+    const history = useHistory();
+    const [categoryKey, setCategoryKey] = useState("");
+    const [jobData, setJobData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+
     const categories = [
         { count: 10, displayText: "Inprogress Jobs", key: "inprogress" },
         { count: 10, displayText: "Draft Jobs", key: "draft" },
@@ -15,18 +28,44 @@ const EmployerDashboard = () => {
         { count: 10, displayText: "Pending to Publish", key: "pending" }
     ];
 
+    useEffect(() => {
+        if (jobCategory && props.token) {
+            setCategoryKey();
+            const fetchJobData = async () => {
+                let response = await getEmployerJobAdds(jobCategory, props.token);
+                const keyedResponse = response.map(row => {
+                    return {
+                        ...row,
+                        key: row._id,
+                        createdat: moment(row.createdat)
+                            .utc()
+                            .format("DD/MM/YYYY  h:mm"),
+
+                        expireDate: moment(row.expireDate)
+                            .utc()
+                            .format("DD/MM/YYYY  h:mm")
+                    };
+                });
+                setJobData([...keyedResponse]);
+                setFilteredData([...keyedResponse]);
+            };
+
+            fetchJobData();
+        }
+    }, [jobCategory, props.token]);
+
     const columns = [
         {
             title: "Reference ID",
-            dataIndex: "referenceIndex",
-            key: "referenceIndex",
+            dataIndex: "referenceId",
+            key: "referenceId",
             sorter: (a, b) => a.referenceId.localeCompare(b.referenceId)
         },
         {
             title: "Job Title",
-            dataIndex: "jobTitle",
-            key: "jobTitle",
-            sorter: (a, b) => a.jobTitle.localeCompare(b.jobTitle)
+            dataIndex: "title",
+            key: "title",
+            sorter: (a, b) => a.title.localeCompare(b.title)
         },
         {
             title: "Created By",
@@ -36,15 +75,15 @@ const EmployerDashboard = () => {
         },
         {
             title: "Created Date",
-            dataIndex: "createdDate",
-            key: "createdDate",
-            sorter: (a, b) => a.createdDate.localeCompare(b.createdDate)
+            dataIndex: "createdat",
+            key: "createdat",
+            sorter: (a, b) => a.createdat.localeCompare(b.createdat)
         },
         {
             title: "Expired Date",
-            dataIndex: "expiredDate",
-            key: "expiredDate",
-            sorter: (a, b) => a.expiredDate.localeCompare(b.expiredDate)
+            dataIndex: "expireDate",
+            key: "expireDate",
+            sorter: (a, b) => a.expireDate.localeCompare(b.expireDate)
         },
         {
             title: "Candidates",
@@ -70,20 +109,26 @@ const EmployerDashboard = () => {
                 <CategoryMatrix
                     categories={categories}
                     onClick={category => {
-                        console.log(category);
+                        history.push(`/employer/dashboard/${category.key}`);
                     }}
                 />
             </div>
             <div className={styles.searchContainer}>
                 <Search
                     placeholder="Search By Reference ID"
-                    onSearch={value => {
-                        console.log(value);
+                    onChange={event => {
+                        const value = event.target.value;
+                        const filteredData = jobData.filter(job => {
+                            return job.referenceId.includes(value);
+                        });
+
+                        setFilteredData(filteredData);
                     }}
                     style={{ width: 250 }}
                 />
             </div>
             <Table
+                dataSource={filteredData}
                 columns={columns}
                 pagination={{ position: "bottomRight", defaultPageSize: 10, hideOnSinglePage: true, responsive: true }}
             />
@@ -91,4 +136,21 @@ const EmployerDashboard = () => {
     );
 };
 
-export default EmployerDashboard;
+const mapStateToProps = state => {
+    return {
+        token: state.authData.token,
+        jobsMatrix: state.matrixData.jobsMatrix
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: {
+            loadingStarted: bindActionCreators(loadingStarted, dispatch),
+            loadingFinished: bindActionCreators(loadingFinished, dispatch),
+            getJobMatrix: bindActionCreators(getJobMatrix, dispatch)
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmployerDashboard);

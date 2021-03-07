@@ -164,3 +164,21 @@ export const unSaveJob = async (jobId, token) => {
             return false;
         });
 }
+
+
+export const getEmployerJobAdds = async (key, token) => {
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':  `Bearer ${token}`
+        }
+    };
+
+    return await axios.get(config.remote + `api/employerjobadds?status=${key}`, ReqConfig)
+        .then(res => {
+            return res.data.payload;
+        })
+        .catch(e => {
+            return [];
+        });
+}
