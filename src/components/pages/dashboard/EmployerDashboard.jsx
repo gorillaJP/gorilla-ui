@@ -139,7 +139,8 @@ const EmployerDashboard = props => {
 const mapStateToProps = state => {
     return {
         token: state.authData.token,
-        jobsMatrix: state.matrixData.jobsMatrix
+        jobsMatrix: state.matrixData.jobsMatrix,
+        domain: state.metaData.domain
     };
 };
 

@@ -107,6 +107,9 @@ const SignIn = props => {
             if (data.status === 200) {
                 const innerData = data.data;
 
+                props.actions.setAccessToken(innerData.token);
+                props.actions.setUserProfile(innerData.user);
+
                 if (rememberMe) {
                     setLocalStorage(TOKEN, innerData.token);
                     setLocalStorage(USERPROFILE, innerData.user);
@@ -115,8 +118,6 @@ const SignIn = props => {
                     setSessionStorage(USERPROFILE, innerData.user);
                 }
 
-                props.actions.setAccessToken(innerData.token);
-                props.actions.setUserProfile(innerData.user);
                 history.push("/");
             }
         }

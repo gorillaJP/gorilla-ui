@@ -112,7 +112,7 @@ export const getQuestionnaire = async (questionnaireId, token) => {
 };
 
 
-export const getJobsByCategory = async (category, token) => {
+export const getJobsByCategory = async (category, categoryType, token) => {
     const ReqConfig = {
         headers: {
             'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export const getJobsByCategory = async (category, token) => {
         }
     };
 
-    return await axios.get(config.remote + `api/${category}/jobadd`, ReqConfig)
+    return await axios.get(config.remote + `api/${category}/${categoryType}`, ReqConfig)
         .then(res => {
             const payload = res.data.payload || [];
             return payload;

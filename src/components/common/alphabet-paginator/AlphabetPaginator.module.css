@@ -1,0 +1,14 @@
+.paginationWrapper {
+    border: 1px solid #D0CEC9;
+    border-radius: 4px;
+    background-color: #ECECEC;
+    display: flex;
+    justify-content: space-around;
+}
+
+.paginationWrapper span {
+    padding: 7px;
+    font-size: 27px;
+    color: #4B80EA;
+    cursor: pointer;
+}

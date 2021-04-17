@@ -29,6 +29,7 @@ import { EMPLOYEE } from "./constants/AppConstants";
 import EmployerDashboard from "./components/pages/dashboard/EmployerDashboard";
 import { EMPLOYER_HOME_ROUTE } from "./constants/RouteConstant";
 import { getJobMatrix } from "./actions/MatrixActions";
+import Companies from "./components/pages/companies/Companies";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -58,15 +59,16 @@ const App = props => {
             props.actions.setUserProfile(JSON.parse(userProfile));
             props.actions.setAccessToken(token);
             setUserLoggedIn(true);
-            props.actions.getJobMatrix(token);
         }
     }, []);
 
     useEffect(() => {
         if (!props.token) {
             setUserLoggedIn(false);
-        } else if (props.token && props.userProfile) {
+        } else if (props.token && Object.keys(props.userProfile).length) {
             setUserLoggedIn(true);
+            // Get job Matrix data
+            props.actions.getJobMatrix(props.domain, props.token);
         }
     }, [props.token, props.userProfile]);
 
@@ -114,6 +116,8 @@ const App = props => {
                         <Route exact path={EMPLOYER_HOME_ROUTE} render={() => <EmployerLandingPage />} />
 
                         <Route exact path="/employer/dashboard/:jobCategory" render={() => <EmployerDashboard />} />
+
+                        <Route exact path="/companies" render={() => <Companies />} />
 
                         <Route path="/" render={() => <LandingPage />} />
                     </Switch>

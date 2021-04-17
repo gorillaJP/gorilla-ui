@@ -1,0 +1,23 @@
+.companyWrapper {
+    background-color: #fff;
+    min-height: calc(100vh - 60px);
+}
+
+.header {
+    font-size: 26px;
+    font-weight: bold;
+    color: #707070;
+    display: block;
+    margin-bottom: 37px;
+}
+
+.subHeader {
+    font-size: 26px;
+    color: #707070;
+    display: block;
+    margin-bottom: 17px;
+}
+
+.paginatorWrapper {
+    margin-bottom: 68px;
+}
