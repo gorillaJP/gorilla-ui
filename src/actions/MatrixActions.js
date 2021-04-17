@@ -83,10 +83,10 @@ export const getJobsByIndustry = () => {
     };
 };
 
-export const getJobMatrix = (token) => {
+export const getJobMatrix = (key, token) => {
     return async dispatch => {
         dispatch(loadingStarted());
-        const response = await matrixApi.getJobMatrix(token);
+        const response = await matrixApi.getJobMatrix(key, token);
         dispatch(loadingFinished());
         dispatch(getJobMatrixSuccess(response));
     };

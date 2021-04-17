@@ -90,7 +90,7 @@ export const getFeaturedJobs = async filter => {
     });
 };
 
-export const getJobMatrix = async (token) => {
+export const getJobMatrix = async (key, token) => {
     const ReqConfig = {
         headers: {
             'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export const getJobMatrix = async (token) => {
         }
     };
 
-    return await axios.get(config.remote + `api/candidate/jobmatrix`, ReqConfig)
+    return await axios.get(config.remote + `api/${key}/jobmatrix`, ReqConfig)
         .then(res => {
             return res.data.payload;
         })
@@ -106,3 +106,21 @@ export const getJobMatrix = async (token) => {
             return [];
         });
 }
+
+export const getCompanies = async (token) => {
+    const ReqConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':  `Bearer ${token}`
+        }
+    };
+
+    return await axios
+        .get(config.remote + 'api/jobsummary/industry', ReqConfig)
+        .then(res => {
+            return res.data.payload;
+        })
+        .catch(e => {
+            return [];
+        });
+};

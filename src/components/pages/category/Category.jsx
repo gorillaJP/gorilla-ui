@@ -18,18 +18,20 @@ import {
     VIEWED_JOBS,
     VIEW_TYPE_GRID,
     VIEW_TYPE_LIST,
-    APPLIED_JOBS
+    APPLIED_JOBS,
+    EMPLOYEE
 } from "../../../constants/AppConstants";
 import { Collapse, Select, List, Typography } from "antd";
 import CompanyMessage from "../../common/company-message/CompanyMessage";
 import CategoryMatrix from "../../common/category-matrix/CategoryMatrix";
+import CompanyCard from "../../common/cards/company-card/CompanyCard";
 const { Option } = Select;
 const { Panel } = Collapse;
 
 const Category = props => {
     let { jobCategory } = useParams();
     const history = useHistory();
-    const [jobs, setJobs] = useState([]);
+    const [data, setData] = useState([]);
     const [companies, setCompanies] = useState([]);
     const [categoryKey, setCategoryKey] = useState("");
     const [categoryType, setCategoryType] = useState("");
@@ -42,22 +44,22 @@ const Category = props => {
 
     useEffect(() => {
         if (props.token) {
-            props.actions.getJobMatrix(props.token);
+            props.actions.getJobMatrix(props.domain, props.token);
         }
     }, [props.token]);
 
     useEffect(() => {
         const fetchData = async () => {
             props.actions.loadingStarted();
-            const data = await getJobsByCategory(categoryKey, props.token);
-            setJobs(data);
+            const data = await getJobsByCategory(categoryKey, categoryType, props.token);
+            setData(data);
             props.actions.loadingFinished();
         };
 
-        if (categoryKey && props.token) {
+        if (categoryKey && categoryType && props.token) {
             fetchData();
         }
-    }, [categoryKey, props.actions, props.token]);
+    }, [categoryKey, categoryType, props.token, props.actions]);
 
     useEffect(() => {
         if (categoryKey) {
@@ -65,13 +67,16 @@ const Category = props => {
                 return matrix.key === categoryKey;
             });
             if (category) {
+                console.log(category);
                 setCategoryType(category.type);
-                setJobs([]);
+                setData([]);
             }
         }
     }, [props.jobsMatrix, categoryKey]);
 
     const setJobCategory = key => {
+        setCategoryType("");
+        setCategoryKey("");
         history.push(`/jobs/${key}`);
     };
 
@@ -124,93 +129,75 @@ const Category = props => {
                     <Option value="company">Company Name</Option>
                 </Select>
             </div>
-            <div>
-                {viewType === VIEW_TYPE_GRID ? (
-                    <div className={styles.jobAddContainer}>
-                        {jobs.map((job, i) => {
-                            let showMessage = false;
-                            let message = "";
-                            if (categoryKey === CONTACTED_JOBS) {
-                                showMessage = true;
-                                message = job.message;
-                            }
-                            return (
-                                <div key={i}>
-                                    <JobAddCard job={job} showMessage={showMessage} message={message} />
-                                </div>
-                            );
-                        })}
-                    </div>
-                ) : null}
-                {viewType === VIEW_TYPE_LIST ? (
-                    <div className={styles.listContainer}>
-                        {categoryKey === CONTACTED_JOBS ? (
-                            <Collapse
-                                expandIconPosition="right"
-                                expandIcon={panelProps => {
-                                    return (
-                                        <span className={styles.listContainerIcon}>
-                                            {panelProps.isActive ? "Hide Message" : "View Message"}
-                                        </span>
-                                    );
-                                }}
-                            >
-                                {jobs.map((job, i) => {
-                                    return (
-                                        <Panel key={i} header={getMessage(job)} className={styles.listItem}>
-                                            <CompanyMessage message={job.message} />
-                                        </Panel>
-                                    );
-                                })}
-                            </Collapse>
-                        ) : (
-                            <List
-                                style={{ backgroundColor: "#fff" }}
-                                bordered
-                                dataSource={jobs}
-                                renderItem={item => {
-                                    return <List.Item>{getMessage(item)}</List.Item>;
-                                }}
-                            />
-                        )}
-                    </div>
-                ) : null}
-                {/* {categoryType === "jobadd" ? (
-                    <div className={viewType === VIEW_TYPE_GRID ? styles.jobAddContainer : styles.listContainer}>
-                        {jobs.map(job => {
-                            return (
-                                <div key={job.jobId}>
-                                    <JobAddCard job={job} />
-                                </div>
-                            );
-                        })}
-                    </div>
-                ) : null}
-                {categoryType === "company" ? (
-                    <div className={viewType === VIEW_TYPE_GRID ? styles.jobAddContainer : styles.listContainer}>
-                        <Collapse
-                            expandIconPosition="right"
-                            expandIcon={panelProps => {
+            {categoryType === "jobadd" ? (
+                <div>
+                    {viewType === VIEW_TYPE_GRID ? (
+                        <div className={styles.jobAddContainer}>
+                            {data.map((job, i) => {
+                                let showMessage = false;
+                                let message = "";
+                                if (categoryKey === CONTACTED_JOBS) {
+                                    showMessage = true;
+                                    message = job.message;
+                                }
                                 return (
-                                    <span className={styles.listContainerIcon}>
-                                        {panelProps.isActive ? "Hide Message" : "View Message"}
-                                    </span>
+                                    <div key={i}>
+                                        <JobAddCard job={job} showMessage={showMessage} message={message} />
+                                    </div>
                                 );
-                            }}
-                        >
-                            <Panel header="This is panel header 1" key="1" className={styles.listItem}>
-                                <CompanyMessage message="message" />
-                            </Panel>
-                            <Panel header="This is panel header 2" key="2">
-                                <p>Text</p>
-                            </Panel>
-                            <Panel header="This is panel header 3" key="3">
-                                <p>Text</p>
-                            </Panel>
-                        </Collapse>
-                    </div>
-                ) : null} */}
-            </div>
+                            })}
+                        </div>
+                    ) : null}
+                    {viewType === VIEW_TYPE_LIST ? (
+                        <div className={styles.listContainer}>
+                            {categoryKey === CONTACTED_JOBS ? (
+                                <Collapse
+                                    expandIconPosition="right"
+                                    expandIcon={panelProps => {
+                                        return (
+                                            <span className={styles.listContainerIcon}>
+                                                {panelProps.isActive ? "Hide Message" : "View Message"}
+                                            </span>
+                                        );
+                                    }}
+                                >
+                                    {data.map((job, i) => {
+                                        return (
+                                            <Panel key={i} header={getMessage(job)} className={styles.listItem}>
+                                                <CompanyMessage message={job.message} />
+                                            </Panel>
+                                        );
+                                    })}
+                                </Collapse>
+                            ) : (
+                                <List
+                                    style={{ backgroundColor: "#fff" }}
+                                    bordered
+                                    dataSource={data}
+                                    renderItem={item => {
+                                        return <List.Item>{getMessage(item)}</List.Item>;
+                                    }}
+                                />
+                            )}
+                        </div>
+                    ) : null}
+                </div>
+            ) : (
+                <div>
+                    {viewType === VIEW_TYPE_GRID ? (
+                        <div className={styles.jobAddContainer}>
+                            {data.map((companyData, i) => {
+                                return (
+                                    <div key={i}>
+                                        <CompanyCard company={companyData.company} />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : null}
+                    {viewType === VIEW_TYPE_LIST ? <div className={styles.listContainer}></div> : null}
+                </div>
+            )}
         </Container>
     );
 };
@@ -218,7 +205,8 @@ const Category = props => {
 const mapStateToProps = state => {
     return {
         token: state.authData.token,
-        jobsMatrix: state.matrixData.jobsMatrix
+        jobsMatrix: state.matrixData.jobsMatrix,
+        domain: state.metaData.domain
     };
 };
 

@@ -124,19 +124,19 @@ const MobileMenu = props => {
                     <Menu.Item key="job-industries" className={styles.mobileMenuItem}>
                         <span>
                             <DownloadOutlined />
-                            <Link to={"/job-search"}>Industries</Link>
+                            <Link to={"/jobs-by-industry"}>Industries</Link>
                         </span>
                     </Menu.Item>
                     <Menu.Item key="job-locations" className={styles.mobileMenuItem}>
                         <span>
                             <EnvironmentOutlined />
-                            <Link to={"/job-search"}>Locations</Link>
+                            <Link to={"/jobs-by-location"}>Locations</Link>
                         </span>
                     </Menu.Item>
                     <Menu.Item key="job-companies" className={styles.mobileMenuItem}>
                         <span>
                             <CheckCircleOutlined />
-                            <Link to={"/job-search"}>Companies</Link>
+                            <Link to={"/companies"}>Companies</Link>
                         </span>
                     </Menu.Item>
                 </>
