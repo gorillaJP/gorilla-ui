@@ -30,6 +30,7 @@ import EmployerDashboard from "./components/pages/dashboard/EmployerDashboard";
 import { EMPLOYER_HOME_ROUTE } from "./constants/RouteConstant";
 import { getJobMatrix } from "./actions/MatrixActions";
 import Companies from "./components/pages/companies/Companies";
+import { setUserDomain } from "./actions/MetaActions";
 
 const overlayStyles = {
     minHeight: "calc(100vh - 260px) !important;",
@@ -56,7 +57,9 @@ const App = props => {
         }
 
         if (userProfile && token) {
-            props.actions.setUserProfile(JSON.parse(userProfile));
+            const profile = JSON.parse(userProfile);
+            props.actions.setUserProfile(profile);
+            props.actions.setUserDomain(profile.domain);
             props.actions.setAccessToken(token);
             setUserLoggedIn(true);
         }
@@ -148,7 +151,8 @@ const mapDispatchToProps = dispatch => {
         actions: {
             setUserProfile: bindActionCreators(setUserProfile, dispatch),
             setAccessToken: bindActionCreators(setAccessToken, dispatch),
-            getJobMatrix: bindActionCreators(getJobMatrix, dispatch)
+            getJobMatrix: bindActionCreators(getJobMatrix, dispatch),
+            setUserDomain: bindActionCreators(setUserDomain, dispatch)
         }
     };
 };
