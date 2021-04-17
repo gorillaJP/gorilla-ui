@@ -20,14 +20,6 @@ const EmployerDashboard = props => {
     const [jobData, setJobData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
 
-    const categories = [
-        { count: 10, displayText: "Inprogress Jobs", key: "inprogress" },
-        { count: 10, displayText: "Draft Jobs", key: "draft" },
-        { count: 10, displayText: "Expired Jobs", key: "expired" },
-        { count: 10, displayText: "Deleted Jobs", key: "deleted" },
-        { count: 10, displayText: "Pending to Publish", key: "pending" }
-    ];
-
     useEffect(() => {
         if (jobCategory && props.token) {
             setCategoryKey();
@@ -107,7 +99,7 @@ const EmployerDashboard = props => {
         <Container>
             <div className={styles.categoryContainer}>
                 <CategoryMatrix
-                    categories={categories}
+                    categories={props.jobsMatrix || []}
                     onClick={category => {
                         history.push(`/employer/dashboard/${category.key}`);
                     }}

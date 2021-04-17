@@ -73,11 +73,11 @@ const profileLinks = [
     }
 ];
 
-const dashboardLinks = jobMatrix => {
+const dashboardLinks = (jobMatrix, domain) => {
     return jobMatrix.map(matrix => {
         return {
             linkName: matrix.displayText,
-            linkPath: `/jobs/${matrix.key}`
+            linkPath: `${domain === EMPLOYER ? "/employer/dashboard" : "/jobs"}/${matrix.key}`
         };
     });
 };
@@ -169,10 +169,10 @@ const HeaderComp = props => {
                         <div className={styles.header}>
                             <div
                                 className={`${styles.subMenuWrapper} ${
-                                    location.pathname === EMPLOYER_HOME_ROUTE ? styles.employerMenu : ""
+                                    location.pathname.includes(EMPLOYER_HOME_ROUTE) ? styles.employerMenu : ""
                                 }`}
                             >
-                                {location.pathname !== EMPLOYER_HOME_ROUTE ? (
+                                {!location.pathname.includes(EMPLOYER_HOME_ROUTE) ? (
                                     <>
                                         <span className={styles.submenu}>
                                             <Link to="/job-details/search">Search</Link>
@@ -232,7 +232,7 @@ const HeaderComp = props => {
                         )}
                         {props.userLoggeIn && (
                             <div className={styles.actionButtons}>
-                                {domain === EMPLOYER && location.pathname !== EMPLOYER_HOME_ROUTE && (
+                                {domain === EMPLOYER && !location.pathname.includes(EMPLOYER_HOME_ROUTE) && (
                                     <div className={styles.actionButtons}>
                                         <div className={`${styles.employersButton} ${styles.changeViewButton}`}>
                                             <Button
@@ -247,11 +247,17 @@ const HeaderComp = props => {
                                         </div>
                                     </div>
                                 )}
-                                {domain === EMPLOYEE && (
-                                    <Dropdown overlay={LinkDropDownContent(dashboardLinks(props.jobsMatrix), this)}>
+                                {domain === EMPLOYEE ||
+                                (domain === EMPLOYER && location.pathname.includes(EMPLOYER_HOME_ROUTE)) ? (
+                                    <Dropdown
+                                        overlay={LinkDropDownContent(
+                                            dashboardLinks(props.jobsMatrix, props.domain),
+                                            this
+                                        )}
+                                    >
                                         <SettingOutlined className={styles.settingsIcon} />
                                     </Dropdown>
-                                )}
+                                ) : null}
                                 <Dropdown
                                     overlay={UserProfileDropDownContent({
                                         logOut: props.actions.logOut,
