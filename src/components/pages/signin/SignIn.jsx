@@ -118,7 +118,11 @@ const SignIn = props => {
                     setSessionStorage(USERPROFILE, innerData.user);
                 }
 
-                history.push("/");
+                if (domain === EMPLOYER) {
+                    history.push("/employer");
+                } else {
+                    history.push("/");
+                }
             }
         }
     };
