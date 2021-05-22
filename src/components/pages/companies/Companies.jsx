@@ -13,9 +13,9 @@ const Companies = props => {
     const [companies, setCompanies] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async filterLetter => {
             props.actions.loadingStarted();
-            const data = await getCompanies(props.token);
+            const data = await getCompanies(filterLetter, props.token);
             setCompanies(data);
             props.actions.loadingFinished();
         };

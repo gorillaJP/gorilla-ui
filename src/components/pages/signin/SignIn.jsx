@@ -26,6 +26,7 @@ import { setAccessToken, setUserProfile } from "../../../actions/UserAction";
 import config from "../../../util/config";
 import { useQuery } from "../../../custom-hooks/UseQuery";
 import { setUserDomain } from "../../../actions/MetaActions";
+import { EMPLOYER_HOME_ROUTE } from "../../../constants/RouteConstant";
 
 const labelStyles = { marginTop: "5px", display: "inline-block", fontSize: "16px", color: "#999999" };
 const inputStyle = { width: "90%" };
@@ -119,7 +120,7 @@ const SignIn = props => {
                 }
 
                 if (domain === EMPLOYER) {
-                    history.push("/employer");
+                    history.push(EMPLOYER_HOME_ROUTE);
                 } else {
                     history.push("/");
                 }
