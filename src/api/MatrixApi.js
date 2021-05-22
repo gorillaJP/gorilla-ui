@@ -107,7 +107,7 @@ export const getJobMatrix = async (key, token) => {
         });
 }
 
-export const getCompanies = async (token) => {
+export const getCompanies = async (letter, token) => {
     const ReqConfig = {
         headers: {
             'Content-Type': 'application/json',
