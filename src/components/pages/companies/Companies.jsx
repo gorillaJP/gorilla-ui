@@ -21,7 +21,7 @@ const Companies = props => {
         };
 
         if (filterByLetter && props.token) {
-            fetchData();
+            fetchData(filterByLetter);
         }
     }, [filterByLetter, props.token, props.actions]);
 
@@ -37,14 +37,16 @@ const Companies = props => {
                         }}
                     />
                 </div>
-                <div>
-                    {companies.map((companyData, i) => {
-                        return (
-                            <div key={i}>
-                                <CompanyCard company={companyData.company} />
-                            </div>
-                        );
-                    })}
+                <div className={styles.companyCardContainer}>
+                    <div>
+                        {companies.map((companyData, i) => {
+                            return (
+                                <div key={i}>
+                                    <CompanyCard company={companyData} />
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </Container>
         </div>

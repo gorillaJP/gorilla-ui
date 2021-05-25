@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as styles from "./AlphabetPaginator.module.css";
 
 const letters = [
@@ -31,6 +31,7 @@ const letters = [
 ];
 
 const AlphabetPaginator = props => {
+    const [selectedLetter, setSelectedLetter] = useState("");
     return (
         <div className={styles.paginationWrapper}>
             {letters.map(letter => {
@@ -38,8 +39,10 @@ const AlphabetPaginator = props => {
                     <span
                         onClick={() => {
                             props.onClick && props.onClick(letter);
+                            setSelectedLetter(letter);
                         }}
                         key={letter}
+                        className={letter === selectedLetter ? styles.selectedLetter : ""}
                     >
                         {letter}
                     </span>

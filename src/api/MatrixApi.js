@@ -116,7 +116,7 @@ export const getCompanies = async (letter, token) => {
     };
 
     return await axios
-        .get(config.remote + 'api/jobsummary/industry', ReqConfig)
+        .get(config.remote + `api/company?q=${letter}&type=prefix&scope=full`, ReqConfig)
         .then(res => {
             return res.data.payload;
         })

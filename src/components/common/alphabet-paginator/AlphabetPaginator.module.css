@@ -6,9 +6,14 @@
     justify-content: space-around;
 }
 
+.selectedLetter {
+    color: #034de1 !important;
+}
+
 .paginationWrapper span {
     padding: 7px;
     font-size: 27px;
     color: #4B80EA;
     cursor: pointer;
 }
+
