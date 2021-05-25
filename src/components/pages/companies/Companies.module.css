@@ -21,3 +21,21 @@
 .paginatorWrapper {
     margin-bottom: 68px;
 }
+
+.companyCardContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+}
+
+.companyCardContainer > div {
+    width: 32%;
+    margin-top: 15px;
+
+}
+
+.companyCardContainer > div > div {
+    height: 100%;
+}
